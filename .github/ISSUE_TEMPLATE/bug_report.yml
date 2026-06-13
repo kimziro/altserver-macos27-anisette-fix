@@ -1,0 +1,38 @@
+name: Bug report
+description: Report an installation or anisette compatibility problem.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include Apple Account credentials, anisette header values, or
+        `RemoteAnisetteUser.json`.
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version and build
+      placeholder: "macOS 27.0, build 26A5353q"
+    validations:
+      required: true
+  - type: input
+    id: hardware
+    attributes:
+      label: Mac model and architecture
+      placeholder: "Apple Silicon, arm64"
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Exact error message
+      description: Redact account names, email addresses, tokens, and headers.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true

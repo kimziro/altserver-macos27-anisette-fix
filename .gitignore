@@ -1,0 +1,5 @@
+.DS_Store
+out/
+*.zip
+*.app
+RemoteAnisetteUser.json
