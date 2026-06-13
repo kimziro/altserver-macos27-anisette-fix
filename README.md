@@ -1,5 +1,7 @@
 # AltServer macOS 27 Anisette Fix
 
+[English](README.md) | [한국어](README.ko.md)
+
 An unofficial compatibility build for AltServer 1.7.2 on macOS 27 when app
 installation fails with:
 
