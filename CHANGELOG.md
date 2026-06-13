@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.0.2 - 2026-06-13
+
+- Documents how to allow `Install.command` through Gatekeeper using System
+  Settings > Privacy & Security > Open Anyway.
+- Links to Apple's official English and Korean instructions.
+- Clarifies that users should not disable Gatekeeper or SIP globally.
+- Contains no changes to the patched AltServer binary.
+
 ## v1.0.1 - 2026-06-13
 
 - Reduces the installer archive from about 81 MB to about 7 MB.
