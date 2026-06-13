@@ -36,9 +36,16 @@ codesign --verify --deep --strict "$APP"
 
 mkdir -p "$BACKUP_ROOT"
 if [[ -d /Applications/AltServer.app ]]; then
-    BACKUP="$BACKUP_ROOT/AltServer-$(date +%Y%m%d-%H%M%S).app"
-    ditto /Applications/AltServer.app "$BACKUP"
-    echo "Current AltServer backup: $BACKUP"
+    CURRENT_VERSION="$(/usr/libexec/PlistBuddy \
+        -c 'Print :CFBundleShortVersionString' \
+        /Applications/AltServer.app/Contents/Info.plist 2>/dev/null || true)"
+    if [[ "$CURRENT_VERSION" != *"-macOS27-"* ]]; then
+        BACKUP="$BACKUP_ROOT/AltServer-$(date +%Y%m%d-%H%M%S).app"
+        ditto /Applications/AltServer.app "$BACKUP"
+        echo "Official AltServer backup created."
+    else
+        echo "Patched AltServer detected; existing backup preserved."
+    fi
 fi
 
 killall AltServer 2>/dev/null || true
@@ -47,11 +54,18 @@ if rm -rf /Applications/AltServer.app 2>/dev/null \
     && ditto --noextattr --noqtn "$APP" /Applications/AltServer.app 2>/dev/null; then
     :
 else
-    STAGED="/private/tmp/AltServer-macOS27-staged.app"
-    rm -rf "$STAGED"
+    STAGED="$TEMP_ROOT/AltServer-staged.app"
     ditto --noextattr --noqtn "$APP" "$STAGED"
-    osascript -e 'do shell script "/bin/rm -rf /Applications/AltServer.app && /usr/bin/ditto --noextattr --noqtn /private/tmp/AltServer-macOS27-staged.app /Applications/AltServer.app && /usr/sbin/chown -R root:wheel /Applications/AltServer.app" with administrator privileges'
-    rm -rf "$STAGED"
+    osascript - "$STAGED" <<'APPLESCRIPT'
+on run argv
+    set stagedPath to item 1 of argv
+    do shell script "/bin/rm -rf /Applications/AltServer.app && " & ¬
+        "/usr/bin/ditto --noextattr --noqtn " & quoted form of stagedPath & ¬
+        " /Applications/AltServer.app && " & ¬
+        "/usr/sbin/chown -R root:wheel /Applications/AltServer.app" ¬
+        with administrator privileges
+end run
+APPLESCRIPT
 fi
 
 xattr -cr /Applications/AltServer.app

@@ -11,6 +11,14 @@ AltServer could not retrieve anisette data value "machineID".
 
 [Download the latest release](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/latest)
 
+## Release Files
+
+- `AltServer-macOS27-Anisette-Fix-v1.0.1.zip`: installer, restore script,
+  bilingual documentation, and patched AltServer payload
+- `AltServer-macOS27-Anisette-Fix-v1.0.1-source.zip`: corresponding source,
+  including the referenced AltStore upstream snapshot
+- `SHA256SUMS.txt`: SHA-256 hashes for both archives
+
 ## Compatibility
 
 - Apple Silicon Macs (`arm64`)
@@ -21,7 +29,7 @@ This project was tested on macOS 27.0 build `26A5353q`.
 
 ## Installation
 
-1. Download `AltServer-macOS27-V3-Fix-v1.0.0.zip` from
+1. Download `AltServer-macOS27-Anisette-Fix-v1.0.1.zip` from
    [Releases](https://github.com/kimziro/altserver-macos27-anisette-fix/releases).
 2. Extract the archive.
 3. Right-click `Install.command` and choose **Open**.
@@ -32,9 +40,10 @@ Installing the patched AltServer on the Mac is enough. In AltStore, open
 **My Apps** and use **Refresh All**, or refresh the affected app individually.
 Reinstall AltStore only if it is missing or no longer opens.
 
-The installer backs up the currently installed AltServer before replacing it.
-Run `Restore.command` from the same archive to restore the official
-AltServer 1.7.2 application.
+The installer backs up the currently installed official AltServer before
+replacing it. Run `Restore.command` from the same archive to restore that
+local backup. If no valid backup exists, download the official AltServer from
+[altstore.io](https://altstore.io).
 
 Do not disable Gatekeeper or SIP globally.
 
@@ -120,7 +129,8 @@ The output is ad-hoc signed. See [BUILDING.md](BUILDING.md) for details.
 
 ## Verification
 
-Every release includes SHA-256 checksums. The release package has been tested
+Every release includes a `SHA256SUMS.txt` file covering the installer and
+corresponding source archives. The release package has been tested
 for:
 
 - recursive code-signature validation

@@ -1,5 +1,15 @@
 # Release Notes
 
+## v1.0.1 - 2026-06-13
+
+- Reduces the installer archive from about 81 MB to about 7 MB.
+- Distributes the installer and corresponding source as separate assets.
+- Removes the bundled original AltServer application from the installer.
+- Restores the official AltServer from the local pre-installation backup.
+- Avoids creating duplicate backups when the patched build is reinstalled.
+- Uses one `SHA256SUMS.txt` file for all downloadable release assets.
+- Includes English and Korean documentation directly in the installer.
+
 ## v1.0.0 - 2026-06-13
 
 - Works around the missing anisette `machineID` in AltServer 1.7.2 on macOS
