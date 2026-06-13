@@ -13,9 +13,9 @@ AltServer could not retrieve anisette data value "machineID".
 
 ## 릴리스 파일
 
-- `AltServer-macOS27-Anisette-Fix-v1.0.1.zip`: 설치·복원 스크립트, 한영
+- `AltServer-macOS27-Anisette-Fix-v1.0.2.zip`: 설치·복원 스크립트, 한영
   문서, 수정된 AltServer payload
-- `AltServer-macOS27-Anisette-Fix-v1.0.1-source.zip`: 대응 소스와 참고한
+- `AltServer-macOS27-Anisette-Fix-v1.0.2-source.zip`: 대응 소스와 참고한
   AltStore upstream 소스 스냅샷
 - `SHA256SUMS.txt`: 두 압축 파일의 SHA-256 해시
 
@@ -30,10 +30,27 @@ macOS 27.0 build `26A5353q`에서 테스트했습니다.
 ## 설치 방법
 
 1. [Releases](https://github.com/kimziro/altserver-macos27-anisette-fix/releases)에서
-   `AltServer-macOS27-Anisette-Fix-v1.0.1.zip`을 다운로드합니다.
+   `AltServer-macOS27-Anisette-Fix-v1.0.2.zip`을 다운로드합니다.
 2. ZIP 파일의 압축을 풉니다.
 3. `Install.command`를 마우스 오른쪽 버튼으로 클릭하고 **열기**를 선택합니다.
 4. iPhone에서 AltStore를 열고 앱을 갱신합니다.
+
+### macOS가 `Install.command` 실행을 차단하는 경우
+
+이 비공식 배포본은 Apple의 공증을 받지 않았기 때문에 Gatekeeper가
+스크립트 실행을 차단할 수 있습니다. `Install.command` 실행을 먼저 한 번
+시도한 뒤 다음 순서로 진행하세요.
+
+1. **시스템 설정**을 엽니다.
+2. **개인정보 보호 및 보안**을 선택하고 아래의 **보안** 항목으로 이동합니다.
+3. `Install.command`가 차단되었다는 메시지 옆의 **그래도 열기**를 누릅니다.
+4. 다시 **열기**를 누르고, 요청하면 Mac 로그인 암호를 입력합니다.
+
+**그래도 열기** 버튼은 실행을 시도한 뒤 약 1시간 동안 표시됩니다. 이
+절차는 해당 스크립트에만 실행 예외를 추가합니다. Gatekeeper나 SIP를
+시스템 전체에서 비활성화하지 마세요. 자세한 내용은
+[Apple 공식 안내](https://support.apple.com/ko-kr/guide/mac-help/mh40616/mac)를
+참고하세요.
 
 iPhone에 AltStore가 이미 설치되어 있다면 **AltStore를 다시 설치할 필요가
 없습니다**. Mac에 수정된 AltServer를 설치한 뒤 AltStore의 **My Apps**에서
@@ -44,8 +61,6 @@ AltStore가 사라졌거나 실행되지 않을 때만 재설치하세요.
 교체합니다. 공식 버전으로 되돌리려면 같은 압축 파일에 있는
 `Restore.command`를 실행해 로컬 백업을 복원하세요. 유효한 백업이 없다면
 [altstore.io](https://altstore.io)에서 공식 AltServer를 다시 설치하세요.
-
-Gatekeeper나 SIP를 시스템 전체에서 비활성화하지 마세요.
 
 ## Apple 계정 2단계 인증
 

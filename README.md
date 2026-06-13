@@ -13,9 +13,9 @@ AltServer could not retrieve anisette data value "machineID".
 
 ## Release Files
 
-- `AltServer-macOS27-Anisette-Fix-v1.0.1.zip`: installer, restore script,
+- `AltServer-macOS27-Anisette-Fix-v1.0.2.zip`: installer, restore script,
   bilingual documentation, and patched AltServer payload
-- `AltServer-macOS27-Anisette-Fix-v1.0.1-source.zip`: corresponding source,
+- `AltServer-macOS27-Anisette-Fix-v1.0.2-source.zip`: corresponding source,
   including the referenced AltStore upstream snapshot
 - `SHA256SUMS.txt`: SHA-256 hashes for both archives
 
@@ -29,11 +29,27 @@ This project was tested on macOS 27.0 build `26A5353q`.
 
 ## Installation
 
-1. Download `AltServer-macOS27-Anisette-Fix-v1.0.1.zip` from
+1. Download `AltServer-macOS27-Anisette-Fix-v1.0.2.zip` from
    [Releases](https://github.com/kimziro/altserver-macos27-anisette-fix/releases).
 2. Extract the archive.
 3. Right-click `Install.command` and choose **Open**.
 4. Open AltStore on the iPhone and refresh your apps.
+
+### If macOS Blocks `Install.command`
+
+Gatekeeper may block the script because this unofficial release is not
+notarized by Apple. After attempting to open `Install.command`:
+
+1. Open **System Settings**.
+2. Select **Privacy & Security** and scroll down to **Security**.
+3. Find the message about `Install.command` and click **Open Anyway**.
+4. Confirm by clicking **Open**, then enter your Mac login password if asked.
+
+The **Open Anyway** button is available for about one hour after the blocked
+open attempt. This adds an exception for this script; do not disable
+Gatekeeper or SIP globally. See
+[Apple's official instructions](https://support.apple.com/en-us/102445) for
+more information.
 
 If AltStore is already installed on the iPhone, **do not reinstall it**.
 Installing the patched AltServer on the Mac is enough. In AltStore, open
@@ -44,8 +60,6 @@ The installer backs up the currently installed official AltServer before
 replacing it. Run `Restore.command` from the same archive to restore that
 local backup. If no valid backup exists, download the official AltServer from
 [altstore.io](https://altstore.io).
-
-Do not disable Gatekeeper or SIP globally.
 
 ## Apple Account Verification
 
