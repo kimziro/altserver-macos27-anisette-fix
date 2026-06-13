@@ -25,13 +25,39 @@ This project was tested on macOS 27.0 build `26A5353q`.
    [Releases](https://github.com/kimziro/altserver-macos27-anisette-fix/releases).
 2. Extract the archive.
 3. Right-click `Install.command` and choose **Open**.
-4. Retry the installation from AltStore on the iPhone.
+4. Open AltStore on the iPhone and refresh your apps.
+
+If AltStore is already installed on the iPhone, **do not reinstall it**.
+Installing the patched AltServer on the Mac is enough. In AltStore, open
+**My Apps** and use **Refresh All**, or refresh the affected app individually.
+Reinstall AltStore only if it is missing or no longer opens.
 
 The installer backs up the currently installed AltServer before replacing it.
 Run `Restore.command` from the same archive to restore the official
 AltServer 1.7.2 application.
 
 Do not disable Gatekeeper or SIP globally.
+
+## Apple Account Verification
+
+During an installation or refresh, a trusted Apple device may show an
+**Apple Account Sign-In Requested** alert. If it appears immediately after
+you started the operation in AltStore:
+
+1. Check that the displayed Apple Account is yours.
+2. Tap **Allow**.
+3. Enter the displayed six-digit verification code only in the prompt shown
+   by AltStore or AltServer.
+
+This is part of AltServer's normal Apple Account authentication flow, not an
+extra sign-in introduced by this compatibility fix. The compatibility helper
+does not receive or send the verification code to the anisette V3 server.
+
+If you did not initiate an installation or refresh, tap **Don't Allow**.
+Never share the verification code, screenshots containing it, or anisette
+headers in a GitHub issue, chat, or support request. The approximate location
+shown in Apple's alert is IP-based and may differ from your physical
+location.
 
 ## What It Does
 
@@ -55,8 +81,10 @@ overview.
 
 ## Privacy
 
-The helper does **not** send your Apple Account email, password, session
-cookies, or two-factor authentication codes to the anisette server.
+The compatibility helper does **not** send your Apple Account email,
+password, session cookies, or two-factor authentication codes to the
+anisette server. AltStore and AltServer still communicate with Apple as part
+of their normal account authentication and app-signing flow.
 
 It connects to:
 

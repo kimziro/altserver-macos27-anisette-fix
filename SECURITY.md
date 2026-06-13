@@ -13,6 +13,20 @@ is stored with permission mode `0600`. The helper does not store Apple Account
 email addresses, passwords, session cookies, or two-factor authentication
 codes.
 
+## Apple Account authentication
+
+AltStore and AltServer still use Apple's normal account authentication flow.
+An installation or refresh may cause a trusted Apple device to display an
+Apple Account sign-in approval alert and a six-digit verification code.
+
+Approve the alert only when you initiated the operation and the displayed
+account is yours. Enter the code only in the prompt shown by AltStore or
+AltServer. The compatibility helper does not receive the code or send it to
+the anisette V3 service.
+
+Do not post verification codes, screenshots containing codes, Apple Account
+credentials, anisette headers, or `RemoteAnisetteUser.json` in public issues.
+
 ## Network trust
 
 The default V3 service is SideStore's `ani.sidestore.zip`. If you do not trust
