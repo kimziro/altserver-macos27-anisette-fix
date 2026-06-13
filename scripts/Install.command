@@ -61,7 +61,14 @@ open -n /Applications/AltServer.app
 echo
 echo "Installation complete."
 echo "The first anisette request creates a private V3 identity in:"
-echo "$HOME/Library/Application Support/AltServer/RemoteAnisetteUser.json"
+echo "~/Library/Application Support/AltServer/RemoteAnisetteUser.json"
+echo
+echo "If AltStore is already installed on the iPhone, do not reinstall it."
+echo "Open AltStore > My Apps, then use Refresh All or refresh the app."
+echo
+echo "Apple may show a sign-in approval alert and a six-digit code."
+echo "Approve it only if you started this refresh, and enter the code only"
+echo "in the prompt shown by AltStore or AltServer. Never share the code."
 echo
 if [[ -t 0 ]]; then
     read -k 1 "?Press any key to close."

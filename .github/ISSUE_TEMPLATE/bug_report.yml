@@ -7,7 +7,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        Do not include Apple Account credentials, anisette header values, or
+        Do not include Apple Account credentials, six-digit verification
+        codes, screenshots containing codes, anisette header values, or
         `RemoteAnisetteUser.json`.
   - type: input
     id: macos

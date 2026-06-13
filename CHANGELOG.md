@@ -13,6 +13,10 @@
 - Uses the recommended `ani.sidestore.zip` V3 endpoint by default.
 - Retries transient provisioning and header-generation failures up to three
   times.
+- Documents that an existing AltStore installation does not need to be
+  reinstalled when refreshing apps.
+- Documents Apple's sign-in approval alert and six-digit verification-code
+  flow, including anti-phishing guidance.
 
 Tested with:
 
