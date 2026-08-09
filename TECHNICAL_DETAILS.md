@@ -20,13 +20,36 @@ empty dictionary. AltServer then throws a missing value error for
 @executable_path/../Frameworks/AltServerAnisetteFix.dylib
 ```
 
-Its constructor loads AOSKit, locates the class method
-`retrieveOTPHeadersForDSID:`, and replaces only that method implementation
-with `method_setImplementation`.
+Its constructor loads AOSKit and replaces three class method implementations
+with `method_setImplementation`:
 
-The replacement launches `AltServerAnisetteHelper` as a child process and
+| Method | Replacement source |
+| --- | --- |
+| `retrieveOTPHeadersForDSID:` | `AltServerAnisetteHelper` child process |
+| `machineSerialNumber` | `serialNumber` in `RemoteAnisetteUser.json` |
+| `machineUDID` | `deviceID` in `RemoteAnisetteUser.json` |
+
+The OTP replacement launches `AltServerAnisetteHelper` as a child process and
 reads a JSON dictionary from standard output. This process boundary keeps
 networking and persistent identity management out of the injected library.
+
+## Device identity consistency
+
+AltServer reads the device serial and UDID from AOSKit separately from the OTP
+headers. Both of those calls still succeed on macOS 27 and return the host
+Mac's real values, so replacing only `retrieveOTPHeadersForDSID:` leaves
+AltServer pairing a `machineID` minted for the provisioned identity with the
+host's own serial and UDID. The outbound request then describes two different
+machines.
+
+The serial and UDID replacements read the persisted identity directly rather
+than launching the helper again, since `serialNumber` and `deviceID` are fixed
+for the lifetime of the identity. That keeps the cost at one child process per
+anisette fetch.
+
+If `RemoteAnisetteUser.json` is missing or unreadable, both replacements call
+through to the original AOSKit implementation, so behavior before the first
+successful provision is unchanged.
 
 ## V3 provisioning
 
