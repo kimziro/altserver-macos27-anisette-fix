@@ -33,6 +33,7 @@ struct AnisetteV3Client {
         case invalidResponse(String)
         case http(Int, URL?)
         case server(String)
+        case invalidServerURL(URL)
 
         var errorDescription: String? {
             switch self {
@@ -43,6 +44,8 @@ struct AnisetteV3Client {
                 return "Anisette request failed with HTTP \(statusCode) at \(location)."
             case .server(let message):
                 return "Anisette server error: \(message)"
+            case .invalidServerURL(let url):
+                return "Could not derive a provisioning WebSocket URL from anisette server URL \(url.absoluteString)."
             }
         }
     }
@@ -53,11 +56,43 @@ struct AnisetteV3Client {
         self.session = session
     }
 
+    /// Derives the provisioning WebSocket URL from the configured anisette server URL,
+    /// preserving its scheme, host and port.
+    ///
+    /// Every other request in this file is built with `serverURL.appendingPathComponent`,
+    /// so a server URL carrying a port or plain `http` works throughout -- except here,
+    /// where the URL used to be assembled from `host` alone. That dropped any port and
+    /// forced `wss`, so `http://localhost:6969` became `wss://localhost`, which fails to
+    /// connect. Self-hosted servers are typically reachable on a non-443 port, so this
+    /// affected any deployment other than the default public one.
+    static func provisioningSessionURL(for serverURL: URL) throws -> URL {
+        guard var components = URLComponents(
+            url: serverURL, resolvingAgainstBaseURL: false
+        ) else {
+            throw ClientError.invalidServerURL(serverURL)
+        }
+
+        switch components.scheme?.lowercased() {
+        case "http", "ws":
+            components.scheme = "ws"
+        default:
+            components.scheme = "wss"
+        }
+
+        components.path = "/v3/provisioning_session"
+        components.query = nil
+        components.fragment = nil
+
+        guard let url = components.url else {
+            throw ClientError.invalidServerURL(serverURL)
+        }
+
+        return url
+    }
+
     func provision(_ identity: AnisetteV3Identity) async throws -> AnisetteV3Identity {
         let provisioningURLs = try await fetchProvisioningURLs(for: identity)
-        let webSocketURL = URL(
-            string: "wss://\(identity.serverURL.host!)/v3/provisioning_session"
-        )!
+        let webSocketURL = try Self.provisioningSessionURL(for: identity.serverURL)
         var request = URLRequest(url: webSocketURL)
         request.setValue("websocket", forHTTPHeaderField: "Upgrade")
         request.setValue("Upgrade", forHTTPHeaderField: "Connection")
