@@ -27,7 +27,7 @@ EXPECTED_OFFICIAL_TEAM_ID="6XVY5G3U44"
 EXPECTED_OFFICIAL_MAIN_SHA="d1e4188b67adbd120af597ffa11708a18cb139db9919baa5be806a129a3cf819"
 EXPECTED_OFFICIAL_VERSION="1.7.6"
 EXPECTED_OFFICIAL_BUILD="94"
-EXPECTED_PATCHED_VERSION="1.7.6-macOS27-v3.7"
+EXPECTED_PATCHED_VERSION="1.7.6-macOS27-v3.8"
 EXPECTED_PATCHED_BUILD="94"
 
 fail()
@@ -261,7 +261,7 @@ backup_metadata_exact_ok()
     [[ "$(wc -l < "$metadata" | tr -d '[:space:]')" == "6" ]] || return 1
     while IFS= read -r line; do
         case "$line" in
-            'FormatVersion=1'|'BundleIdentifier=com.rileytestut.AltServer'|'BundleShortVersion=1.7.6'|'BundleVersion=94'|'MainExecutableSHA256='*|'Signature=Preserved-before-v3.7-install') ;;
+            'FormatVersion=1'|'BundleIdentifier=com.rileytestut.AltServer'|'BundleShortVersion=1.7.6'|'BundleVersion=94'|'MainExecutableSHA256='*|'Signature=Preserved-before-v3.8-install') ;;
             *) return 1 ;;
         esac
     done < "$metadata"
@@ -270,7 +270,7 @@ backup_metadata_exact_ok()
     [[ "$(grep -Fxc 'BundleShortVersion=1.7.6' "$metadata")" == "1" ]] || return 1
     [[ "$(grep -Fxc 'BundleVersion=94' "$metadata")" == "1" ]] || return 1
     [[ "$(grep -Ec '^MainExecutableSHA256=[0-9A-Fa-f]{64}$' "$metadata")" == "1" ]] || return 1
-    [[ "$(grep -Fxc 'Signature=Preserved-before-v3.7-install' "$metadata")" == "1" ]] || return 1
+    [[ "$(grep -Fxc 'Signature=Preserved-before-v3.8-install' "$metadata")" == "1" ]] || return 1
     return 0
 }
 
@@ -1485,7 +1485,7 @@ if [[ -e "$TARGET_APP" || -L "$TARGET_APP" ]]; then
     elif validate_target_state "$TARGET_APP"; then
         TARGET_STATE="official"
     else
-        fail "existing target is neither the approved v3.7 patched app nor official AltServer 1.7.6/build94."
+        fail "existing target is neither the approved v3.8 patched app nor official AltServer 1.7.6/build94."
     fi
     CURRENT_PRESENT=1
 else

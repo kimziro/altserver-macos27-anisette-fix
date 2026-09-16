@@ -9,15 +9,15 @@ if (( $# >= 2 )); then
     OUTPUT="$2"
     OUTPUT_IS_DEFAULT=0
 else
-    OUTPUT="$ROOT/out/v1.0.8"
+    OUTPUT="$ROOT/out/v1.0.9"
     OUTPUT_IS_DEFAULT=1
 fi
 SOURCE_ROOT="$(cd "$ROOT/.." && pwd -P)"
-RELEASE_DIR_NAME="v1.0.8"
+RELEASE_DIR_NAME="v1.0.9"
 OBJC_SOURCE="$SOURCE_ROOT/src/AltServerAnisetteFix.m"
 SWIFT_CLIENT_SOURCE="$SOURCE_ROOT/src/AnisetteHelper/AnisetteV3Client.swift"
 SWIFT_MAIN_SOURCE="$SOURCE_ROOT/src/AnisetteHelper/main.swift"
-EXPECTED_OBJC_SOURCE_SHA="cc5736fe799fd058eb5faeff530be670c9a46e0dbb2610b1879fb9b936d08af8"
+EXPECTED_OBJC_SOURCE_SHA="7e3e241d1ad7c72b9900337bb51e3deb359beb9def2477ee261d9d549373de6c"
 EXPECTED_SWIFT_CLIENT_SHA="118c5b84d2a8d2c5e8741a7e27d521628b29b15f337f8c70684343555e177112"
 EXPECTED_SWIFT_MAIN_SHA="0abfdd8ef5c3e0293d48421f6dc52cb5f2fab3dd8a120677035036dc0ee4f40e"
 EXPECTED_FIX_SHA="$EXPECTED_OBJC_SOURCE_SHA"
@@ -30,7 +30,7 @@ OFFICIAL_MAIN_SHA_ALLOWLIST=(
 )
 EXPECTED_OFFICIAL_MAIN_SHA="d1e4188b67adbd120af597ffa11708a18cb139db9919baa5be806a129a3cf819"
 TMP_BASE="${TMPDIR:-/tmp}"
-TEMP_ROOT="$(mktemp -d "$TMP_BASE/altserver-macos27-v37-build.XXXXXX")"
+TEMP_ROOT="$(mktemp -d "$TMP_BASE/altserver-macos27-v38-build.XXXXXX")"
 TEMP_ROOT="${TEMP_ROOT:A}"
 TEMP_PARENT_REAL="${TEMP_ROOT:h}"
 TEMP_PARENT_KEY="$(stat -f '%d:%i' "$TEMP_PARENT_REAL" 2>/dev/null || true)"
@@ -39,8 +39,8 @@ STAGED_APP="$TEMP_ROOT/AltServer.app"
 BASE_INPUT_APP="$TEMP_ROOT/Input-AltServer.app"
 HELPER_BUILD="$TEMP_ROOT/AltServerAnisetteHelper"
 DYLIB_BUILD="$TEMP_ROOT/AltServerAnisetteFix.dylib"
-PAYLOAD_ZIP="$OUTPUT/AltServer-macOS27-v3.7.zip"
-EXECUTABLE_MANIFEST="$OUTPUT/AltServer-macOS27-v3.7.executables.txt"
+PAYLOAD_ZIP="$OUTPUT/AltServer-macOS27-v3.8.zip"
+EXECUTABLE_MANIFEST="$OUTPUT/AltServer-macOS27-v3.8.executables.txt"
 METADATA="$OUTPUT/BUILD-METADATA.txt"
 CHECKSUMS="$OUTPUT/CHECKSUMS-SHA256.txt"
 MAIN_REL="Contents/MacOS/AltServer"
@@ -328,8 +328,8 @@ from pathlib import Path, PurePosixPath
 
 root = Path(sys.argv[1])
 expected_files = {
-    "AltServer-macOS27-v3.7.zip",
-    "AltServer-macOS27-v3.7.executables.txt",
+    "AltServer-macOS27-v3.8.zip",
+    "AltServer-macOS27-v3.8.executables.txt",
     "BUILD-METADATA.txt",
     "CHECKSUMS-SHA256.txt",
 }
@@ -356,8 +356,8 @@ for line in checksum_file.read_text(encoding="utf-8").splitlines():
         raise SystemExit("duplicate existing checksum entry")
     checksums[relative] = digest.lower()
 if set(checksums) != {
-    "AltServer-macOS27-v3.7.zip",
-    "AltServer-macOS27-v3.7.executables.txt",
+    "AltServer-macOS27-v3.8.zip",
+    "AltServer-macOS27-v3.8.executables.txt",
     "BUILD-METADATA.txt",
 }:
     raise SystemExit("existing output checksum schema changed")
@@ -387,11 +387,11 @@ validate_output_paths()
     local workspace_real="$(resolve_path "$SOURCE_ROOT")"
     local -a destinations=(
         "$output_app_abs"
-        "$output_abs/AltServer-macOS27-v3.7.zip"
-        "$output_abs/AltServer-macOS27-v3.7.executables.txt"
+        "$output_abs/AltServer-macOS27-v3.8.zip"
+        "$output_abs/AltServer-macOS27-v3.8.executables.txt"
         "$output_abs/BUILD-METADATA.txt"
-        "$payload_abs/AltServer-macOS27-v3.7.zip"
-        "$payload_abs/AltServer-macOS27-v3.7.executables.txt"
+        "$payload_abs/AltServer-macOS27-v3.8.zip"
+        "$payload_abs/AltServer-macOS27-v3.8.executables.txt"
         "$payload_abs/BUILD-METADATA.txt"
         "$output_abs/CHECKSUMS-SHA256.txt"
     )
@@ -1570,7 +1570,7 @@ cleanup_transaction()
         # If the new tree was renamed into place but a later validation or
         # cleanup failed, move it aside and restore the complete old tree.
         if [[ "$NEW_MOVED" == "1" ]]; then
-            FAILED_ROOT="$OUTPUT_PARENT_REAL/.altserver-release-${OUTPUT_NAME}.v3.7-failed.$PUBLISH_NONCE"
+            FAILED_ROOT="$OUTPUT_PARENT_REAL/.altserver-release-${OUTPUT_NAME}.v3.8-failed.$PUBLISH_NONCE"
             if [[ -e "$OUTPUT_REAL" || -L "$OUTPUT_REAL" ]] && recovery_rename mv-new-aside "$OUTPUT_REAL" "$FAILED_ROOT" "$STAGE_MOVE_KEY"; then
                 NEW_MOVED=0
                 FAILED_KEY="$(stat -f '%d:%i' "$FAILED_ROOT" 2>/dev/null || true)"
@@ -1646,14 +1646,14 @@ OUTPUT_PARENT_REAL="${OUTPUT_REAL:h}"
 OUTPUT_NAME="${OUTPUT_REAL:t}"
 [[ "$OUTPUT_NAME" == "$RELEASE_DIR_NAME" ]] || fail "output directory must be named $RELEASE_DIR_NAME."
 if [[ -e "$OUTPUT_REAL" || -L "$OUTPUT_REAL" ]]; then
-    validate_existing_release_schema "$OUTPUT_REAL" || fail "existing output is not an empty or valid v1.0.8 release."
+    validate_existing_release_schema "$OUTPUT_REAL" || fail "existing output is not an empty or valid v1.0.9 release."
     OUTPUT_PREEXISTING=1
     OUTPUT_INITIAL_KEY="$(stat -f '%d:%i' "$OUTPUT_REAL" 2>/dev/null || true)"
     [[ -n "$OUTPUT_INITIAL_KEY" ]] || fail "existing output identity unavailable."
 fi
 PUBLISH_NONCE="$(date -u +%Y%m%dT%H%M%SZ).$$.$RANDOM"
-STAGE_ROOT="$OUTPUT_PARENT_REAL/.altserver-release-${OUTPUT_NAME}.v3.7-stage.$PUBLISH_NONCE"
-OLD_ROOT="$OUTPUT_PARENT_REAL/.altserver-release-${OUTPUT_NAME}.v3.7-old.$PUBLISH_NONCE"
+STAGE_ROOT="$OUTPUT_PARENT_REAL/.altserver-release-${OUTPUT_NAME}.v3.8-stage.$PUBLISH_NONCE"
+OLD_ROOT="$OUTPUT_PARENT_REAL/.altserver-release-${OUTPUT_NAME}.v3.8-old.$PUBLISH_NONCE"
 [[ "$STAGE_ROOT" != "$OLD_ROOT" && "$STAGE_ROOT" == "$OUTPUT_PARENT_REAL"/.altserver-release-* && "$OLD_ROOT" == "$OUTPUT_PARENT_REAL"/.altserver-release-* ]] || fail "release transaction path is unsafe."
 path_has_symlink "$STAGE_ROOT" && fail "release staging path aliases through a symlink."
 path_has_symlink "$OLD_ROOT" && fail "release rollback path aliases through a symlink."
@@ -1675,12 +1675,12 @@ STAGE_MOVE_KEY="$STAGE_KEY"
 
 # Every final artifact is built in this complete sibling tree.  No final
 # output path is written until the single directory rename transaction.
-PAYLOAD_ZIP="$STAGE_ROOT/AltServer-macOS27-v3.7.zip"
-EXECUTABLE_MANIFEST="$STAGE_ROOT/AltServer-macOS27-v3.7.executables.txt"
+PAYLOAD_ZIP="$STAGE_ROOT/AltServer-macOS27-v3.8.zip"
+EXECUTABLE_MANIFEST="$STAGE_ROOT/AltServer-macOS27-v3.8.executables.txt"
 METADATA="$STAGE_ROOT/BUILD-METADATA.txt"
 CHECKSUMS="$STAGE_ROOT/CHECKSUMS-SHA256.txt"
 validate_output_paths "$OUTPUT"
-ZIP_STAGE="$TEMP_ROOT/AltServer-macOS27-v3.7.zip"
+ZIP_STAGE="$TEMP_ROOT/AltServer-macOS27-v3.8.zip"
 APP_STAGE="$TEMP_ROOT/Output-AltServer.app"
 METADATA_SOURCE=""
 CHECKSUMS_SOURCE=""
@@ -1989,7 +1989,7 @@ bound_copy_file_to_root "$DYLIB_BUILD" "$STAGED_FRAMEWORKS_ROOT" "AltServerAnise
 /usr/libexec/PlistBuddy -c 'Delete :LSEnvironment' "$STAGED_PLIST" 2>/dev/null || true
 /usr/libexec/PlistBuddy -c 'Add :LSEnvironment dict' "$STAGED_PLIST"
 /usr/libexec/PlistBuddy -c 'Add :LSEnvironment:DYLD_INSERT_LIBRARIES string @executable_path/../Frameworks/AltServerAnisetteFix.dylib' "$STAGED_PLIST"
-/usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.7.6-macOS27-v3.7' "$STAGED_PLIST"
+/usr/libexec/PlistBuddy -c 'Set :CFBundleShortVersionString 1.7.6-macOS27-v3.8' "$STAGED_PLIST"
 /usr/libexec/PlistBuddy -c 'Set :CFBundleVersion 94' "$STAGED_PLIST"
 
 if find -P "$STAGED_APP" \( -name '*.mobileprovision' -o -name 'embedded.provisionprofile' \) -print -quit | grep -q .; then
@@ -2005,7 +2005,7 @@ while IFS= read -r -d '' code_object; do
     codesign --remove-signature "$code_object" >/dev/null 2>&1 || true
 done < <(find -P "$STAGED_APP" -type f -print0)
 
-EMBEDDED_MANIFEST="$STAGED_APP/Contents/Resources/AltServer-macOS27-v3.7.executables.txt"
+EMBEDDED_MANIFEST="$STAGED_APP/Contents/Resources/AltServer-macOS27-v3.8.executables.txt"
 mkdir -p "${EMBEDDED_MANIFEST:h}"
 python3 - "$STAGED_APP" "$EMBEDDED_MANIFEST" <<'PY'
 import os
@@ -2048,7 +2048,7 @@ codesign --verify --deep --strict "$STAGED_APP" >/dev/null
     fail "final embedded dylib UUID changed after app signing."
 STAGED_TEXT_HASH="$(text_hash "$STAGED_APP/$MAIN_REL")"
 [[ "$STAGED_TEXT_HASH" == "$MAIN_TEXT_HASH" ]] || fail "official AltServer main code changed outside its signature."
-[[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$STAGED_PLIST")" == "1.7.6-macOS27-v3.7" ]] || fail "staged version metadata is incorrect."
+[[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$STAGED_PLIST")" == "1.7.6-macOS27-v3.8" ]] || fail "staged version metadata is incorrect."
 [[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$STAGED_PLIST")" == "94" ]] || fail "staged build metadata is incorrect."
 [[ "$(/usr/libexec/PlistBuddy -c 'Print :LSEnvironment:DYLD_INSERT_LIBRARIES' "$STAGED_PLIST")" == "@executable_path/../Frameworks/AltServerAnisetteFix.dylib" ]] || fail "relative LSEnvironment is missing."
 
@@ -2143,12 +2143,12 @@ CHECKSUMS_SOURCE="$(mktemp "$TEMP_ROOT/checksums.XXXXXX")" || fail "could not al
 [[ -f "$METADATA_SOURCE" && ! -L "$METADATA_SOURCE" && -f "$CHECKSUMS_SOURCE" && ! -L "$CHECKSUMS_SOURCE" ]] || fail "private metadata sources are not regular files."
 printf '%s\n' \
     'FormatVersion=1' \
-    'ReleaseVersion=1.0.8' \
-    'PatchVersion=v3.7' \
+    'ReleaseVersion=1.0.9' \
+    'PatchVersion=v3.8' \
     'BaseBundleIdentifier=com.rileytestut.AltServer' \
     'BaseVersion=1.7.6' \
     'BaseBuild=94' \
-    'OutputVersion=1.7.6-macOS27-v3.7' \
+    'OutputVersion=1.7.6-macOS27-v3.8' \
     'OutputBuild=94' \
     'InputAttestation=Developer-ID-and-notarization-verified' \
     'OutputSignature=Ad-hoc; notarization is intentionally not carried forward' \
@@ -2179,8 +2179,8 @@ printf '%s\n' \
 bound_copy_file "$METADATA_SOURCE" "${METADATA:t}" || fail "could not create staged metadata without following a destination path."
 
 {
-    shasum -a 256 "$PAYLOAD_ZIP" | awk '{ print $1 "  AltServer-macOS27-v3.7.zip" }'
-    shasum -a 256 "$EXECUTABLE_MANIFEST" | awk '{ print $1 "  AltServer-macOS27-v3.7.executables.txt" }'
+    shasum -a 256 "$PAYLOAD_ZIP" | awk '{ print $1 "  AltServer-macOS27-v3.8.zip" }'
+    shasum -a 256 "$EXECUTABLE_MANIFEST" | awk '{ print $1 "  AltServer-macOS27-v3.8.executables.txt" }'
     shasum -a 256 "$METADATA" | awk '{ print $1 "  BUILD-METADATA.txt" }'
 } > "$CHECKSUMS_SOURCE"
 bound_copy_file "$CHECKSUMS_SOURCE" "${CHECKSUMS:t}" || fail "could not create staged checksums without following a destination path."
@@ -2188,8 +2188,8 @@ bound_copy_file "$CHECKSUMS_SOURCE" "${CHECKSUMS:t}" || fail "could not create s
 validate_release_tree()
 {
     local root="$1"
-    local zip="$root/AltServer-macOS27-v3.7.zip"
-    local manifest="$root/AltServer-macOS27-v3.7.executables.txt"
+    local zip="$root/AltServer-macOS27-v3.8.zip"
+    local manifest="$root/AltServer-macOS27-v3.8.executables.txt"
     local metadata="$root/BUILD-METADATA.txt"
     local checksums="$root/CHECKSUMS-SHA256.txt"
     local verify_root="$TEMP_ROOT/validate-${RANDOM}"
@@ -2202,8 +2202,8 @@ from pathlib import Path
 
 root = Path(sys.argv[1])
 expected = {
-    "AltServer-macOS27-v3.7.zip",
-    "AltServer-macOS27-v3.7.executables.txt",
+    "AltServer-macOS27-v3.8.zip",
+    "AltServer-macOS27-v3.8.executables.txt",
     "BUILD-METADATA.txt",
     "CHECKSUMS-SHA256.txt",
 }
@@ -2218,7 +2218,7 @@ PY
     [[ -d "$app" && ! -L "$app" ]] || fail "release ZIP app is missing."
     [[ -f "$app/Contents/Info.plist" && -f "$app/$MAIN_REL" ]] || fail "release ZIP app is incomplete."
     [[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$app/Contents/Info.plist" 2>/dev/null || true)" == "com.rileytestut.AltServer" ]] || fail "release app bundle identifier changed."
-    [[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist" 2>/dev/null || true)" == "1.7.6-macOS27-v3.7" ]] || fail "release app version changed."
+    [[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$app/Contents/Info.plist" 2>/dev/null || true)" == "1.7.6-macOS27-v3.8" ]] || fail "release app version changed."
     [[ "$(/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' "$app/Contents/Info.plist" 2>/dev/null || true)" == "94" ]] || fail "release app build changed."
     [[ "$(/usr/libexec/PlistBuddy -c 'Print :LSEnvironment:DYLD_INSERT_LIBRARIES' "$app/Contents/Info.plist" 2>/dev/null || true)" == "@executable_path/../Frameworks/AltServerAnisetteFix.dylib" ]] || fail "release app environment changed."
     ARCHES="$(lipo -archs "$app/$MAIN_REL" 2>/dev/null || true)"
@@ -2233,8 +2233,8 @@ PY
     if find -P "$app" \( -path '*AltSign-Dynamic.framework' -o -name '*.ipa' -o -name '*.mobileprovision' -o -name 'embedded.provisionprofile' \) -print -quit | /usr/bin/grep -q .; then
         fail "release ZIP contains a forbidden dynamic AltSign, IPA, or profile."
     fi
-    [[ -f "$app/Contents/Resources/AltServer-macOS27-v3.7.executables.txt" ]] || fail "release ZIP embedded manifest is missing."
-    cmp -s "$manifest" "$app/Contents/Resources/AltServer-macOS27-v3.7.executables.txt" || fail "release ZIP manifest differs."
+    [[ -f "$app/Contents/Resources/AltServer-macOS27-v3.8.executables.txt" ]] || fail "release ZIP embedded manifest is missing."
+    cmp -s "$manifest" "$app/Contents/Resources/AltServer-macOS27-v3.8.executables.txt" || fail "release ZIP manifest differs."
     python3 - "$app" "$manifest" <<'PY'
 import os
 import stat
@@ -2271,8 +2271,8 @@ PY
     clear_bundle_detritus "$app"
     codesign --verify --deep --strict "$app" >/dev/null || fail "release ZIP app failed strict signature verification."
     [[ "$(text_hash "$app/$MAIN_REL")" == "$MAIN_TEXT_HASH" ]] || fail "release staging app changed the official AltServer code."
-    [[ "$(shasum -a 256 "$zip" | awk '{ print $1 }')" == "$(awk '$2 == "AltServer-macOS27-v3.7.zip" { print $1; exit }' "$checksums")" ]] || fail "release ZIP checksum is inconsistent."
-    [[ "$(shasum -a 256 "$manifest" | awk '{ print $1 }')" == "$(awk '$2 == "AltServer-macOS27-v3.7.executables.txt" { print $1; exit }' "$checksums")" ]] || fail "release manifest checksum is inconsistent."
+    [[ "$(shasum -a 256 "$zip" | awk '{ print $1 }')" == "$(awk '$2 == "AltServer-macOS27-v3.8.zip" { print $1; exit }' "$checksums")" ]] || fail "release ZIP checksum is inconsistent."
+    [[ "$(shasum -a 256 "$manifest" | awk '{ print $1 }')" == "$(awk '$2 == "AltServer-macOS27-v3.8.executables.txt" { print $1; exit }' "$checksums")" ]] || fail "release manifest checksum is inconsistent."
     [[ "$(shasum -a 256 "$metadata" | awk '{ print $1 }')" == "$(awk '$2 == "BUILD-METADATA.txt" { print $1; exit }' "$checksums")" ]] || fail "release metadata checksum is inconsistent."
     /usr/bin/grep -Fqx "SourceRevision=$SOURCE_REVISION" "$metadata" || fail "release metadata source revision is missing."
     /usr/bin/grep -Fqx "SourceTreeState=$SOURCE_TREE_STATE" "$metadata" || fail "release metadata source tree state is missing."
@@ -2387,4 +2387,4 @@ elif [[ -e "$OLD_ROOT" || -L "$OLD_ROOT" ]]; then
 fi
 OLD_MOVED=0
 TRANSACTION_ACTIVE=0
-echo "Built v3.7 payload in output directory."
+echo "Built v3.8 payload in output directory."

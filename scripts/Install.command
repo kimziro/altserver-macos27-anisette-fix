@@ -25,7 +25,7 @@ MANIFEST=""
 METADATA=""
 CHECKSUMS=""
 PAYLOAD_ROOT_KEY=""
-ZIP_NAME="AltServer-macOS27-v3.7.zip"
+ZIP_NAME="AltServer-macOS27-v3.8.zip"
 MANIFEST_NAME=""
 METADATA_NAME="BUILD-METADATA.txt"
 CHECKSUMS_NAME="CHECKSUMS-SHA256.txt"
@@ -1482,7 +1482,7 @@ publish_backup_pair()
         'BundleShortVersion=1.7.6' \
         'BundleVersion=94' \
         "MainExecutableSHA256=$current_hash" \
-        'Signature=Preserved-before-v3.7-install' || return 1
+        'Signature=Preserved-before-v3.8-install' || return 1
     backup_root_ok || return 1
     [[ -f "$stage_meta" && ! -L "$stage_meta" ]] || return 1
     [[ "$(wc -l < "$stage_meta" | tr -d '[:space:]')" == "6" ]] || return 1
@@ -1491,7 +1491,7 @@ publish_backup_pair()
     grep -Fqx 'BundleShortVersion=1.7.6' "$stage_meta" || return 1
     grep -Fqx 'BundleVersion=94' "$stage_meta" || return 1
     grep -Fqx "MainExecutableSHA256=$current_hash" "$stage_meta" || return 1
-    grep -Fqx 'Signature=Preserved-before-v3.7-install' "$stage_meta" || return 1
+    grep -Fqx 'Signature=Preserved-before-v3.8-install' "$stage_meta" || return 1
     stage_meta_key="$(stat -f '%d:%i' "$stage_meta" 2>/dev/null || true)"
     [[ -n "$stage_meta_key" ]] || return 1
     stage_meta_hash="$(shasum -a 256 "$stage_meta" | awk '{ print $1 }')"
@@ -1646,7 +1646,7 @@ safe_layout_file()
 manifest_name_for()
 {
     local layout_root="$1"
-    local canonical="$layout_root/AltServer-macOS27-v3.7.executables.txt"
+    local canonical="$layout_root/AltServer-macOS27-v3.8.executables.txt"
     [[ -e "$canonical" || -L "$canonical" ]] || return 1
     safe_layout_file "$layout_root" "$canonical" || return 1
     print -r -- "${canonical:t}"
@@ -1689,13 +1689,13 @@ resolve_layout()
         "$ROOT/$ZIP_NAME"
         "$ROOT/$METADATA_NAME"
         "$ROOT/$CHECKSUMS_NAME"
-        "$ROOT/AltServer-macOS27-v3.7.executables.txt"
+        "$ROOT/AltServer-macOS27-v3.8.executables.txt"
     )
     local -a packaged_candidates=(
         "$payload_dir/$ZIP_NAME"
         "$payload_dir/$METADATA_NAME"
         "$payload_dir/$CHECKSUMS_NAME"
-        "$payload_dir/AltServer-macOS27-v3.7.executables.txt"
+        "$payload_dir/AltServer-macOS27-v3.8.executables.txt"
     )
 
     for candidate in "${flat_candidates[@]}"; do
@@ -2061,8 +2061,8 @@ validate_checksums || fail "release checksum verification failed."
 release_snapshot_ok || fail "release snapshot changed during checksum verification."
 
 grep -Fqx 'FormatVersion=1' "$METADATA" || fail "unsupported release metadata."
-grep -Fqx 'ReleaseVersion=1.0.8' "$METADATA" || fail "wrong release version."
-grep -Fqx 'PatchVersion=v3.7' "$METADATA" || fail "wrong patch version."
+grep -Fqx 'ReleaseVersion=1.0.9' "$METADATA" || fail "wrong release version."
+grep -Fqx 'PatchVersion=v3.8' "$METADATA" || fail "wrong patch version."
 grep -Fqx 'BaseBundleIdentifier=com.rileytestut.AltServer' "$METADATA" || fail "wrong official bundle metadata."
 grep -Fqx 'BaseVersion=1.7.6' "$METADATA" || fail "wrong official version metadata."
 grep -Fqx 'BaseBuild=94' "$METADATA" || fail "wrong official build metadata."
@@ -2120,7 +2120,7 @@ plist_value()
 }
 
 [[ "$(plist_value CFBundleIdentifier)" == "com.rileytestut.AltServer" ]] || fail "payload bundle identifier is not official."
-[[ "$(plist_value CFBundleShortVersionString)" == "1.7.6-macOS27-v3.7" ]] || fail "payload version is not v3.7."
+[[ "$(plist_value CFBundleShortVersionString)" == "1.7.6-macOS27-v3.8" ]] || fail "payload version is not v3.8."
 [[ "$(plist_value CFBundleVersion)" == "94" ]] || fail "payload build is not 94."
 [[ "$(plist_value LSEnvironment:DYLD_INSERT_LIBRARIES)" == "@executable_path/../Frameworks/AltServerAnisetteFix.dylib" ]] || fail "relative anisette environment is missing."
 ARCHES="$(lipo -archs "$MAIN" 2>/dev/null || true)"
@@ -2138,7 +2138,7 @@ if find -P "$APP" \( -path '*AltSign-Dynamic.framework' -o -name '*.ipa' -o -nam
     fail "payload contains a forbidden dynamic AltSign, IPA, or provisioning profile."
 fi
 
-EMBEDDED_MANIFEST="$APP/Contents/Resources/AltServer-macOS27-v3.7.executables.txt"
+EMBEDDED_MANIFEST="$APP/Contents/Resources/AltServer-macOS27-v3.8.executables.txt"
 [[ -f "$EMBEDDED_MANIFEST" ]] || fail "embedded executable manifest is missing."
 cmp -s "$MANIFEST" "$EMBEDDED_MANIFEST" || fail "executable manifest mismatch."
 
@@ -2210,7 +2210,7 @@ release_snapshot_ok || fail "release snapshot changed before install decision."
 validate_component_metadata || fail "BUILD-METADATA helper/dylib SHA-256 and UUID bindings are missing, malformed, or do not match the immutable payload."
 
 if [[ "$INSTALL_DRY_RUN" == "1" ]]; then
-    echo "Dry run complete: v3.7 payload, checksums, manifest, and signature verified."
+    echo "Dry run complete: v3.8 payload, checksums, manifest, and signature verified."
     echo "No /Applications or Application Support files were changed."
     exit 0
 fi
@@ -2271,7 +2271,7 @@ if [[ "$CURRENT_PRESENT" == "1" ]]; then
 fi
 
 NONCE="$(date +%s).$$"
-TRANSIENT="$TARGET_APP.__v37.$NONCE"
+TRANSIENT="$TARGET_APP.__v38.$NONCE"
 OLD_TARGET="$TARGET_APP.__old.$NONCE"
 FAILED_TARGET="$TARGET_APP.__failed.$NONCE"
 TARGET_EXEC="$TARGET_APP/Contents/MacOS/AltServer"
@@ -2495,4 +2495,4 @@ fi
 
 codesign --verify --deep --strict "$TARGET_APP" >/dev/null 2>&1 || fail "installed AltServer failed strict signature verification."
 /usr/bin/arch -arm64 /usr/bin/open -n "$TARGET_APP" >/dev/null 2>&1 || true
-echo "Installed official AltServer 1.7.6/build94 with the v3.7 anisette fix."
+echo "Installed official AltServer 1.7.6/build94 with the v3.8 anisette fix."

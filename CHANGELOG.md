@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.0.9 / v3.8 — completed-app DMG — 2026-09-16
+
+This release adds the completed-app DMG
+`AltServer-macOS27-Anisette-Fix-v1.0.9.dmg`. It contains the patched
+`AltServer.app` (`1.7.6-macOS27-v3.8`, build 94) for the normal Finder
+drag-to-Applications workflow. The app is ad hoc signed and not notarized by
+Apple, and drag installation does not create an automatic backup; save the
+official app manually when a restore path is needed.
+
+- Fixes the macOS 27 `machineID` fallback regression by canonicalizing the
+  `/var`-backed temporary root before private-directory creation while retaining
+  `O_NOFOLLOW_ANY` on opened paths.
+- Strips inherited `DYLD_*` variables from the private helper's child
+  environment before `execve`.
+- Anchors helper cleanup to validated directory/file descriptors and device,
+  inode, owner, and path identity checks before `unlinkat`/`rmdir`.
+- Verifies the completed app's install, launch, anisette provisioning, AltStore
+  install, and refresh runtime on the tested Apple Silicon/macOS 27 setup.
+- Keeps the official AltServer 1.7.6/build 94 authentication and the public V3
+  provisioning protocol unchanged; this is a Mac-side runtime fix only.
+- The Git source tree remains source, scripts, references, and documentation;
+  the historical v1.0.8 publication was source-only.
+
 ## v1.0.8 / v3.7 — source-only publication — 2026-09-15
 
 This release follows v1.0.2 in the existing GitHub repository. It publishes
@@ -25,7 +48,8 @@ profile, certificate, or other binary asset is published.
   signing, ZIP extraction, and installer validation. This addresses a macOS 27
   loader requirement and does not change the `machineID` decision or official
   GSA/GrandSlam path.
-- Produces four private local build files under `out/v1.0.8`: the app-bearing
+- For the historical source-only workflow, produced four private local build
+  files under `out/v1.0.8`: the app-bearing
   payload ZIP, executable manifest, metadata, and checksums. The repository
   does not publish those files; a stale pre-existing output must be rebuilt.
 - Records source/worktree provenance and pins the Objective-C source, Swift

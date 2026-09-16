@@ -1,10 +1,12 @@
 # Installation
 
-This is the user guide for the v1.0.8 / v3.7 source-only publication. The
-repository does not publish a modified app, installer archive, app-bearing ZIP,
-IPA, provisioning profile, certificate, or other binary asset. You obtain the
-official AltServer archive, build the local payload, verify it, and then run
-the repository scripts.
+The v1.0.9 release asset is a completed-app DMG containing the patched
+`AltServer.app`. Most users should follow [README.md](README.md) and install
+it by dragging the app to Applications. This is the advanced source-build and
+installer guide for v1.0.9 / v3.8. The repository source tree contains source,
+scripts, references, and documentation; the former v1.0.8 / v3.7
+publication was historical and source-only. This guide does not build or
+package an iPhone IPA.
 
 The tested target is an Apple Silicon Mac running macOS 27 natively
 (`arm64`), with official AltServer 1.7.6/build 94. Rosetta and other macOS
@@ -48,20 +50,20 @@ Clone or otherwise check out this repository, then run from its root:
 
 ```bash
 mkdir -p out
-./scripts/build_release.sh "$official_app" "$PWD/out/v1.0.8"
+./scripts/build_release.sh "$official_app" "$PWD/out/v1.0.9"
 ```
 
 The successful output directory contains exactly four regular files:
 
 ```text
-AltServer-macOS27-v3.7.zip
-AltServer-macOS27-v3.7.executables.txt
+AltServer-macOS27-v3.8.zip
+AltServer-macOS27-v3.8.executables.txt
 BUILD-METADATA.txt
 CHECKSUMS-SHA256.txt
 ```
 
 The ZIP is a private, app-bearing build result; it is not a GitHub asset. A
-pre-existing `out/v1.0.8` is stale until this command completes successfully.
+pre-existing `out/v1.0.9` is stale until this command completes successfully.
 Inspect `CHECKSUMS-SHA256.txt` and `BUILD-METADATA.txt` before staging. The
 script emits no IPA, profile, certificate, or raw app beside the ZIP.
 
@@ -76,10 +78,10 @@ the scripts at its top level and the four output files directly under
 stage_dir="$(mktemp -d)"
 cp scripts/Install.command scripts/Restore.command "$stage_dir/"
 mkdir "$stage_dir/Payload"
-cp out/v1.0.8/AltServer-macOS27-v3.7.zip \
-   out/v1.0.8/AltServer-macOS27-v3.7.executables.txt \
-   out/v1.0.8/BUILD-METADATA.txt \
-   out/v1.0.8/CHECKSUMS-SHA256.txt "$stage_dir/Payload/"
+cp out/v1.0.9/AltServer-macOS27-v3.8.zip \
+   out/v1.0.9/AltServer-macOS27-v3.8.executables.txt \
+   out/v1.0.9/BUILD-METADATA.txt \
+   out/v1.0.9/CHECKSUMS-SHA256.txt "$stage_dir/Payload/"
 chmod +x "$stage_dir/Install.command" "$stage_dir/Restore.command"
 ```
 
@@ -139,7 +141,7 @@ Launch AltServer from `/Applications` after a successful installation. The
 patched app identifies itself as:
 
 ```text
-1.7.6-macOS27-v3.7 (94)
+1.7.6-macOS27-v3.8 (94)
 ```
 
 An official AltServer update can overwrite this local compatibility build. Keep
@@ -168,7 +170,7 @@ signing requirements.
 
 Use **My Apps > Refresh All** to refresh installed apps. A refresh may request
 the same Apple Account approval or code. If the version display does not show
-`1.7.6-macOS27-v3.7 (94)`, quit AltServer, verify the local build metadata and
+`1.7.6-macOS27-v3.8 (94)`, quit AltServer, verify the local build metadata and
 staging path, and do not mix payload versions.
 
 ## 7. Restore the official app
@@ -203,7 +205,7 @@ files.
 
 | Symptom | Next step |
 | --- | --- |
-| `AltServer could not retrieve anisette data value "machineID".` | Confirm native Apple Silicon execution, version `1.7.6-macOS27-v3.7 (94)`, a successful install, and a relaunch. |
+| `AltServer could not retrieve anisette data value "machineID".` | Confirm native Apple Silicon execution, version `1.7.6-macOS27-v3.8 (94)`, a successful install, and a relaunch. |
 | HTTP `503`, `401`, or `apptokens` | Check the network and configured anisette service; the official 1.7.6 path includes its reported 503 handling, but upstream/service outages remain possible. |
 | `3840`, HTML in JSON, or parse error | Treat the response as an upstream/proxy error; retry later without posting response bodies or headers. |
 | AltStore is missing | Use the official **Install AltStore…** flow. No custom IPA is required by this project. |

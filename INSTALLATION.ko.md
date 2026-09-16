@@ -2,11 +2,12 @@
 
 [English](INSTALLATION.md) | [한국어](INSTALLATION.ko.md) | [README](README.ko.md)
 
-이 문서는 v1.0.8 / v3.7 소스 전용 공개를 위한 사용자 안내입니다. 저장소는
-수정된 앱, installer archive, 앱이 들어 있는 ZIP, IPA, provisioning
-profile, 인증서 또는 다른 binary asset을 공개하지 않습니다. 공식 AltServer
-archive를 직접 받고 로컬 payload를 빌드·검증한 뒤 저장소 스크립트를
-실행하세요.
+v1.0.9 release asset은 패치된 `AltServer.app`이 들어 있는 완성된 앱 DMG입니다.
+대부분의 사용자는 [README.ko.md](README.ko.md)에 따라 이를 받아 앱을
+Applications로 드래그하면 됩니다. 이 문서는 v1.0.9 / v3.8의 고급 source build와
+installer 안내입니다. 저장소 source tree에는 source, script, reference와 문서가
+있고, 이전 v1.0.8 / v3.7 공개는 역사적인 source-only 공개였습니다.
+이 문서는 iPhone IPA를 빌드하거나 패키징하지 않습니다.
 
 테스트 대상은 Apple Silicon Mac의 네이티브 `arm64` macOS 27이며 공식
 AltServer 1.7.6/build 94를 사용합니다. Rosetta와 다른 macOS 버전은
@@ -50,20 +51,20 @@ notarization ticket과 승인된 주 실행 파일 hash를 다시 확인합니�
 
 ```bash
 mkdir -p out
-./scripts/build_release.sh "$official_app" "$PWD/out/v1.0.8"
+./scripts/build_release.sh "$official_app" "$PWD/out/v1.0.9"
 ```
 
 성공한 출력 디렉터리에는 다음 네 일반 파일만 있습니다.
 
 ```text
-AltServer-macOS27-v3.7.zip
-AltServer-macOS27-v3.7.executables.txt
+AltServer-macOS27-v3.8.zip
+AltServer-macOS27-v3.8.executables.txt
 BUILD-METADATA.txt
 CHECKSUMS-SHA256.txt
 ```
 
 ZIP은 private 로컬 빌드 결과이며 GitHub asset이 아닙니다. 기존
-`out/v1.0.8`은 현재 명령이 성공할 때까지 stale입니다. staging 전에
+`out/v1.0.9`은 현재 명령이 성공할 때까지 stale입니다. staging 전에
 `CHECKSUMS-SHA256.txt`와 `BUILD-METADATA.txt`를 확인하세요. script는 ZIP
 옆에 IPA, profile, 인증서 또는 raw app을 만들지 않습니다.
 
@@ -77,10 +78,10 @@ ZIP은 private 로컬 빌드 결과이며 GitHub asset이 아닙니다. 기존
 stage_dir="$(mktemp -d)"
 cp scripts/Install.command scripts/Restore.command "$stage_dir/"
 mkdir "$stage_dir/Payload"
-cp out/v1.0.8/AltServer-macOS27-v3.7.zip \
-   out/v1.0.8/AltServer-macOS27-v3.7.executables.txt \
-   out/v1.0.8/BUILD-METADATA.txt \
-   out/v1.0.8/CHECKSUMS-SHA256.txt "$stage_dir/Payload/"
+cp out/v1.0.9/AltServer-macOS27-v3.8.zip \
+   out/v1.0.9/AltServer-macOS27-v3.8.executables.txt \
+   out/v1.0.9/BUILD-METADATA.txt \
+   out/v1.0.9/CHECKSUMS-SHA256.txt "$stage_dir/Payload/"
 chmod +x "$stage_dir/Install.command" "$stage_dir/Restore.command"
 ```
 
@@ -139,7 +140,7 @@ owner-owned `$HOME/.altserver-install-*/Backups` fixture입니다.
 다음과 같아야 합니다.
 
 ```text
-1.7.6-macOS27-v3.7 (94)
+1.7.6-macOS27-v3.8 (94)
 ```
 
 공식 AltServer 업데이트가 이 로컬 호환 빌드를 덮어쓸 수 있습니다. macOS
@@ -167,7 +168,7 @@ AltStore가 이미 설치되어 정상적으로 열리면 Mac 앱이 바뀌었�
 서명 요구사항을 바꾸지 않습니다.
 
 **My Apps > Refresh All**로 설치된 앱을 갱신합니다. 같은 계정 승인 또는
-코드가 필요할 수 있습니다. 버전 표시가 `1.7.6-macOS27-v3.7 (94)`가
+코드가 필요할 수 있습니다. 버전 표시가 `1.7.6-macOS27-v3.8 (94)`가
 아니면 AltServer를 종료하고 local metadata와 staging 경로를 확인한 뒤
 payload 버전을 섞지 마세요.
 
@@ -203,7 +204,7 @@ Restore는 Install이 만든 최신 검증 백업을 선택합니다. 검증된 
 
 | 증상 | 다음 조치 |
 | --- | --- |
-| `AltServer could not retrieve anisette data value "machineID".` | 네이티브 Apple Silicon, `1.7.6-macOS27-v3.7 (94)` 표시, 설치 성공과 재실행 여부를 확인하세요. |
+| `AltServer could not retrieve anisette data value "machineID".` | 네이티브 Apple Silicon, `1.7.6-macOS27-v3.8 (94)` 표시, 설치 성공과 재실행 여부를 확인하세요. |
 | HTTP `503`, `401` 또는 `apptokens` | 네트워크와 설정한 anisette 서비스를 확인하세요. 공식 1.7.6에 보고된 503 처리가 있지만 upstream/service 장애는 남을 수 있습니다. |
 | `3840`, JSON 안 HTML 또는 parse 오류 | upstream/proxy 오류로 보고 응답 본문·header를 공유하지 말고 나중에 재시도하세요. |
 | AltStore가 없음 | 공식 **Install AltStore…** 절차를 사용하세요. 이 프로젝트의 custom IPA는 필요하지 않습니다. |

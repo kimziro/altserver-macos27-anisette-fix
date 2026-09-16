@@ -1,21 +1,32 @@
 # Third-Party Notices
 
-v1.0.8 / v3.7 is source-only and follows v1.0.2. This repository publishes
-source, scripts, references, and documentation only. It redistributes none of
-the third-party binaries listed below: no official `AltServer.app`, installer
-archive, app-bearing payload ZIP, IPA, provisioning profile, certificate, or
-system framework is included in the publication. A local build links against
-the tools and frameworks already installed on the builder's Mac.
+The v1.0.9 release uses a completed-app DMG containing the
+patched `AltServer.app` (`1.7.6-macOS27-v3.8`, build 94). The app inherits the
+bundled components listed below from the official AltServer 1.7.6/build 94
+bundle/source. The repository source tree itself publishes source, scripts,
+references, and documentation only. Historical v1.0.8 / v3.7 was source-only
+and did not distribute an app, installer archive, IPA, provisioning profile,
+certificate, or other binary asset. The v1.0.9 release asset's `Legal/` folder
+carries these repository notices.
 
 The license descriptions below are notices for review, not legal advice or a
-claim of legal certainty. Check each upstream repository's current `LICENSE`
-and terms before redistribution.
+claim of legal certainty. Listing a component or license does not grant
+permission or assert legal compliance. Check each upstream repository's
+current `LICENSE` and terms before redistribution.
 
 ## Dependencies and references
 
 | Component | Version or revision used | Role | License notice | Source |
 | --- | --- | --- | --- | --- |
-| AltStore / AltServer | 1.7.6, build 94 (official archive; exact public Git commit mapping is not proven) | Unmodified local build input and runtime base | AltStore repository declares GNU AGPL v3.0; verify upstream terms | <https://github.com/altstoreio/AltStore> |
+| AltStore / AltServer | 1.7.6, build 94 (official archive; exact public Git commit mapping is not proven) | Official input and runtime base for the v1.0.9 app; local input for the advanced source build | GNU AGPL-3.0; see the [source](https://github.com/altstoreio/AltStore) and [LICENSE](https://github.com/altstoreio/AltStore/blob/marketplace/LICENSE) | <https://github.com/altstoreio/AltStore> |
+| Sparkle | 2.3.2 (inherited framework) | App update framework inherited from official AltServer | MIT; see [source](https://github.com/sparkle-project/Sparkle) and [LICENSE](https://github.com/sparkle-project/Sparkle/blob/2.x/LICENSE) | <https://github.com/sparkle-project/Sparkle> |
+| OpenSSL | 3.3.3001 (inherited framework) | TLS/cryptography framework inherited by the app | Apache-2.0; see [source](https://github.com/openssl/openssl) and [LICENSE](https://github.com/openssl/openssl/blob/master/LICENSE.txt) | <https://github.com/openssl/openssl> |
+| STPrivilegedTask | 1.0.8 (inherited framework) | Privileged-task framework inherited from official AltServer | BSD-3-Clause; see [source](https://github.com/rileytestut/STPrivilegedTask) and [LICENSE](https://github.com/rileytestut/STPrivilegedTask/blob/master/LICENSE) | <https://github.com/rileytestut/STPrivilegedTask> |
+| AltSign | Inherited official static component | Apple signing and device-service code inherited from official AltServer bundle/source | See upstream notices and terms | [source](https://github.com/rileytestut/AltSign) |
+| ldid | Inherited through official AltSign source | Mach-O signing code inherited from the official AltSign dependency tree | See [upstream source](https://github.com/xerub/ldid) and its license/notices | <https://github.com/xerub/ldid> |
+| libimobiledevice | Inherited official bundle/source | Device communication code inherited from official AltServer | See upstream [source](https://github.com/libimobiledevice/libimobiledevice) and [license](https://github.com/libimobiledevice/libimobiledevice/blob/master/COPYING) | <https://github.com/libimobiledevice/libimobiledevice> |
+| libplist | Inherited official bundle/source | Property-list handling inherited from official AltServer | See upstream [source](https://github.com/libimobiledevice/libplist) and [license](https://github.com/libimobiledevice/libplist/blob/master/COPYING) | <https://github.com/libimobiledevice/libplist> |
+| minizip | Inherited official bundle/source | ZIP handling inherited from official AltServer | See upstream [source](https://github.com/madler/zlib/tree/master/contrib/minizip) and [license](https://github.com/madler/zlib/blob/master/LICENSE) | <https://github.com/madler/zlib/tree/master/contrib/minizip> |
 | SideStore RemoteAnisette | Protocol reference; no vendored revision | V3 interoperability reference | See upstream `LICENSE`; no license conclusion is made here | <https://github.com/SideStore/RemoteAnisette> |
 | anisette-v3-server | Protocol reference; no vendored revision | V3 interoperability reference | See upstream `LICENSE`; no license conclusion is made here | <https://github.com/Dadoum/anisette-v3-server> |
 | SideStore anisette servers | Service directory reference | Default endpoint context (`ani.sidestore.zip`) | Service terms and operator policy apply; not a bundled dependency | <https://github.com/SideStore/anisette-servers> |

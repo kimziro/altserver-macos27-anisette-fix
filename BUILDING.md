@@ -1,10 +1,11 @@
 # Building
 
-This guide builds the local macOS helper/dylib payload described by the
-source-only v1.0.8 / v3.7 publication. The GitHub repository publishes source,
-scripts, and documentation only; it does not publish a modified app,
-app-bearing ZIP, installer, IPA, provisioning profile, certificate, or other
-binary asset. No step here builds or packages an iPhone IPA.
+This is the advanced source-build guide for release v1.0.9 / v3.8. The v1.0.9
+release asset is a completed-app DMG containing the patched `AltServer.app`.
+Ordinary users should download it from the v1.0.9 release as described in
+[README.md](README.md). The repository source tree publishes source, scripts,
+and documentation, not a raw app or IPA. The former v1.0.8 /
+v3.7 publication was source-only. No step here builds or packages an iPhone IPA.
 
 ## Requirements and official input
 
@@ -41,7 +42,7 @@ The build gate enforces exact SHA-256 values for these three source files only:
 
 | enforced input | path | SHA-256 |
 | --- | --- | --- |
-| Objective-C patch | `src/AltServerAnisetteFix.m` | `cc5736fe799fd058eb5faeff530be670c9a46e0dbb2610b1879fb9b936d08af8` |
+| Objective-C patch | `src/AltServerAnisetteFix.m` | `7e3e241d1ad7c72b9900337bb51e3deb359beb9def2477ee261d9d549373de6c` |
 | Swift client | `src/AnisetteHelper/AnisetteV3Client.swift` | `118c5b84d2a8d2c5e8741a7e27d521628b29b15f337f8c70684343555e177112` |
 | Swift entry point | `src/AnisetteHelper/main.swift` | `0abfdd8ef5c3e0293d48421f6dc52cb5f2fab3dd8a120677035036dc0ee4f40e` |
 
@@ -55,12 +56,12 @@ downloadable binary checksums:
 
 | reference input | path | SHA-256 | check |
 | --- | --- | --- | --- |
-| Objective-C patch | `src/AltServerAnisetteFix.m` | `cc5736fe799fd058eb5faeff530be670c9a46e0dbb2610b1879fb9b936d08af8` | enforced by build |
+| Objective-C patch | `src/AltServerAnisetteFix.m` | `7e3e241d1ad7c72b9900337bb51e3deb359beb9def2477ee261d9d549373de6c` | enforced by build |
 | Swift client | `src/AnisetteHelper/AnisetteV3Client.swift` | `118c5b84d2a8d2c5e8741a7e27d521628b29b15f337f8c70684343555e177112` | enforced by build |
 | Swift entry point | `src/AnisetteHelper/main.swift` | `0abfdd8ef5c3e0293d48421f6dc52cb5f2fab3dd8a120677035036dc0ee4f40e` | enforced by build |
-| build script | `scripts/build_release.sh` | `d1614f6da9bb68e8da99933e1d23f05133e8402935b4f03be2c2572fb4f2358c` | manual `shasum -a 256` reference; metadata self-consistency only |
-| installer | `scripts/Install.command` | `fceb29d7e6b49f851c65cdcfa60447e681db3c438151d46285e0918345f03b7f` | manual `shasum -a 256` reference |
-| restore | `scripts/Restore.command` | `a74433e8df9d92b9224d04ba78f0d9ec38e8c3f2ea4df4826dcb2454296ddad6` | manual `shasum -a 256` reference |
+| build script | `scripts/build_release.sh` | `2920f535476638da35208beab548ef51b7effbf558197edf451c0ca2fdc0deb3` | manual `shasum -a 256` reference; metadata self-consistency only |
+| installer | `scripts/Install.command` | `6b38363ceaf3fbfb65d407599c6d1ef81bdfecd8daa69b123725959831e6c1f0` | manual `shasum -a 256` reference |
+| restore | `scripts/Restore.command` | `ef291ab88ef6417ed1846bfaad8cc95d20cc5cde15deaa40bc0b731adb1befd1` | manual `shasum -a 256` reference |
 
 To check a checkout manually, run `shasum -a 256` over these six paths and
 compare the output with the table.
@@ -75,7 +76,7 @@ chmod +x scripts/build_release.sh
 mkdir -p out
 ./scripts/build_release.sh \
   "/path/to/official/AltServer.app" \
-  "$PWD/out/v1.0.8"
+  "$PWD/out/v1.0.9"
 ```
 
 The script snapshots the official input and approved source files before
@@ -85,7 +86,7 @@ recorded. Any binary-affecting dirty state fails unless explicitly attested:
 
 ```bash
 ALTSERVER_ALLOW_DIRTY_ATTESTED_SOURCE=1 \
-  ./scripts/build_release.sh "/path/to/official/AltServer.app" "$PWD/out/v1.0.8"
+  ./scripts/build_release.sh "/path/to/official/AltServer.app" "$PWD/out/v1.0.9"
 ```
 
 That opt-in marks metadata `SourceTreeState=dirty-attested`, snapshots the
@@ -97,7 +98,7 @@ The build compiles the arm64 helper and compatibility dylib, strips debug/path
 data, rejects GSA/GrandSlam/User-Agent network-hook strings and symbols, and
 uses install name `@rpath/AltServerAnisetteFix.dylib`. It preserves the
 official main executable and universal resources, sets app version
-`1.7.6-macOS27-v3.7`/build `94`, adds the relative
+`1.7.6-macOS27-v3.8`/build `94`, adds the relative
 `DYLD_INSERT_LIBRARIES` entry, and signs the resulting app and injected objects
 ad hoc. Developer ID and notarization are input checks only; they are not
 carried forward to the locally modified app.
@@ -119,11 +120,11 @@ should produce byte-identical local artifacts.
 
 ## Local output and verification
 
-On success, `out/v1.0.8` contains exactly these four regular files:
+On success, `out/v1.0.9` contains exactly these four regular files:
 
 ```text
-AltServer-macOS27-v3.7.zip
-AltServer-macOS27-v3.7.executables.txt
+AltServer-macOS27-v3.8.zip
+AltServer-macOS27-v3.8.executables.txt
 BUILD-METADATA.txt
 CHECKSUMS-SHA256.txt
 ```
@@ -131,12 +132,12 @@ CHECKSUMS-SHA256.txt
 There is no raw app, `Payload/` directory, IPA, profile, certificate, or other
 release file in that directory. The ZIP is the only app-bearing artifact and
 is private local output. Do not stage an old directory: an existing
-`out/v1.0.8` is stale until a fresh build succeeds.
+`out/v1.0.9` is stale until a fresh build succeeds.
 
 The ZIP writer uses sorted paths and fixed timestamps, rejects traversal,
 duplicate, absolute, dangling-symlink, and AppleDouble entries, and records a
-finite executable-mode manifest. Metadata includes `ReleaseVersion=1.0.8`,
-`PatchVersion=v3.7`, official base version/build, `AltSign=Official-static-only`,
+finite executable-mode manifest. Metadata includes `ReleaseVersion=1.0.9`,
+`PatchVersion=v3.8`, official base version/build, `AltSign=Official-static-only`,
 `PatchedIPA=Not-included`, `NetworkHooks=No-GSA-or-User-Agent-hook`, source and
 script hashes, worktree state, helper/dylib hashes, and deterministic UUID data.
 
@@ -145,10 +146,10 @@ directory:
 
 ```bash
 set -euo pipefail
-cd out/v1.0.8
+cd out/v1.0.9
 shasum -a 256 -c CHECKSUMS-SHA256.txt
 verify_dir="$(mktemp -d)"
-unzip -q AltServer-macOS27-v3.7.zip -d "$verify_dir"
+unzip -q AltServer-macOS27-v3.8.zip -d "$verify_dir"
 codesign --verify --deep --strict "$verify_dir/AltServer.app"
 lipo -archs "$verify_dir/AltServer.app/Contents/MacOS/AltServer"
 lipo -archs "$verify_dir/AltServer.app/Contents/Frameworks/AltServerAnisetteHelper"
@@ -168,10 +169,10 @@ and the files directly under `Payload/`:
 stage_dir="$(mktemp -d)"
 cp scripts/Install.command scripts/Restore.command "$stage_dir/"
 mkdir "$stage_dir/Payload"
-cp out/v1.0.8/AltServer-macOS27-v3.7.zip \
-   out/v1.0.8/AltServer-macOS27-v3.7.executables.txt \
-   out/v1.0.8/BUILD-METADATA.txt \
-   out/v1.0.8/CHECKSUMS-SHA256.txt "$stage_dir/Payload/"
+cp out/v1.0.9/AltServer-macOS27-v3.8.zip \
+   out/v1.0.9/AltServer-macOS27-v3.8.executables.txt \
+   out/v1.0.9/BUILD-METADATA.txt \
+   out/v1.0.9/CHECKSUMS-SHA256.txt "$stage_dir/Payload/"
 chmod +x "$stage_dir/Install.command" "$stage_dir/Restore.command"
 (cd "$stage_dir" && ALTSERVER_INSTALL_DRY_RUN=1 ./Install.command)
 (cd "$stage_dir" && sudo ./Install.command)

@@ -1,9 +1,21 @@
 # Security and Privacy
 
-v1.0.8 / v3.7 is an unofficial source-only publication. The repository does
-not publish a modified app, installer or app-bearing ZIP, IPA, provisioning
-profile, certificate, or other binary asset. Build locally from a verified
-official AltServer input and review the source before use.
+The v1.0.9 release uses a completed-app DMG,
+`AltServer-macOS27-Anisette-Fix-v1.0.9.dmg`, containing the patched
+`AltServer.app` (`1.7.6-macOS27-v3.8`, build 94). The repository source tree
+contains source, scripts, references, and documentation only. The earlier
+v1.0.8 / v3.7 publication is historical and source-only; it did not contain an
+app or installer asset.
+
+The v1.0.9 release asset contains the patched app binary but excludes
+`RemoteAnisetteUser.json`, Apple ID/Apple Account email, passwords and
+two-factor codes, device identifiers, provisioning profiles, certificates,
+IPAs, and other private user data. The app is ad hoc signed and not notarized
+by Apple, so a Gatekeeper warning is expected. Follow the safe Finder **Open
+Anyway** flow in [README.md](README.md); never disable Gatekeeper or SIP, and
+never use `xattr` commands to bypass them. Direct drag-and-drop installation
+does not create an automatic backup; save the official app yourself first if
+you may need to restore it.
 
 ## Threat model
 
@@ -22,9 +34,9 @@ The helper persists only a personalized V3 identity in:
 ```
 
 The file is created with permission mode `0600` and is not included in local
-build output or published by this repository. Treat it as sensitive device
-identity data. The helper does not store an Apple ID/Apple Account email, password,
-session cookie, two-factor code, or authorization header.
+build output or the v1.0.9 DMG. Treat it as sensitive device identity data. The
+helper does not store an Apple ID/Apple Account email, password, session
+cookie, two-factor code, or authorization header.
 
 The identity is opened relative to an owner-checked support-directory descriptor.
 The `AltServer` support directory is owner-owned and mode `0700`; the identity
@@ -103,7 +115,7 @@ account prompt.
 
 ## Limitations
 
-- The output is ad hoc signed and not notarized by Apple.
+- The v1.0.9 DMG app is ad hoc signed and not notarized by Apple.
 - A macOS or AltServer update can change private framework behavior.
 - Availability and behavior of the configured V3 service are outside this
   repository's control.

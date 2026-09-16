@@ -772,7 +772,10 @@ static void ALTCleanupPrivateHelper(char *directoryPath,
                                     int helperFD)
 {
     ALTAnisetteFileIdentity helperIdentity;
+    ALTAnisetteFileIdentity directoryIdentity;
     BOOL helperPathMatches = NO;
+    BOOL directoryPathMatches = NO;
+    const char *helperName = NULL;
     if (helperFD >= 0 &&
         ALTReadAnisetteFDIdentity(helperFD, NO, &helperIdentity, NULL) &&
         helperPath != NULL)
@@ -781,21 +784,65 @@ static void ALTCleanupPrivateHelper(char *directoryPath,
         helperPathMatches = ALTReadAnisettePathIdentity(helperPath, NO, &pathIdentity) &&
                             ALTAnisetteFileIdentityEqual(helperIdentity, pathIdentity);
     }
+    if (directoryFD >= 0 &&
+        ALTReadAnisetteFDIdentity(directoryFD, YES, &directoryIdentity, NULL) &&
+        directoryPath != NULL)
+    {
+        ALTAnisetteFileIdentity pathIdentity;
+        directoryPathMatches = ALTReadAnisettePathIdentity(directoryPath, YES, &pathIdentity) &&
+                               ALTAnisetteFileIdentityEqual(directoryIdentity, pathIdentity);
+    }
+    if (helperPath != NULL)
+    {
+        const char *lastSlash = strrchr(helperPath, '/');
+        if (lastSlash != NULL && strcmp(lastSlash + 1, "AltServerAnisetteHelper") == 0)
+        {
+            helperName = lastSlash + 1;
+        }
+    }
+    if (directoryFD >= 0)
+    {
+        (void)fchflags(directoryFD, 0);
+    }
     if (helperFD >= 0)
     {
         (void)fchflags(helperFD, 0);
         close(helperFD);
     }
-    if (helperPathMatches)
+    if (helperPathMatches && directoryFD >= 0 && helperName != NULL)
     {
-        (void)unlink(helperPath);
+        struct stat helperPathInfo;
+        if (fstatat(directoryFD,
+                    helperName,
+                    &helperPathInfo,
+                    AT_SYMLINK_NOFOLLOW) == 0 &&
+            S_ISREG(helperPathInfo.st_mode) &&
+            helperPathInfo.st_dev == helperIdentity.device &&
+            helperPathInfo.st_ino == helperIdentity.inode &&
+            helperPathInfo.st_uid == helperIdentity.owner &&
+            helperPathInfo.st_gid == helperIdentity.group)
+        {
+            (void)unlinkat(directoryFD, helperName, 0);
+        }
     }
     if (directoryFD >= 0)
     {
-        (void)fchflags(directoryFD, 0);
+        if (directoryPathMatches && directoryPath != NULL)
+        {
+            struct stat directoryPathInfo;
+            if (lstat(directoryPath, &directoryPathInfo) != 0 ||
+                !S_ISDIR(directoryPathInfo.st_mode) ||
+                directoryPathInfo.st_dev != directoryIdentity.device ||
+                directoryPathInfo.st_ino != directoryIdentity.inode ||
+                directoryPathInfo.st_uid != directoryIdentity.owner ||
+                directoryPathInfo.st_gid != directoryIdentity.group)
+            {
+                directoryPathMatches = NO;
+            }
+        }
         close(directoryFD);
     }
-    if (directoryPath != NULL)
+    if (directoryPathMatches && directoryPath != NULL)
     {
         (void)rmdir(directoryPath);
     }
@@ -819,12 +866,29 @@ static BOOL ALTPreparePrivateHelperCopy(int sourceFD,
 
     NSString *temporaryDirectory = NSTemporaryDirectory();
     const char *temporaryPath = temporaryDirectory.fileSystemRepresentation;
+    char canonicalTemporaryPath[PATH_MAX];
     if (temporaryPath == NULL ||
-        snprintf(directoryPath,
-                 directoryCapacity,
-                 "%s/.altserver-anisette-helper.XXXXXX",
-                 temporaryPath) < 0 ||
-        strlen(directoryPath) >= directoryCapacity ||
+        realpath(temporaryPath, canonicalTemporaryPath) == NULL ||
+        canonicalTemporaryPath[0] != '/')
+    {
+        return NO;
+    }
+
+    struct stat temporaryInfo;
+    if (lstat(canonicalTemporaryPath, &temporaryInfo) != 0 ||
+        !S_ISDIR(temporaryInfo.st_mode) ||
+        temporaryInfo.st_uid != geteuid() ||
+        (temporaryInfo.st_mode & (S_IWGRP | S_IWOTH)) != 0)
+    {
+        return NO;
+    }
+
+    int directoryPathLength = snprintf(directoryPath,
+                                       directoryCapacity,
+                                       "%s/.altserver-anisette-helper.XXXXXX",
+                                       canonicalTemporaryPath);
+    if (directoryPathLength < 0 ||
+        (size_t)directoryPathLength >= directoryCapacity ||
         mkdtemp(directoryPath) == NULL)
     {
         return NO;
@@ -1164,9 +1228,44 @@ static NSDictionary *ALTRequestRemoteAnisetteHeadersUncoalesced(void)
         return nil;
     }
 
+    NSUInteger childEnvironmentCount = 0;
+    for (char **entry = environ; entry != NULL && *entry != NULL; entry++)
+    {
+        if (strncmp(*entry, "DYLD_", 5) != 0)
+        {
+            childEnvironmentCount += 1;
+        }
+    }
+    char **childEnvironment = calloc(childEnvironmentCount + 1,
+                                     sizeof(*childEnvironment));
+    if (childEnvironment == NULL)
+    {
+        close(outputPipe[0]);
+        close(outputPipe[1]);
+        close(errorPipe[0]);
+        close(errorPipe[1]);
+        pthread_mutex_destroy(&outputState->lock);
+        free(outputState);
+        ALTCleanupPrivateHelper(privateDirectoryPath,
+                                privateHelperPath,
+                                privateDirectoryFD,
+                                privateHelperFD);
+        return nil;
+    }
+    NSUInteger childEnvironmentIndex = 0;
+    for (char **entry = environ; entry != NULL && *entry != NULL; entry++)
+    {
+        if (strncmp(*entry, "DYLD_", 5) == 0)
+        {
+            continue;
+        }
+        childEnvironment[childEnvironmentIndex++] = *entry;
+    }
+
     pid_t childPID = fork();
     if (childPID < 0)
     {
+        free(childEnvironment);
         close(outputPipe[0]);
         close(outputPipe[1]);
         close(errorPipe[0]);
@@ -1194,9 +1293,10 @@ static NSDictionary *ALTRequestRemoteAnisetteHeadersUncoalesced(void)
         if (privateDirectoryFD > STDERR_FILENO) close(privateDirectoryFD);
         if (privateHelperFD > STDERR_FILENO) close(privateHelperFD);
         char *arguments[] = { (char *)"AltServerAnisetteHelper", NULL };
-        execve(privateHelperPath, arguments, environ);
+        execve(privateHelperPath, arguments, childEnvironment);
         _exit(127);
     }
+    free(childEnvironment);
 
     close(outputPipe[1]);
     outputPipe[1] = -1;

@@ -1,11 +1,11 @@
 # Upstream Source and Provenance
 
-v1.0.8 / v3.7 is a source-only publication and follows v1.0.2. This repository
-contains the local helper/dylib source, transaction/build scripts, references,
-and documentation. It does not publish or redistribute a modified
-`AltServer.app`, installer or app-bearing ZIP, IPA, provisioning profile,
-certificate, or other binary asset. The official AltServer input must be
-obtained and verified independently before a local build.
+The repository source tree contains the local helper/dylib source,
+transaction/build scripts, references, and documentation only. The v1.0.9
+release uses a completed-app DMG containing the patched `AltServer.app`
+(`1.7.6-macOS27-v3.8`, build 94); the historical v1.0.8 / v3.7 publication was
+source-only and did not distribute an app or other binary asset. The v1.0.9
+app is derived from the independently verified official AltServer input below.
 
 ## Official AltServer input
 
@@ -22,6 +22,10 @@ The authoritative public references for the input are:
 - Main executable SHA-256:
   `d1e4188b67adbd120af597ffa11708a18cb139db9919baa5be806a129a3cf819`
 
+The patched app in the v1.0.9 DMG is derived from this verified official
+archive plus the local patch sources. The archive itself is a build input, not
+a repository asset.
+
 `scripts/build_release.sh` requires the official Developer ID signature,
 recursive strict signature verification, Gatekeeper assessment, and a valid
 notarization ticket before injection. The original input is a local build
@@ -34,9 +38,9 @@ has a macOS 27 `machineID` failure report for 1.7.6, which motivates this local
 fallback. These facts do not establish that upstream itself contains this
 patch.
 
-An exact public Git commit mapping the official 1.7.6/build 94 archive to its
-published binary cannot be proven from the available evidence. Do not infer or
-claim such a mapping. [PR #1790](https://github.com/altstoreio/AltStore/pull/1790)
+An exact public Git commit mapping for the official 1.7.6/build 94 archive or
+its published binary cannot be proven from the available evidence. Do not
+infer or claim such a mapping for the v1.0.9 app. [PR #1790](https://github.com/altstoreio/AltStore/pull/1790)
 is closed and unmerged; [commit `c558994`](https://github.com/altstoreio/AltStore/commit/c558994501bac639780a853ffb54065cc703b770)
 is retained only as PR-head context, not as an input or dependency.
 
@@ -65,7 +69,7 @@ inputs used to compile the helper and dylib:
 
 | enforced source | SHA-256 |
 | --- | --- |
-| `src/AltServerAnisetteFix.m` | `cc5736fe799fd058eb5faeff530be670c9a46e0dbb2610b1879fb9b936d08af8` |
+| `src/AltServerAnisetteFix.m` | `7e3e241d1ad7c72b9900337bb51e3deb359beb9def2477ee261d9d549373de6c` |
 | `src/AnisetteHelper/AnisetteV3Client.swift` | `118c5b84d2a8d2c5e8741a7e27d521628b29b15f337f8c70684343555e177112` |
 | `src/AnisetteHelper/main.swift` | `0abfdd8ef5c3e0293d48421f6dc52cb5f2fab3dd8a120677035036dc0ee4f40e` |
 
@@ -77,12 +81,12 @@ build. Keep all six observed hashes as manual `shasum -a 256` reference checks:
 
 | reference input | SHA-256 | check |
 | --- | --- | --- |
-| `src/AltServerAnisetteFix.m` | `cc5736fe799fd058eb5faeff530be670c9a46e0dbb2610b1879fb9b936d08af8` | enforced by build |
+| `src/AltServerAnisetteFix.m` | `7e3e241d1ad7c72b9900337bb51e3deb359beb9def2477ee261d9d549373de6c` | enforced by build |
 | `src/AnisetteHelper/AnisetteV3Client.swift` | `118c5b84d2a8d2c5e8741a7e27d521628b29b15f337f8c70684343555e177112` | enforced by build |
 | `src/AnisetteHelper/main.swift` | `0abfdd8ef5c3e0293d48421f6dc52cb5f2fab3dd8a120677035036dc0ee4f40e` | enforced by build |
-| `scripts/build_release.sh` | `d1614f6da9bb68e8da99933e1d23f05133e8402935b4f03be2c2572fb4f2358c` | manual `shasum -a 256`; metadata self-consistency only |
-| `scripts/Install.command` | `fceb29d7e6b49f851c65cdcfa60447e681db3c438151d46285e0918345f03b7f` | manual `shasum -a 256` |
-| `scripts/Restore.command` | `a74433e8df9d92b9224d04ba78f0d9ec38e8c3f2ea4df4826dcb2454296ddad6` | manual `shasum -a 256` |
+| `scripts/build_release.sh` | `2920f535476638da35208beab548ef51b7effbf558197edf451c0ca2fdc0deb3` | manual `shasum -a 256`; metadata self-consistency only |
+| `scripts/Install.command` | `6b38363ceaf3fbfb65d407599c6d1ef81bdfecd8daa69b123725959831e6c1f0` | manual `shasum -a 256` |
+| `scripts/Restore.command` | `ef291ab88ef6417ed1846bfaad8cc95d20cc5cde15deaa40bc0b731adb1befd1` | manual `shasum -a 256` |
 
 For a checkout, run `shasum -a 256` over all six paths and compare the output
 with the table. Documentation edits are not part of the source hash gate. A
@@ -115,23 +119,28 @@ a loader-integrity check, not a change to the `machineID` decision or GSA path.
 
 ## Reproduce locally
 
-Place the independently verified official app at a local path and run from the
-repository root:
+To reproduce the v1.0.9 advanced source-build workflow, place the
+independently verified official app at a local path and run from the repository
+root:
 
 ```bash
-./scripts/build_release.sh "/path/to/official/AltServer.app" "$PWD/out/v1.0.8"
+./scripts/build_release.sh "/path/to/official/AltServer.app" "$PWD/out/v1.0.9"
 ```
 
 The successful output directory contains exactly four regular files:
 
 ```text
-AltServer-macOS27-v3.7.zip
-AltServer-macOS27-v3.7.executables.txt
+AltServer-macOS27-v3.8.zip
+AltServer-macOS27-v3.8.executables.txt
 BUILD-METADATA.txt
 CHECKSUMS-SHA256.txt
 ```
 
-The ZIP is private local output for verification/installation. The repository
-publishes no copy of it and no raw app. See [BUILDING.md](BUILDING.md) for the
-exact staging layout and [INSTALLATION.md](INSTALLATION.md) for install,
-refresh, restore, and troubleshooting procedures.
+The ZIP is private local output for verification/installation; the repository
+publishes no copy of it or raw app. The v1.0.9 release asset is the completed
+DMG containing the patched `AltServer.app`; ordinary users should
+use that DMG as described in [README.md](README.md). The former v1.0.8
+publication was source-only. See
+[BUILDING.md](BUILDING.md) for the exact staging layout and
+[INSTALLATION.md](INSTALLATION.md) for install, refresh, restore, and
+troubleshooting procedures.

@@ -1,8 +1,11 @@
 # Technical Details
 
-This document describes the local helper/dylib and its boundaries. v1.0.8 /
-v3.7 is source-only and follows v1.0.2; no modified app, installer archive,
-app-bearing ZIP, IPA, profile, certificate, or other binary asset is published.
+This document describes the local helper/dylib and its boundaries. The
+repository source tree contains source, scripts, references, and documentation
+only. Historical v1.0.8 / v3.7 was source-only; the v1.0.9 release uses a
+completed-app DMG containing the patched `AltServer.app`
+(`1.7.6-macOS27-v3.8`, build 94), derived from official AltServer 1.7.6/build
+94.
 
 ## Root cause and scope
 
@@ -78,7 +81,7 @@ AltSign hook. The separate helper uses the upstream lookup endpoint
 `User-Agent: akd/1.0 CFNetwork/808.1.4` for its own provisioning flow; this does
 not rewrite or intercept the official exchange.
 
-## v3.7 helper and V3 protocol
+## v3.8 helper and V3 protocol
 
 The helper builds `X-Mme-Client-Info` at runtime from `hw.model`, the macOS
 product version/build, and Xcode `25183.54.10`. When an existing identity is
@@ -99,6 +102,26 @@ default server is `https://ani.sidestore.zip`; a direct helper run may set
 redirects must retain scheme, host, and effective port. HTTP responses and WSS
 messages are capped at 1 MiB, and transient provisioning/header operations are
 retried up to three times.
+
+## v1.0.9 machineID runtime hardening
+
+The completed-app build includes three narrow regression fixes around the
+private helper process. First, the `NSTemporaryDirectory()` path is resolved
+with `realpath` before creating the private directory under the `/var`-backed
+temporary root. The root is checked for ownership and write permissions, and
+the opened directory and helper retain `O_NOFOLLOW_ANY`; this avoids a path
+alias without weakening no-follow checks. Second, the child environment is
+rebuilt without every `DYLD_*` variable before `execve`, so inherited loader
+state cannot alter the private helper. Third, cleanup is descriptor-anchored:
+the helper and directory device/inode/owner identities are captured, the
+helper is removed with `unlinkat` relative to the validated directory
+descriptor, and the directory is removed only if its path still matches the
+captured identity. Cleanup therefore cannot follow a replacement path or
+remove an unrelated directory.
+
+These changes harden the fallback's temporary-process lifecycle only. They do
+not change the public V3 message sequence, endpoint, header mapping, Apple
+authentication, or the official GrandSlam path.
 
 ## Header mapping and failure boundary
 
@@ -130,9 +153,13 @@ The build verifies the official input's Developer ID signature, notarization
 ticket, Gatekeeper assessment, and universal main executable before copying it
 to a private staging tree. It preserves the main executable's code and signs
 the modified app/helper/dylib ad hoc; the output must not be described as
-Developer ID signed or notarized. The local output directory contains exactly
-the ZIP, executable manifest, metadata, and checksum file. It contains no raw
-app or `Payload/` directory.
+Developer ID signed or notarized. For the historical v1.0.8 source-only
+workflow, the local output directory contains exactly the ZIP, executable
+manifest, metadata, and checksum file, with no raw app or `Payload/` directory.
+The v1.0.9 release package contains the patched app in a DMG for drag
+installation; that direct replacement makes no automatic backup. See
+[README.md](README.md)
+for the expected Gatekeeper warning and safe **Open Anyway** flow.
 
 Install and Restore are root-only transactions; their non-root dry-runs are
 read-only. Both use a shared root lock and descriptor-bound parent/device/inode
@@ -152,6 +179,7 @@ send Apple ID/Apple Account email, password, session cookie, two-factor code, or
 authorization header to the anisette service. The only persistent protocol
 state is the local `RemoteAnisetteUser.json` identity (mode `0600`).
 
-The repository contains source and scripts only. It does not contain personal
-credentials, certificates, profiles, device identities, or copied third-party
-binary assets.
+The tracked repository source tree contains source, scripts, references, and
+documentation only. The v1.0.9 DMG release asset contains the patched app
+binary, but neither distribution contains personal credentials,
+certificates, profiles, device identities, or copied local user data.
