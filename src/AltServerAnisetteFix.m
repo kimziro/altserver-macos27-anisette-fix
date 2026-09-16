@@ -830,6 +830,21 @@ static BOOL ALTPreparePrivateHelperCopy(int sourceFD,
         return NO;
     }
 
+    // NSTemporaryDirectory() returns the non-canonical /var/... path, and
+    // /var is a standard, root-owned, immutable symlink to /private/var on
+    // every stock macOS install. Resolving it here (after we already own the
+    // freshly created directory) is safe and lets O_NOFOLLOW_ANY reject only
+    // symlinks an attacker could actually control; without this the open
+    // below fails ELOOP on every stock install, not just macOS 27.
+    char canonicalDirectoryPath[PATH_MAX];
+    if (realpath(directoryPath, canonicalDirectoryPath) == NULL ||
+        strlen(canonicalDirectoryPath) >= directoryCapacity)
+    {
+        (void)rmdir(directoryPath);
+        return NO;
+    }
+    strlcpy(directoryPath, canonicalDirectoryPath, directoryCapacity);
+
     int directoryFD = open(directoryPath,
                             O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW_ANY);
     if (directoryFD < 0 ||
@@ -1065,6 +1080,38 @@ static BOOL ALTWaitForHelperProcess(pid_t processIdentifier,
     return NO;
 }
 
+// The parent process launches with DYLD_INSERT_LIBRARIES set to an
+// @executable_path-relative path to this very dylib. execve() with the
+// inherited environ propagates that variable to the relocated helper copy,
+// whose @executable_path no longer has a sibling Frameworks/ directory;
+// dyld then hard-aborts instead of silently skipping the missing insert.
+// Strip DYLD_* variables so the helper launches with a clean environment.
+static char **ALTChildEnvironmentWithoutDYLD(void)
+{
+    NSUInteger count = 0;
+    for (char **entry = environ; *entry != NULL; entry++)
+    {
+        count += 1;
+    }
+
+    char **filtered = calloc(count + 1, sizeof(char *));
+    if (filtered == NULL)
+    {
+        return NULL;
+    }
+
+    NSUInteger writeIndex = 0;
+    for (char **entry = environ; *entry != NULL; entry++)
+    {
+        if (strncmp(*entry, "DYLD_", 5) != 0)
+        {
+            filtered[writeIndex++] = *entry;
+        }
+    }
+    filtered[writeIndex] = NULL;
+    return filtered;
+}
+
 static NSDictionary *ALTRequestRemoteAnisetteHeadersUncoalesced(void)
 {
     ALTInstallAnisetteDataHooks();
@@ -1164,9 +1211,26 @@ static NSDictionary *ALTRequestRemoteAnisetteHeadersUncoalesced(void)
         return nil;
     }
 
+    char **childEnviron = ALTChildEnvironmentWithoutDYLD();
+    if (childEnviron == NULL)
+    {
+        close(outputPipe[0]);
+        close(outputPipe[1]);
+        close(errorPipe[0]);
+        close(errorPipe[1]);
+        pthread_mutex_destroy(&outputState->lock);
+        free(outputState);
+        ALTCleanupPrivateHelper(privateDirectoryPath,
+                                privateHelperPath,
+                                privateDirectoryFD,
+                                privateHelperFD);
+        return nil;
+    }
+
     pid_t childPID = fork();
     if (childPID < 0)
     {
+        free(childEnviron);
         close(outputPipe[0]);
         close(outputPipe[1]);
         close(errorPipe[0]);
@@ -1194,10 +1258,11 @@ static NSDictionary *ALTRequestRemoteAnisetteHeadersUncoalesced(void)
         if (privateDirectoryFD > STDERR_FILENO) close(privateDirectoryFD);
         if (privateHelperFD > STDERR_FILENO) close(privateHelperFD);
         char *arguments[] = { (char *)"AltServerAnisetteHelper", NULL };
-        execve(privateHelperPath, arguments, environ);
+        execve(privateHelperPath, arguments, childEnviron);
         _exit(127);
     }
 
+    free(childEnviron);
     close(outputPipe[1]);
     outputPipe[1] = -1;
     close(errorPipe[1]);

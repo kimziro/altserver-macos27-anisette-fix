@@ -41,7 +41,7 @@ The build gate enforces exact SHA-256 values for these three source files only:
 
 | enforced input | path | SHA-256 |
 | --- | --- | --- |
-| Objective-C patch | `src/AltServerAnisetteFix.m` | `cc5736fe799fd058eb5faeff530be670c9a46e0dbb2610b1879fb9b936d08af8` |
+| Objective-C patch | `src/AltServerAnisetteFix.m` | `35b29f26b50776a46c184bce9ced7634d24f8b6f2b4aaf915942271b1d60cf24` |
 | Swift client | `src/AnisetteHelper/AnisetteV3Client.swift` | `118c5b84d2a8d2c5e8741a7e27d521628b29b15f337f8c70684343555e177112` |
 | Swift entry point | `src/AnisetteHelper/main.swift` | `0abfdd8ef5c3e0293d48421f6dc52cb5f2fab3dd8a120677035036dc0ee4f40e` |
 
@@ -55,12 +55,12 @@ downloadable binary checksums:
 
 | reference input | path | SHA-256 | check |
 | --- | --- | --- | --- |
-| Objective-C patch | `src/AltServerAnisetteFix.m` | `cc5736fe799fd058eb5faeff530be670c9a46e0dbb2610b1879fb9b936d08af8` | enforced by build |
+| Objective-C patch | `src/AltServerAnisetteFix.m` | `35b29f26b50776a46c184bce9ced7634d24f8b6f2b4aaf915942271b1d60cf24` | enforced by build |
 | Swift client | `src/AnisetteHelper/AnisetteV3Client.swift` | `118c5b84d2a8d2c5e8741a7e27d521628b29b15f337f8c70684343555e177112` | enforced by build |
 | Swift entry point | `src/AnisetteHelper/main.swift` | `0abfdd8ef5c3e0293d48421f6dc52cb5f2fab3dd8a120677035036dc0ee4f40e` | enforced by build |
-| build script | `scripts/build_release.sh` | `d1614f6da9bb68e8da99933e1d23f05133e8402935b4f03be2c2572fb4f2358c` | manual `shasum -a 256` reference; metadata self-consistency only |
-| installer | `scripts/Install.command` | `fceb29d7e6b49f851c65cdcfa60447e681db3c438151d46285e0918345f03b7f` | manual `shasum -a 256` reference |
-| restore | `scripts/Restore.command` | `a74433e8df9d92b9224d04ba78f0d9ec38e8c3f2ea4df4826dcb2454296ddad6` | manual `shasum -a 256` reference |
+| build script | `scripts/build_release.sh` | `80cdfa7fb88e1dd9b28bdeb7cc000994ece2ffc438127e02e4dc21b0c9b6a024` | manual `shasum -a 256` reference; metadata self-consistency only |
+| installer | `scripts/Install.command` | `5efd7917730f6b3d0cadbc851eff2c891d39201909539f07c25c41500241a396` | manual `shasum -a 256` reference |
+| restore | `scripts/Restore.command` | `09b16ba36aebdc7354de8dde623e7435f815b8baee81a8424af002e828871a79` | manual `shasum -a 256` reference |
 
 To check a checkout manually, run `shasum -a 256` over these six paths and
 compare the output with the table.

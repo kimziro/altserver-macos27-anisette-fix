@@ -1450,8 +1450,13 @@ build_atomic_helper
 path_has_symlink "$RESTORE_LOCK_PARENT_REAL" && fail "restore lock parent contains a symlink."
 [[ "$(stat -f '%u' "$RESTORE_LOCK_PARENT_REAL" 2>/dev/null || true)" == "0" ]] || fail "restore lock parent is not root-owned."
 RESTORE_LOCK_PARENT_MODE="$(stat -f '%Lp' "$RESTORE_LOCK_PARENT_REAL" 2>/dev/null || true)"
+RESTORE_LOCK_PARENT_GROUP="$(stat -f '%Sg' "$RESTORE_LOCK_PARENT_REAL" 2>/dev/null || true)"
 [[ "$RESTORE_LOCK_PARENT_MODE" == <-> ]] || fail "restore lock parent mode is unavailable."
-(( 8#$RESTORE_LOCK_PARENT_MODE & 8#022 )) && fail "restore lock parent is writable by an untrusted group."
+(( 8#$RESTORE_LOCK_PARENT_MODE & 8#002 )) && fail "restore lock parent is world-writable."
+if (( 8#$RESTORE_LOCK_PARENT_MODE & 8#020 )) && \
+   [[ "$RESTORE_LOCK_PARENT_GROUP" != "wheel" && "$RESTORE_LOCK_PARENT_GROUP" != "daemon" ]]; then
+    fail "restore lock parent is writable by an untrusted group."
+fi
 RESTORE_LOCK_PARENT_KEY="$(stat -f '%d:%i' "$RESTORE_LOCK_PARENT_REAL" 2>/dev/null || true)"
 [[ -n "$RESTORE_LOCK_PARENT_KEY" ]] || fail "restore lock parent identity is unavailable."
 RESTORE_LOCK_KEY="$("$ATOMIC_HELPER" lock "$RESTORE_LOCK_PARENT_REAL" "$RESTORE_LOCK_PARENT_KEY" \
