@@ -1,5 +1,33 @@
 # Changelog
 
+## Unreleased — anisette V3 helper fallback fixes (this fork)
+
+The v1.0.8 dylib's AOSUtilities hook installs and fires correctly, but its
+anisette V3 helper fallback silently failed on every install (not just
+macOS 27), so the reported `machineID` error persisted even with v1.0.8
+installed. Root-caused with instrumented builds and crash-report analysis;
+verified end to end with a real AltStore sign-in/install on macOS 27.0
+(26A428), Apple Silicon.
+
+- Fix ELOOP opening the private helper temp directory: `NSTemporaryDirectory()`
+  returns the non-canonical `/var/...` path, and `/var` is a standard,
+  root-owned symlink to `/private/var` on every stock macOS install;
+  `O_NOFOLLOW_ANY` rejected the whole path over that one intermediate
+  symlink. Fixed by canonicalizing via `realpath()` after `mkdtemp()`, while
+  the directory is still exclusively ours.
+- Fix SIGABRT in the relocated helper from an inherited
+  `DYLD_INSERT_LIBRARIES`: the parent's `LSEnvironment` sets it to an
+  `@executable_path`-relative path to the dylib itself; `execve()` with the
+  inherited `environ` propagated it to the relocated helper, whose
+  `@executable_path` no longer has a sibling `Frameworks/`, so dyld
+  hard-aborted before the helper could run. Fixed by stripping `DYLD_*`
+  entries from the child's environment before `execve()`.
+- Re-pin `EXPECTED_OBJC_SOURCE_SHA` in `scripts/build_release.sh` to the
+  corrected source, and allow `root:daemon` (in addition to `root:wheel`) as
+  the installer/restorer's transactional lock parent group, matching
+  `/private/var/run`'s default ownership on macOS 27 (both groups have only
+  `root` as a member — the same trust level).
+
 ## v1.0.8 / v3.7 — source-only publication — 2026-09-15
 
 This release follows v1.0.2 in the existing GitHub repository. It publishes
