@@ -2233,7 +2233,8 @@ INSTALL_LOCK_PARENT_GROUP="$(stat -f '%Sg' "$INSTALL_LOCK_PARENT_REAL" 2>/dev/nu
 if (( 8#$INSTALL_LOCK_PARENT_MODE & 2 )); then
     fail "the installer lock parent is world-writable."
 fi
-if (( 8#$INSTALL_LOCK_PARENT_MODE & 20 )) && [[ "$INSTALL_LOCK_PARENT_GROUP" != "wheel" ]]; then
+if (( 8#$INSTALL_LOCK_PARENT_MODE & 20 )) && \
+   [[ "$INSTALL_LOCK_PARENT_GROUP" != "wheel" && "$INSTALL_LOCK_PARENT_GROUP" != "daemon" ]]; then
     fail "the installer lock parent is group-writable by an untrusted group."
 fi
 INSTALL_LOCK_PARENT_KEY="$(stat -f '%d:%i' "$INSTALL_LOCK_PARENT_REAL" 2>/dev/null || true)"
