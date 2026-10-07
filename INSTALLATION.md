@@ -207,6 +207,7 @@ files.
 | --- | --- |
 | `AltServer could not retrieve anisette data value "machineID".` | Confirm native Apple Silicon execution, version `1.7.6-macOS27-v3.8 (94)`, a successful install, and a relaunch. |
 | HTTP `503`, `401`, or `apptokens` | Check the network and configured anisette service; the official 1.7.6 path includes its reported 503 handling, but upstream/service outages remain possible. |
+| Apple Account locked (`-20209`), even though passkey web sign-in works | Check password sign-in and follow Apple recovery if a lock is confirmed. See [the confirmed case](TROUBLESHOOTING.md). |
 | `3840`, HTML in JSON, or parse error | Treat the response as an upstream/proxy error; retry later without posting response bodies or headers. |
 | AltStore is missing | Use the official **Install AltStore…** flow. No custom IPA is required by this project. |
 | Refresh still fails on iPhone | This patch covers only the Mac-side `machineID` path. An on-device transport or AltStore update may be required. |

@@ -48,6 +48,10 @@ It contains the patched `AltServer.app` for the Mac-side fix.
    needed. Network access is required the first time anisette data is
    provisioned.
 
+If refresh changes from HTTP `503` to Apple Account locked (`-20209`), see
+[the confirmed recovery case and troubleshooting steps](TROUBLESHOOTING.md).
+A successful passkey login alone does not verify password authentication.
+
 ## Restore and updates
 
 To restore the official app, quit AltServer, remove or move the patched

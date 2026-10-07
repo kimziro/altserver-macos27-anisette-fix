@@ -49,6 +49,10 @@ v1.0.9 release의 완성된 앱 asset
    사용합니다. 처음 anisette 데이터를 provision할 때 네트워크 연결이
    필요합니다.
 
+갱신 오류가 HTTP `503`에서 Apple 계정 잠금(`-20209`)으로 바뀌었다면
+[해결 사례와 확인 순서](TROUBLESHOOTING.ko.md)를 참고하세요.
+패스키 로그인 성공만으로 비밀번호 인증까지 정상이라고 확인할 수는 없습니다.
+
 ## 복원 및 업데이트
 
 공식 앱으로 되돌리려면 AltServer를 종료하고 Applications의 패치된

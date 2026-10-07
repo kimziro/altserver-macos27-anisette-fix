@@ -206,6 +206,7 @@ Restore는 Install이 만든 최신 검증 백업을 선택합니다. 검증된 
 | --- | --- |
 | `AltServer could not retrieve anisette data value "machineID".` | 네이티브 Apple Silicon, `1.7.6-macOS27-v3.8 (94)` 표시, 설치 성공과 재실행 여부를 확인하세요. |
 | HTTP `503`, `401` 또는 `apptokens` | 네트워크와 설정한 anisette 서비스를 확인하세요. 공식 1.7.6에 보고된 503 처리가 있지만 upstream/service 장애는 남을 수 있습니다. |
+| 패스키 웹 로그인은 되지만 Apple 계정 잠금 (`-20209`) 표시 | 비밀번호 로그인을 확인하고, 잠금이 확인되면 Apple 복구 절차를 진행하세요. [해결 사례](TROUBLESHOOTING.ko.md)를 참고하세요. |
 | `3840`, JSON 안 HTML 또는 parse 오류 | upstream/proxy 오류로 보고 응답 본문·header를 공유하지 말고 나중에 재시도하세요. |
 | AltStore가 없음 | 공식 **Install AltStore…** 절차를 사용하세요. 이 프로젝트의 custom IPA는 필요하지 않습니다. |
 | iPhone refresh가 계속 실패함 | 이 패치는 Mac 쪽 `machineID` 경로만 다룹니다. 기기 내 transport 또는 AltStore 업데이트가 필요할 수 있습니다. |
