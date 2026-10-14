@@ -2,80 +2,31 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
-macOS 27에서 다음 오류가 발생할 때 사용하는 비공식 호환성 패치입니다.
+macOS 27의 Apple 로그인·앱 갱신 `-80045` 오류를 수정합니다.
 
-```text
-AltServer could not retrieve anisette data value "machineID".
-```
+## v1.2.0 다운로드
 
-## [⬇️ v1.0.9 release에서 다운로드](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.0.9/AltServer-macOS27-Anisette-Fix-v1.0.9.dmg)
+[AltServer-macOS27-Anisette-Fix-v1.2.0.dmg 다운로드](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.2.0/AltServer-macOS27-Anisette-Fix-v1.2.0.dmg)
 
-v1.0.9 release가 게시되면 이 링크를 사용할 수 있습니다.
-v1.0.9 release의 완성된 앱 asset
-`AltServer-macOS27-Anisette-Fix-v1.0.9.dmg`를 다운로드하세요. Mac 쪽 문제를
-수정한 `AltServer.app`이 포함되어 있습니다.
+## 설치
 
-## 설치 (3단계)
+1. AltServer를 종료합니다.
+2. 교체 전에 현재 앱을 안전한 곳에 복사해 둡니다. DMG를 열고 `AltServer.app`을 **Applications**로 드래그한 뒤 **Replace(교체)**를 선택합니다.
+3. Applications에서 앱을 더블클릭합니다. macOS가 차단하면 아래 Gatekeeper 안내를 따르세요.
 
-1. **AltServer를 종료합니다.**
-2. **DMG를 열어 설치합니다.** DMG를 더블클릭한 다음 `AltServer.app`을
-   **Applications**로 드래그하세요. 기존 앱을 교체할지 묻는 경우
-   **Replace**를 선택합니다. 선택 사항으로, Replace 전에 현재 공식 앱을
-   안전한 폴더에 직접 복사해 두세요. 드래그 설치는 자동 백업을 만들지
-   않습니다.
-3. **Finder에서 올바르게 엽니다.** Applications에서 `AltServer.app`을
-   Control-click하고 **Open**을 선택한 뒤 다시 **Open**을 확인합니다.
+> **Gatekeeper:** 이 비공식 앱은 ad-hoc 서명만 되어 있고 Apple 공증을 받지 않았습니다. 경고가 표시될 수 있습니다. 먼저 앱을 한 번 더블클릭해야 **그래도 열기** 버튼이 나타날 수 있습니다. 차단되면 **시스템 설정 → 개인정보 보호 및 보안 → 그래도 열기**로 이동한 뒤 **열기**를 확인하세요. Gatekeeper나 SIP를 시스템 전체에서 끄지 마세요.
 
-> **Gatekeeper 안내:** 비공식 앱이며 ad-hoc 서명만 되어 있고 Apple 공증
-> (notarized)을 받지 않았으므로 경고가 표시되는 것이 정상입니다. macOS가
-> 차단하면 한 번 열기를 시도한 뒤 `System Settings → Privacy & Security → Security → Open Anyway → Open`
-> 순서로 진행하세요. Mac 로그인 암호를 요구할 수 있습니다. **Gatekeeper나
-> SIP를 끄거나 `xattr` 명령으로 우회하지 마세요.**
+## 수정 내용
 
-## 호환성 및 범위
+- Mac 앱을 AltServer **1.8.1 (build 98)**로 업데이트합니다. `v1.2.0`은 이 프로젝트의 패키지 버전입니다.
+- Mac 쪽만 수정합니다. iPhone 앱을 변경하지 않으며 AltStore를 다시 설치할 필요가 없습니다.
 
-- Apple Silicon Mac에서 macOS 27을 실행해야 합니다.
-- 포함된 Mac 앱 버전은 `1.7.6-macOS27-v3.8` (build 94)입니다.
-- Mac 쪽 anisette 경로만 수정합니다. 공식 Mac AltServer를 사용하면 iPhone의
-  AltStore 1.8.0 앱에서 `machineID` 오류가 계속 발생할 수 있습니다. 이 DMG는
-  Mac AltServer만 교체하며 AltStore 앱이나 iPhone 전송 방식을 교체하지
-  않습니다.
+iPhone에 AltStore가 이미 설치되어 있으면 다시 설치하지 마세요. 이 Mac 앱으로 새로 고침할 때는 **Prefer Remote**를 끄세요. 무선 새로 고침을 별도로 시험한다면 Mac과 iPhone을 같은 Wi-Fi에 연결하세요. 이 release의 무선 동작은 검증되지 않았습니다.
 
-## 설치 후
+## 검증 범위
 
-1. AltServer를 실행하고 메뉴 막대에 아이콘이 나타나는지 확인합니다.
-2. iPhone을 연결하고 신뢰(Trust)합니다.
-3. 처음 설치할 때는 **Install AltStore…**, 이후에는 필요할 때 **Refresh**를
-   사용합니다. 처음 anisette 데이터를 provision할 때 네트워크 연결이
-   필요합니다.
+2026-10-14, macOS 27을 실행하는 Apple Silicon Mac 한 대에서 설치된 v1.2.0 테스트 빌드로 기존 앱 세 개에 Refresh All을 완료했고, 세 앱 모두 남은 기간이 7일로 표시됐습니다. 화면에 오류나 2FA 요청은 없었습니다. 무선 연결, 원격 anisette, 재부팅, 새 로그인/2FA, Intel 또는 전체 환경 호환성을 입증한 결과는 아닙니다.
 
-## 복원 및 업데이트
+앱은 ad-hoc 서명만 되었고 Apple 공증을 받지 않았습니다. 설치 전에 [SECURITY.md](SECURITY.md)를 읽으세요. [release 안내](releases/v1.2.0.md), [빌드 안내](BUILDING.md), [upstream 출처](UPSTREAM_SOURCE.md), [제3자 고지](THIRD_PARTY_NOTICES.md), [변경 기록](CHANGELOG.md)을 참고하세요. 이전 [설치 안내](INSTALLATION.ko.md)와 [기술 설명](TECHNICAL_DETAILS.md)은 v1.0.8/v1.0.9 V3 fallback 문서이며 이 release에 해당하지 않습니다.
 
-공식 앱으로 되돌리려면 AltServer를 종료하고 Applications의 패치된
-`AltServer.app`을 제거하거나 다른 곳으로 이동한 뒤, 직접 저장해 둔 공식
-앱을 복원하세요. 저장한 사본이 없으면 [공식 AltServer 1.7.6
-archive](https://cdn.altstore.io/file/altstore/altserver/1_7_6.zip)를 다시
-다운로드하세요.
-
-macOS 또는 AltServer 업데이트가 패치를 덮어쓸 수 있습니다. workaround가
-작동하지 않으면 DMG를 다시 설치하세요. 이 프로젝트는 비공식이며 AltStore,
-SideStore 또는 Apple과 제휴·승인을 받지 않았습니다.
-
-## 개인정보와 보안
-
-Anisette provisioning data는 민감할 수 있습니다. 신뢰하는 서비스와
-네트워크만 사용하고 실행 전에 [SECURITY.md](SECURITY.md)를 읽으세요. Apple
-계정 자격 증명·코드, identity file, device ID 또는 가공하지 않은 로그를
-공유하지 마세요.
-
-## 고급 사용 및 자세한 문서
-
-소스 빌드와 구현 세부사항은 [BUILDING.md](BUILDING.md),
-[INSTALLATION.ko.md](INSTALLATION.ko.md), [TECHNICAL_DETAILS.md](TECHNICAL_DETAILS.md),
-[UPSTREAM_SOURCE.md](UPSTREAM_SOURCE.md)를 참고하세요. 이전 v1.0.8 release는
-source-only였습니다.
-
-- [SECURITY.md](SECURITY.md) — 개인정보와 threat model
-- [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) — 의존성 고지
-- [CHANGELOG.md](CHANGELOG.md) — release 기록
-- [LICENSE](LICENSE) — 이 source에 적용되는 GNU AGPL v3.0
+이 프로젝트는 AltStore, SideStore 또는 Apple과 제휴하거나 승인을 받지 않았습니다. 소스는 [GNU AGPL v3.0](LICENSE) 라이선스입니다.

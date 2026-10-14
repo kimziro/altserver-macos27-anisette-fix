@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.2.0 — 2026-10-14
+
+- Updates the packaged base from official AltServer 1.7.6/build 94 to 1.8.1/build 98.
+- Fixes the Mac-side compatibility issue without changing the iPhone app or sign-in flow.
+- Does not include the old remote V3 fallback or an iOS app/authentication-flow patch.
+- The installed v1.2.0 test build completed one local Refresh All on an Apple Silicon/macOS 27 setup; see [release notes](releases/v1.2.0.md) for limits.
+
+## Published release history
+
+| Version | Published (UTC) | Summary |
+| --- | --- | --- |
+| [v1.0.9](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.9) | 2026-09-16 | Completed-app DMG; AltServer 1.7.6/build 94 with the V3 fallback. |
+| [v1.0.8](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.8) | 2026-09-15 | Source-only V3 fallback release. |
+| [v1.0.2](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.2) | 2026-06-13 | Gatekeeper installation guidance; patched binary unchanged from v1.0.1. |
+| [v1.0.1](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.1) | 2026-06-13 | Smaller installer package and local-backup restore flow. |
+| [v1.0.0](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.0) | 2026-06-13 | Initial V3 fallback, based on AltServer 1.7.2/build 90. |
+
+## Historical release details
+
+The detailed v1.0.8/v1.0.9 entries below document the older V3 fallback. They are retained as release history and do not describe v1.2.0.
+
 ## v1.0.9 / v3.8 — completed-app DMG — 2026-09-16
 
 This release adds the completed-app DMG
