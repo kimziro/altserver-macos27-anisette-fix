@@ -1,6 +1,14 @@
-# Building v1.2.0
+# Building v1.3.0 (source-only prerelease, 2026-10-15)
 
-This guide builds the v1.2.0 app bundle from an independently downloaded official AltServer 1.8.1/build 98 archive. The project package version `v1.2.0` is separate from the AltServer bundle version.
+The v1.3.0 package is not an installable build. Its candidate app is Classic-source-based (`1.8-pr1834-test/1834`), follows AltStore PR #1834 head `ddb4415cc6aeeb3145de33a29f7064292a45d895`, and pins AltSign PR #61 at `832d9cec339ea6ef6891011833dbb7227b028a29`. The source-only prerelease contains pinned upstream references, local patch sources, and result documentation, including `compatibility/v1.3.0/README.md`. Its source archive is `AltServer-v1.3.0-diagnostic-source-only.tar.zst`; `SHA256SUMS.txt` records the source archive SHA-256 for download verification only.
+
+**Do not create or distribute a v1.3.0 app/DMG from this candidate yet.** The locally tested candidate statically links `libcorecrypto_static.a`, whose [pinned license](https://github.com/rileytestut/AltSign/blob/832d9cec339ea6ef6891011833dbb7227b028a29/Dependencies/corecrypto/License.txt) states Apple Internal Use only and prohibits redistribution. No alternative implementation is assumed here. A binary build/release remains blocked until the build/review team resolves this exact restriction. No binary download checksum is available; `SHA256SUMS.txt` verifies the source archive only.
+
+The candidate uses Windows ADI anisette v3 from `ani.jkcoxson.com`, matching that provider's `client_info` and User-Agent. Smoke testing established that the required Windows identity fields were returned; the maintainer later reported sign-in and all three apps refreshing while the iPhone was connected by USB. This is user-reported, does not determine the transport used in earlier tests, and does not establish wireless or broad compatibility. See [release notes](releases/v1.3.0.md), [security notes](SECURITY.md), and [upstream provenance](UPSTREAM_SOURCE.md).
+
+## Historical build instructions: v1.2.0
+
+These instructions describe only the historical v1.2.0 app bundle built from official AltServer 1.8.1/build 98. They do not build the v1.3.0 candidate. The project package version `v1.2.0` is separate from the AltServer bundle version.
 
 The patch source and synthetic tests are in [`compatibility/v1.2.0/`](compatibility/v1.2.0/).
 

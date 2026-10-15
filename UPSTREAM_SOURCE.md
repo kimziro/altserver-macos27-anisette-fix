@@ -1,8 +1,22 @@
 # Upstream source and provenance
 
-## Official AltServer input
+## v1.3.0 source-only candidate
 
-The v1.2.0 app is based on the official AltServer 1.8.1/build 98 archive distributed by AltStore:
+The project package version is `v1.3.0` (source-only prerelease, 2026-10-15). The candidate lineage is labelled `1.8-pr1834-test/1834`; it is based on AltStore Classic source, not a patch to the official AltServer 1.8.1 binary. The source-only prerelease contains patch notes at `compatibility/v1.3.0/README.md` and the archive `AltServer-v1.3.0-diagnostic-source-only.tar.zst`. `SHA256SUMS.txt` records the source archive SHA-256 for download verification only.
+
+- [AltStore PR #1834](https://github.com/altstoreio/AltStore/pull/1834), head commit `ddb4415cc6aeeb3145de33a29f7064292a45d895`.
+- [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61), pinned commit `832d9cec339ea6ef6891011833dbb7227b028a29`.
+- The sign-in flow obtains Windows ADI anisette v3 from `ani.jkcoxson.com` and uses that provider's matching `client_info` and User-Agent for GSA requests.
+
+The PR author's Apple-rejection explanation is a hypothesis, not an independently established policy cause. The observed sequence is limited to one setup: official AltServer returned `-80045`; the earlier Pixel-descriptor-only experiment returned HTTP 503; the candidate anisette smoke test received the required Windows identity fields; the maintainer reported sign-in and app refresh. An earlier screen showed YouTube with six days remaining and two other apps with seven; the maintainer later reported all three apps refreshed while connected by USB. That report does not establish the transport used in earlier tests, wireless success, or post-reboot behavior.
+
+The locally tested candidate statically links `libcorecrypto_static.a`. Its [pinned upstream license](https://github.com/rileytestut/AltSign/blob/832d9cec339ea6ef6891011833dbb7227b028a29/Dependencies/corecrypto/License.txt) says Apple Internal Use only and prohibits redistribution. Therefore v1.3.0 is source-only; do not package or distribute an app, library, or DMG from this candidate unless the build/review team resolves this exact restriction. This document does not grant permission or suggest ignoring the notice.
+
+No binary asset is supplied. `SHA256SUMS.txt` contains only the source archive hash for download verification. The separate `verification-manifest.txt` records the tested local executable hash for provenance only, not for binary download verification. Do not reuse historical v1.2.0 hashes.
+
+## Historical v1.2.0 official input
+
+The published v1.2.0 app used the official AltServer 1.8.1/build 98 archive distributed by AltStore:
 
 - Download: <https://cdn.altstore.io/file/altstore/altserver/1_8_1.zip>
 - Archive size: `13748146` bytes
@@ -11,20 +25,4 @@ The v1.2.0 app is based on the official AltServer 1.8.1/build 98 archive distrib
 - Signing team: `6XVY5G3U44`
 - Official main executable SHA-256: `39b38f455ba71a8a163a38575c57d81dc1179068bc6fec0a76762c7a303b77df`
 
-The exact public Git commit corresponding to the official build 98 binary has not been established. Do not claim a commit-level source-to-binary mapping. The project's package version `v1.2.0` is distinct from the bundled AltServer version `1.8.1`/build `98`.
-
-## Local patch and reviewed app
-
-The source is in [`compatibility/v1.2.0/`](compatibility/v1.2.0/). The runtime dylib install name is the generic `@rpath/80045ClientInfoGetter.dylib`; it does not contain a developer checkout path.
-
-Reviewed output hashes:
-
-- Main executable: `8fcfac3b8d68adddc151bf920d82b32df3a8202e75e6753952e07f21dbb982eb`
-- Injected dylib: `ba72c0fc7bb65bfa0175d0fc29ff49fcd322f6e23ade47acd179ae137a1d1875`
-- Signature: ad-hoc; deep strict verification passed.
-
-The app contains only the Mac-side compatibility change documented in [BUILDING.md](BUILDING.md). It adds no remote V3 fallback helper or endpoint and makes no iPhone-side changes.
-
-## Release lineage
-
-Published v1.0.8/v1.0.9 used AltServer 1.7.6/build 94 and a separate V3 fallback implementation. They are historical and are not the base or runtime behavior of v1.2.0. See [CHANGELOG.md](CHANGELOG.md) for the published release dates.
+The exact public Git commit corresponding to official build 98 was not established. The v1.2.0 local getter patch and reviewed output hashes remain historical and do not identify the v1.3.0 candidate. See [CHANGELOG.md](CHANGELOG.md).

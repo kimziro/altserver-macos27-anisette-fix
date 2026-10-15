@@ -2,21 +2,30 @@
 
 [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
+## v1.3.0 — source-only prerelease (2026-10-15)
+
+- Source-only prerelease for a Classic-source-based app lineage labelled `1.8-pr1834-test/1834`. This is not a patch of the official AltServer 1.8.1 binary.
+- Pins the candidate to [AltStore PR #1834](https://github.com/altstoreio/AltStore/pull/1834) head `ddb4415cc6aeeb3145de33a29f7064292a45d895` and [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61) commit `832d9cec339ea6ef6891011833dbb7227b028a29`.
+- Uses Windows ADI anisette v3 from `ani.jkcoxson.com`, with matching `client_info` and User-Agent for GSA. The PR author's explanation of Apple's rejection behavior is a hypothesis, not an independently established policy cause.
+- Evidence is limited to one setup: official AltServer sign-in returned `-80045`; the earlier Pixel-descriptor-only experiment returned HTTP 503; the candidate smoke test received all required Windows-identity fields; the maintainer reported sign-in and app refresh. An earlier screen showed YouTube with six days remaining and two other apps with seven; the maintainer later reported all three apps refreshed over USB. This is user-reported; USB does not establish the transport used in earlier tests. Wireless behavior, reboot persistence, and broad compatibility are not established.
+- v1.3.0 is a source-only prerelease: no app, DMG, or binary download. Binary distribution is blocked because the locally tested candidate statically links corecrypto whose [pinned license](https://github.com/rileytestut/AltSign/blob/832d9cec339ea6ef6891011833dbb7227b028a29/Dependencies/corecrypto/License.txt) says Apple Internal Use only and prohibits redistribution. Do not ignore this restriction. `SHA256SUMS.txt` contains only the source archive hash for download verification; a separate `verification-manifest.txt` records the tested local executable hash for provenance only. The source archive includes patch notes at `compatibility/v1.3.0/README.md`.
+
 ## v1.2.0 — 2026-10-14
 
 - Targets the macOS 27 Apple sign-in/refresh error `-80045`, distinct from the earlier `machineID` issue.
 - Updates the packaged official AltServer base from 1.7.6/build 94 to 1.8.1/build 98. The project package version is not the official AltServer app version.
 - Changes only the Mac-side `deviceDescription` getter to return an Android client description; the iPhone app, stored anisette fields, provisioning, and sign-in flow are unchanged. No V3 fallback is included.
 - An installed test build completed Refresh All for three existing apps on one Apple Silicon Mac running macOS 27; all showed seven days remaining. The final distribution app passed strict signature verification and launch checks, but a second three-app refresh was not claimed. USB/Wi-Fi was not established; remote anisette, reboot, new login/2FA, Intel, other devices/accounts, and broad compatibility were not tested. See [release notes](releases/v1.2.0.md) and [build notes](BUILDING.md).
-- On 2026-10-15, the maintainer reported that `-80045` recurred on the previously tested MacBook Air; the cause is under investigation, and this patch is not a guaranteed fix.
-- A separate Mac Studio check confirmed installation and local anisette only; it did not establish refresh behavior or resolve Wi-Fi ServerError 2001.
+- The maintainer later reported that `-80045` recurred on the previously tested setup; the cause is not established, and this patch is not a guaranteed fix.
+- A separate environment check confirmed installation and local anisette only; it did not establish refresh behavior or resolve Wi-Fi ServerError 2001.
 
-## Published release history
+## Release history
 
-The dates below are GitHub publication dates in UTC. These are project package releases; the AltServer version is listed separately where documented. The public API currently shows no releases or tags for v1.0.3–v1.0.7 or v1.1.0, so those numbers are not treated as published versions here.
+Dates below are GitHub publication dates in UTC for published entries. These are project package releases; the AltServer version is listed separately where documented. The public API currently shows no releases or tags for v1.0.3–v1.0.7 or v1.1.0, so those numbers are not treated as published versions here.
 
 | Project version | Published (UTC) | Official AltServer base | Change and verification record |
 | --- | --- | --- | --- |
+| v1.3.0 | 2026-10-15 (source-only prerelease) | Classic source lineage `1.8-pr1834-test/1834` | Windows ADI v3 authentication flow; no app/DMG, binary distribution blocked by corecrypto license. |
 | [v1.2.0](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.2.0) | 2026-10-14 | 1.8.1/build 98 | `-80045` getter compatibility patch; one Mac/iPhone setup refreshed three apps. Connection type and broader compatibility were not established. |
 | [v1.0.9](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.9) | 2026-09-16 | 1.7.6/build 94 | DMG release of the `machineID` V3 fallback; install, launch, provisioning, AltStore install, and refresh were reported on the tested Apple Silicon/macOS 27 setup. |
 | [v1.0.8](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.8) | 2026-09-15 | 1.7.6/build 94 | Source-only release of the `machineID` fallback; maintainer-reported install/sideload/refresh testing, with limited independent exact-match validation. |
@@ -26,7 +35,7 @@ The dates below are GitHub publication dates in UTC. These are project package r
 
 ## Historical release details
 
-The detailed v1.0.8/v1.0.9 entries below document the older V3 fallback. They are retained as release history and do not describe v1.2.0.
+The detailed v1.0.8/v1.0.9 entries below document the older V3 fallback. They are retained as release history and do not describe v1.2.0 or the v1.3.0 candidate.
 
 ## v1.0.9 / v3.8 — completed-app DMG — 2026-09-16
 
@@ -124,4 +133,4 @@ profile, certificate, or other binary asset is published.
 - The 2026-09-15 UTC [README simplification commit](https://github.com/kimziro/altserver-macos27-anisette-fix/commit/c2647c6) is a documentation change, not an app-binary release.
 
 Earlier release notes are historical context only. They are not instructions
-for installing the current v1.2.0 release.
+for installing the v1.3.0 candidate.

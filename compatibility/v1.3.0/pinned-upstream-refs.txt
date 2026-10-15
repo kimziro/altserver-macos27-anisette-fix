@@ -1,0 +1,18 @@
+AltStore upstream repository: https://github.com/altstoreio/AltStore
+AltStore commit: ddb4415cc6aeeb3145de33a29f7064292a45d895
+AltSign submodule repository: https://github.com/rileytestut/AltSign
+AltSign commit: 832d9cec339ea6ef6891011833dbb7227b028a29
+AltSign/OpenSSL submodule commit: c990e0d1acd80b092e28b63ae8edc8bf82db2620
+AltSign/ldid submodule commit: 6a6a92de56ae2110e4d6f292b315df0f586d6af5
+AltSign/ldid/libplist submodule commit: 17546f53ac1377b0d4f45a800aaec7366ba5b6a0
+MarkdownAttributedString submodule commit: ec0d1eff57133f2a56ec1d0260be6d3f725f4e77
+Roxas submodule commit: 0c7d89f6314b7e3a5de9dd5a75457818f11b8f33
+idevice submodule commit: ad4a0eaa0f04f96616aa00214a13981c042d36f4
+idevice/plist_ffi submodule commit: 66e6e6362b58bc361725c3e1b0a34af498aa2b3a
+libimobiledevice submodule commit: 9b98387dd8c78a3db388f10d0ac9bf980bbab777
+libplist submodule commit: 303924413fcac2670dc6baf61d65d21545aa082f
+libusbmuxd submodule commit: 8b82ef166eb2ac12bc5228cf06a883ec86d520ca
+
+This diagnostic source package does not contain upstream source trees or binaries.
+Fetch these exact public commits independently and verify them before applying the
+patches in patches/.

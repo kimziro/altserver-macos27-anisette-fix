@@ -2,19 +2,20 @@
 
 ## Scope
 
-The v1.2.0 app is an ad-hoc-signed, non-notarized build based on official AltServer 1.8.1/build 98. The Mac-side compatibility change adds no network service or account-data export. AltServer's normal Apple sign-in and device communication remain unchanged.
+The v1.3.0 source-only prerelease (2026-10-15) has no downloadable app or DMG. It follows the Classic-source-based AltStore PR #1834 and AltSign PR #61 flow and is not a binary patch of official AltServer 1.8.1. The previous v1.2.0 getter-only package later reproduced `-80045` and is not recommended as a fix.
 
-No iPhone app is patched. The compatibility change does not read or transmit Apple Account credentials, verification codes, or provisioning files. The ordinary AltServer/AltStore flow may still display Apple's normal sign-in or verification prompts.
+The candidate fetches Windows ADI anisette data from `ani.jkcoxson.com`. The provider provisions and receives a persistent anisette identity through the v3 handshakes; the client stores its identity/ADI data locally, including `adi.pb` material. The provider can observe its connection's IP address and timing. The source sends the Apple Account password and 2FA code only to Apple's authentication endpoint; this does not remove the privacy or availability risk of using a third-party anisette provider. The local persistent identity is stored under `~/Library/Application Support/com.rileytestut.AltServer/RemoteAnisetteWindows/identity.json`.
+
+Never upload or share `identity.json`, `adi.pb`, anisette headers/values, credentials, 2FA codes, device identifiers, or unredacted logs. These files are not release assets. The release is source-only because the candidate statically links upstream corecrypto whose license prohibits redistribution; no binary is included or promised.
 
 ## Installation safety
 
-- Download only from the project's [v1.2.0 release](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.2.0) and verify the DMG against the release's `SHA256SUMS.txt`.
-- Save a copy of the current official app before replacing it; dragging into Applications does not make a backup.
-- The app is not notarized. Use Finder's **Open Anyway** flow only if you choose to proceed. Never disable Gatekeeper or SIP globally or use shell commands to bypass them.
+- No v1.3.0 app or DMG is available. Do not treat this source-only prerelease as an installer.
+- If evaluating the source, review the pinned upstream commits and third-party license before building or distributing anything.
 - Do not share credentials, verification codes, provisioning/identity files, device identifiers, or unredacted logs/screenshots in issue reports.
 
-The patch changes Mac-side client information, not Apple's authentication policy. A successful refresh on one setup does not guarantee compatibility on other devices, networks, or accounts. See [release limits](releases/v1.2.0.md).
+Candidate testing is limited to one setup. The maintainer reported that all three apps refreshed while connected by USB; that does not establish wireless success or the transport used in earlier tests. It does not establish Apple's policy cause or compatibility on other devices, networks, or accounts. See [release notes](releases/v1.3.0.md).
 
 ## Historical material
 
-The repository retains older v1.0.8/v1.0.9 V3 fallback source and documentation. Those files describe a different implementation and are not part of the v1.2.0 app's runtime behavior. See [CHANGELOG.md](CHANGELOG.md) and [UPSTREAM_SOURCE.md](UPSTREAM_SOURCE.md).
+The repository retains older v1.0.8/v1.0.9 V3 fallback source and documentation and v1.2.0 getter patch history. They are not the v1.3.0 candidate's runtime behavior. See [CHANGELOG.md](CHANGELOG.md) and [UPSTREAM_SOURCE.md](UPSTREAM_SOURCE.md).

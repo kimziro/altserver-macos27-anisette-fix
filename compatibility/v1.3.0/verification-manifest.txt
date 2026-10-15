@@ -1,0 +1,18 @@
+Artifact kind: source-only diagnostic prerelease metadata
+Release label requested: v1.3.0 (not an official/supported release)
+Upstream AltStore commit: ddb4415cc6aeeb3145de33a29f7064292a45d895
+Upstream AltSign commit: 832d9cec339ea6ef6891011833dbb7227b028a29
+Candidate display version/build: 1.8-pr1834-test / 1834
+Candidate AltServer executable SHA-256: 01f03471f51e2828827978d110da9eeda332420f32080803325e2df31cea2bdf
+Candidate architecture: arm64
+Candidate signature: ad-hoc; strict deep verification passed
+Candidate dependencies: OpenSSL.framework embedded; AltSign and corecrypto statically linked
+Candidate runtime smoke: survived >30 seconds; OpenSSL loaded; listener opened
+User-reported sequence: Apple ID sign-in completed; later, with iPhone connected by USB, all three installed apps refreshed successfully
+Published app/DMG included: no
+Apple corecrypto source/binary included: no
+Upstream source tree included: no
+Credentials, personal logs, local identity files included: no
+
+The candidate hash identifies a locally tested diagnostic executable, not an
+artifact supplied in this package. The runtime result is a summary, not a log.

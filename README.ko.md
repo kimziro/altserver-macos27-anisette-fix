@@ -2,48 +2,27 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
-macOS 27의 Apple 로그인·앱 갱신 `-80045` 오류를 대상으로 한 호환성 패치입니다.
+AltStore Classic 소스를 바탕으로 한 macOS 27 로그인 실험입니다. **v1.3.0은 2026-10-15 소스 전용 사전 릴리스이며 앱이나 DMG가 없습니다.** 공식 AltServer 업데이트가 아닙니다. 이전 v1.2.0 앱에서는 `-80045`가 재발해 사용을 권하지 않습니다.
 
-## v1.2.0 다운로드
+## 변경 내용
 
-[AltServer-macOS27-Anisette-Fix-v1.2.0.dmg 다운로드](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.2.0/AltServer-macOS27-Anisette-Fix-v1.2.0.dmg)
-
-## 설치
-
-1. AltServer를 종료합니다.
-2. 교체 전에 현재 앱을 안전한 곳에 복사해 둡니다. DMG를 열고 `AltServer.app`을 **Applications**로 드래그한 뒤 **Replace(교체)**를 선택합니다.
-3. Applications에서 앱을 더블클릭합니다. macOS가 차단하면 아래 Gatekeeper 안내를 따르세요.
-
-> **Gatekeeper:** 이 비공식 앱은 ad-hoc 서명만 되어 있고 Apple 공증을 받지 않았습니다. 경고가 표시될 수 있습니다. 먼저 앱을 한 번 더블클릭해야 **그래도 열기** 버튼이 나타날 수 있습니다. 차단되면 **시스템 설정 → 개인정보 보호 및 보안 → 그래도 열기**로 이동한 뒤 **열기**를 확인하세요. Gatekeeper나 SIP를 시스템 전체에서 끄지 마세요.
-
-## 수정 내용
-
-- Mac 앱을 AltServer **1.8.1 (build 98)**로 업데이트합니다. `v1.2.0`은 이 프로젝트의 패키지 버전입니다.
-- Mac 쪽만 수정합니다. iPhone 앱을 변경하지 않으며 AltStore를 다시 설치할 필요가 없습니다.
-
-iPhone에 AltStore가 이미 설치되어 있으면 다시 설치하지 마세요. 이 Mac 앱으로 새로 고침할 때는 **Prefer Remote**를 끄세요. 무선 새로 고침을 별도로 시험한다면 Mac과 iPhone을 같은 Wi-Fi에 연결하세요. 이 release의 무선 동작은 검증되지 않았습니다.
+v1.2.0은 anisette 기기 설명 getter만 바꿨고, 이후 `-80045`가 다시 발생했습니다. v1.3.0 후보는 대신 `ani.jkcoxson.com`에서 Windows ADI anisette 데이터를 가져오고, 이에 맞는 client identity와 User-Agent로 Mac 로그인 요청을 보냅니다. 문자열만 바꾸는 수정은 아닙니다. [release 안내](releases/v1.3.0.md), [보안 안내](SECURITY.md), [upstream 출처](UPSTREAM_SOURCE.md)를 참고하세요.
 
 ## 검증 범위
 
-2026-10-14, macOS 27을 실행하는 Apple Silicon Mac 한 대에서 설치된 v1.2.0 테스트 빌드로 기존 앱 세 개에 Refresh All을 완료했고, 세 앱 모두 남은 기간이 7일로 표시됐습니다. 화면에 오류나 2FA 요청은 없었습니다. 무선 연결, 원격 anisette, 재부팅, 새 로그인/2FA, Intel 또는 전체 환경 호환성을 입증한 결과도 아닙니다.
+테스트에서 공식 앱은 `-80045`를 반환했고, 이전 Pixel descriptor 실험은 HTTP 503을 반환했습니다. v1.3.0 후보 smoke test는 Windows identity에 필요한 anisette 필드를 모두 받았습니다. 관리자는 로그인 및 앱 갱신 성공을 보고했습니다. 앞선 화면에는 YouTube가 6일, 다른 앱 두 개가 7일 남은 것으로 표시됐고, 이후 iPhone을 USB로 연결한 상태에서 세 앱 모두 갱신됐다고 추가 보고했습니다. 이는 제한된 사용자 보고입니다. USB 결과로 앞선 테스트의 연결 방식이 USB였는지는 알 수 없으며, 무선 동작·재부팅 뒤 지속성·Apple 측 원인·폭넓은 호환성은 확인되지 않았습니다.
 
-> **추가 안내 (2026-10-15):** 관리자는 앞서 테스트한 MacBook Air에서 `-80045`가 다시 나타났다고 보고했습니다. 원인을 조사 중이며 이 패치가 오류를 확실히 해결한다고 보장할 수 없습니다.
+후보는 [AltStore PR #1834](https://github.com/altstoreio/AltStore/pull/1834)와 [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61)에 기반합니다. `1.8-pr1834-test/1834`로 표시된 Classic 소스 기반 앱이며, 공식 AltServer 1.8.1 바이너리 패치가 아닙니다. upstream [corecrypto 라이선스](https://github.com/rileytestut/AltSign/blob/832d9cec339ea6ef6891011833dbb7227b028a29/Dependencies/corecrypto/License.txt)는 Apple Internal Use only 및 재배포 금지를 명시합니다. 소스 전용 사전 릴리스에 앱/DMG/바이너리는 없으며, 바이너리 배포는 이 제한이 해결될 때까지 보류됩니다. 소스 archive에는 `compatibility/v1.3.0/README.md` 패치 안내를 포함합니다.
 
 ## 버전 이력
 
-아래는 이 프로젝트의 패키지 버전이며 공식 AltServer 앱 버전과 다릅니다.
+프로젝트 패키지 버전과 AltServer 앱 버전은 서로 다릅니다.
 
 | 프로젝트 버전 | 요약 |
 | --- | --- |
-| v1.2.0 | 공식 AltServer 1.8.1/build 98 기반, `-80045` 대상 getter 호환성 패치 |
-| v1.0.9 | `machineID` V3 fallback 완성 앱 DMG |
-| v1.0.8 | `machineID` V3 fallback 소스 전용 공개 |
-| v1.0.2 | Gatekeeper 설치 안내 |
-| v1.0.1 | 설치 패키지 간소화 및 로컬 백업 복원 흐름 |
-| v1.0.0 | AltServer 1.7.2/build 90 기반 V3 fallback 최초 공개 |
+| v1.3.0 (2026-10-15 소스 전용 사전 릴리스) | Windows ADI anisette identity와 User-Agent를 맞추는 Classic 소스 기반 로그인 흐름. 앱/DMG 없음, 바이너리 배포 제한 |
+| v1.2.0 | getter만 변경한 AltServer 1.8.1/build 98 기반 패키지. 이후 `-80045` 재발 |
+| v1.0.9 | 이전 `machineID` V3 fallback DMG |
+| v1.0.8 | 이전 `machineID` V3 fallback 소스 공개 |
 
-날짜와 버전별 변경·검증 범위·한계는 [CHANGELOG.ko.md](CHANGELOG.ko.md)를 참고하세요.
-
-앱은 ad-hoc 서명만 되었고 Apple 공증을 받지 않았습니다. 설치 전에 [SECURITY.md](SECURITY.md)를 읽으세요. [release 안내](releases/v1.2.0.md), [빌드 안내](BUILDING.md), [upstream 출처](UPSTREAM_SOURCE.md), [제3자 고지](THIRD_PARTY_NOTICES.md), [변경 기록](CHANGELOG.md)을 참고하세요. 이전 [설치 안내](INSTALLATION.ko.md)와 [기술 설명](TECHNICAL_DETAILS.md)은 v1.0.8/v1.0.9 V3 fallback 문서이며 이 release에 해당하지 않습니다.
-
-이 프로젝트는 AltStore, SideStore 또는 Apple과 제휴하거나 승인을 받지 않았습니다. 소스는 [GNU AGPL v3.0](LICENSE) 라이선스입니다.
+이전 v1.0.8/v1.0.9 V3 fallback 문서는 과거 구현을 설명하며 이 후보와 다릅니다. 이 독립 프로젝트는 AltStore, SideStore 또는 Apple과 제휴하거나 승인을 받지 않았습니다. 소스는 [GNU AGPL v3.0](LICENSE) 라이선스입니다.

@@ -1,0 +1,32 @@
+diff --git a/Dependencies/AltSign/Package.swift b/Dependencies/AltSign/Package.swift
+index 89205ae..0000000 100644
+--- a/Dependencies/AltSign/Package.swift
++++ b/Dependencies/AltSign/Package.swift
+@@ -86,7 +86,7 @@ let package = Package(
+         ),
+         .target(
+             name: "ldid",
+-            dependencies: ["ldid-core"],
++            dependencies: ["ldid-core", "OpenSSL"],
+             path: "AltSign/ldid",
+             exclude: [
+                 "alt_ldid.hpp",
+@@ -169,11 +169,17 @@ let package = Package(
+         ),
+         .target(
+             name: "AltSign",
+-            dependencies: ["CAltSign"],
++            dependencies: ["CAltSign", "AltCrypto"],
+             path: "AltSign/Sources",
+             cSettings: [
+                 .headerSearchPath("Dependencies/minizip"),
+                 .define("CORECRYPTO_DONOT_USE_TRANSPARENT_UNION=1"),
++            ],
++            linkerSettings: [
++                .unsafeFlags([
++                    "-L<ALTSTORE_DERIVED_DATA>/Build/Products/Release",
++                    "-lcorecrypto_static",
++                ])
+             ]
+         )
+     ],
