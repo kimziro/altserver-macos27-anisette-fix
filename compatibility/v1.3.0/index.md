@@ -1,10 +1,11 @@
-# v1.3.0 compatibility diagnostic (source-only prerelease)
+# v1.3.0 compatibility diagnostic (source-only release)
 
 ## Scope
 
 This is a source-only diagnostic note for the AltServer 80045 / Anisette
-compatibility investigation. It is not an official release announcement and
-does not include an app, DMG, upstream source tree, or Apple corecrypto code.
+compatibility investigation, published as part of the v1.3.0 source-only
+release. It does not include an app, DMG, upstream source tree, or Apple
+corecrypto code.
 
 ## Verification recorded
 
@@ -18,8 +19,8 @@ does not include an app, DMG, upstream source tree, or Apple corecrypto code.
   connected over USB, all three installed apps refreshed successfully.
 
 This record summarizes test outcomes; it is not an installable app, signed
-release build, or reproducible log. See the source-only package manifest for
-limitations.
+release build, or reproducible log. The already-published package and its
+verification bundle are unchanged by this documentation update.
 
 ## Release blocker
 
@@ -27,8 +28,9 @@ The pinned AltSign checkout includes Apple corecrypto under an internal-use
 license that prohibits redistribution of the software or portions. The tested
 candidate statically links corecrypto. Do not distribute the candidate or a
 source archive containing that code unless Apple grants written permission.
-Before a public release, remove/replace this dependency with a redistributable
-implementation and repeat protocol compatibility, security, and device tests.
+Binary distribution remains blocked until this dependency is removed/replaced
+with a redistributable implementation and protocol compatibility, security,
+and device tests are repeated.
 
 ## Files for review
 

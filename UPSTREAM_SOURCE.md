@@ -2,7 +2,7 @@
 
 ## v1.3.0 source-only candidate
 
-The project package version is `v1.3.0` (source-only prerelease, 2026-10-15). The candidate lineage is labelled `1.8-pr1834-test/1834`; it is based on AltStore Classic source, not a patch to the official AltServer 1.8.1 binary. The source-only prerelease contains patch notes at `compatibility/v1.3.0/README.md` and the archive `AltServer-v1.3.0-diagnostic-source-only.tar.zst`. `SHA256SUMS.txt` records the source archive SHA-256 for download verification only.
+The project package version is `v1.3.0` (source-only release, 2026-10-15). The candidate lineage is labelled `1.8-pr1834-test/1834`; it is based on AltStore Classic source, not a patch to the official AltServer 1.8.1 binary. The source-only release contains patch notes at `compatibility/v1.3.0/README.md` and the archive `AltServer-v1.3.0-diagnostic-source-only.tar.zst`. `SHA256SUMS.txt` records the source archive SHA-256 for download verification only.
 
 - [AltStore PR #1834](https://github.com/altstoreio/AltStore/pull/1834), head commit `ddb4415cc6aeeb3145de33a29f7064292a45d895`.
 - [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61), pinned commit `832d9cec339ea6ef6891011833dbb7227b028a29`.

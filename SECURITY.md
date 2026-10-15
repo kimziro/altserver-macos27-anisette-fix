@@ -2,7 +2,7 @@
 
 ## Scope
 
-The v1.3.0 source-only prerelease (2026-10-15) has no downloadable app or DMG. It follows the Classic-source-based AltStore PR #1834 and AltSign PR #61 flow and is not a binary patch of official AltServer 1.8.1. The previous v1.2.0 getter-only package later reproduced `-80045` and is not recommended as a fix.
+The v1.3.0 source-only release (2026-10-15) has no downloadable app or DMG. It follows the Classic-source-based AltStore PR #1834 and AltSign PR #61 flow and is not a binary patch of official AltServer 1.8.1. The previous v1.2.0 getter-only package later reproduced `-80045` and is not recommended as a fix.
 
 The candidate fetches Windows ADI anisette data from `ani.jkcoxson.com`. The provider provisions and receives a persistent anisette identity through the v3 handshakes; the client stores its identity/ADI data locally, including `adi.pb` material. The provider can observe its connection's IP address and timing. The source sends the Apple Account password and 2FA code only to Apple's authentication endpoint; this does not remove the privacy or availability risk of using a third-party anisette provider. The local persistent identity is stored under `~/Library/Application Support/com.rileytestut.AltServer/RemoteAnisetteWindows/identity.json`.
 
@@ -10,7 +10,7 @@ Never upload or share `identity.json`, `adi.pb`, anisette headers/values, creden
 
 ## Installation safety
 
-- No v1.3.0 app or DMG is available. Do not treat this source-only prerelease as an installer.
+- No v1.3.0 app or DMG is available. Do not treat this source-only release as an installer.
 - If evaluating the source, review the pinned upstream commits and third-party license before building or distributing anything.
 - Do not share credentials, verification codes, provisioning/identity files, device identifiers, or unredacted logs/screenshots in issue reports.
 

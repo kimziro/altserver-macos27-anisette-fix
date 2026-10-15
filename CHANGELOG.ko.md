@@ -2,7 +2,7 @@
 
 [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
-## v1.3.0 — 소스 전용 사전 릴리스 (2026-10-15)
+## v1.3.0 — 소스 전용 정식 릴리스 (2026-10-15)
 
 - `1.8-pr1834-test/1834`로 표시된 Classic 소스 기반 후보입니다. 공식 AltServer 1.8.1 바이너리를 수정한 앱이 아니며, DMG나 다운로드 링크는 없습니다.
 - AltStore PR #1834 head `ddb4415cc6aeeb3145de33a29f7064292a45d895`, AltSign PR #61 commit `832d9cec339ea6ef6891011833dbb7227b028a29`에 고정합니다.
@@ -16,7 +16,7 @@
 
 | 프로젝트 버전 | 게시일 (UTC) | 기반 | 변경 및 확인 범위 |
 | --- | --- | --- | --- |
-| v1.3.0 | 2026-10-15 (소스 전용 사전 릴리스) | Classic 소스 계열 `1.8-pr1834-test/1834` | Windows ADI v3 로그인 흐름. 앱/DMG 없음, corecrypto 라이선스로 바이너리 배포 불가. |
+| v1.3.0 | 2026-10-15 (소스 전용 정식 릴리스) | Classic 소스 계열 `1.8-pr1834-test/1834` | Windows ADI v3 로그인 흐름. 앱/DMG 없음, corecrypto 라이선스로 바이너리 배포 불가. |
 | [v1.2.0](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.2.0) | 2026-10-14 | 1.8.1/build 98 | `-80045` 대상 getter 호환성 수정. Apple Silicon/macOS 27 한 환경에서 기존 앱 3개의 갱신을 확인했습니다. 연결 방식과 더 넓은 호환성은 확인하지 않았습니다. |
 | [v1.0.9](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.9) | 2026-09-16 | 1.7.6/build 94 | `machineID` V3 fallback을 DMG로 배포. 테스트한 Apple Silicon/macOS 27 환경에서 설치, 실행, provisioning, AltStore 설치와 갱신을 확인했다고 기록했습니다. |
 | [v1.0.8](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.8) | 2026-09-15 | 1.7.6/build 94 | 같은 `machineID` fallback의 소스 전용 배포. maintainer가 install/sideload/refresh 테스트를 보고했으며, 독립적인 exact-match 검증은 제한적입니다. |
