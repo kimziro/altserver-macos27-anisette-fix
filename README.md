@@ -2,7 +2,7 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
-Fixes the Apple sign-in and app refresh error `-80045` on macOS 27.
+Provides a macOS 27 compatibility patch targeting the Apple sign-in and app refresh error `-80045`.
 
 ## Download v1.2.0
 
@@ -27,13 +27,15 @@ If AltStore is already on your iPhone, do not reinstall it. Turn **Prefer Remote
 
 On 2026-10-14, an installed v1.2.0 test build on one Apple Silicon Mac running macOS 27 completed Refresh All for three existing apps; all three showed seven days remaining. No visible error or 2FA prompt appeared. This does not establish wireless, remote anisette, reboot, new-login/2FA, Intel, or universal compatibility.
 
+> **Update (2026-10-15):** The maintainer reported that `-80045` recurred on the previously tested MacBook Air. The cause is under investigation; this patch is not a guaranteed fix.
+
 ## Version history
 
 These are this project's package versions, separate from the official AltServer app version.
 
 | Project version | Summary |
 | --- | --- |
-| v1.2.0 | AltServer 1.8.1/build 98; `-80045` getter compatibility fix. |
+| v1.2.0 | AltServer 1.8.1/build 98; getter compatibility patch targeting `-80045`. |
 | v1.0.9 | `machineID` V3 fallback packaged as a DMG. |
 | v1.0.8 | Source-only release of the `machineID` V3 fallback. |
 | v1.0.2 | Gatekeeper installation guidance. |

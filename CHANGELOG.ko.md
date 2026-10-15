@@ -22,6 +22,7 @@
 - 공식 AltServer 1.8.1/build 98 기반으로 갱신하고 Mac의 `deviceDescription` getter가 Android 기기 설명을 반환하도록 수정했습니다. iPhone 앱, 저장된 anisette 필드, provisioning, 로그인 흐름은 바꾸지 않았고 V3 fallback도 포함하지 않습니다.
 - macOS 27의 Apple Silicon Mac 한 대에 설치한 테스트 빌드에서 iPhone 한 대의 기존 앱 세 개에 Refresh All을 완료했습니다. 세 앱 모두 남은 기간이 7일로 표시됐고 화면에 오류나 2FA 요청은 없었습니다.
 - 최종 배포 앱은 strict 서명 검증과 실행 확인을 통과했지만, 그 배포본에서 세 앱 갱신을 다시 했다고 기록하지 않습니다. USB/Wi-Fi 여부, 원격 anisette, 재부팅, 새 로그인/2FA, Intel, 다른 기기·계정, 전체 호환성은 확인하지 않았습니다. 자세한 내용은 [릴리스 안내](releases/v1.2.0.md)를 참고하세요.
+- 2026-10-15, maintainer는 앞서 테스트한 MacBook Air에서 `-80045`가 재발했다고 보고했습니다. 원인을 조사 중이며 이 패치가 문제를 확실히 해결한다고 보장하지 않습니다.
 - 별도의 Mac Studio 확인 범위는 설치와 로컬 anisette까지입니다. 갱신 동작이나 Wi-Fi ServerError 2001 해결은 확인하지 않았습니다.
 
 ### v1.0.9 — 완성 앱 DMG — 2026-09-16

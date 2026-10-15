@@ -8,6 +8,7 @@
 - Updates the packaged official AltServer base from 1.7.6/build 94 to 1.8.1/build 98. The project package version is not the official AltServer app version.
 - Changes only the Mac-side `deviceDescription` getter to return an Android client description; the iPhone app, stored anisette fields, provisioning, and sign-in flow are unchanged. No V3 fallback is included.
 - An installed test build completed Refresh All for three existing apps on one Apple Silicon Mac running macOS 27; all showed seven days remaining. The final distribution app passed strict signature verification and launch checks, but a second three-app refresh was not claimed. USB/Wi-Fi was not established; remote anisette, reboot, new login/2FA, Intel, other devices/accounts, and broad compatibility were not tested. See [release notes](releases/v1.2.0.md) and [build notes](BUILDING.md).
+- On 2026-10-15, the maintainer reported that `-80045` recurred on the previously tested MacBook Air; the cause is under investigation, and this patch is not a guaranteed fix.
 - A separate Mac Studio check confirmed installation and local anisette only; it did not establish refresh behavior or resolve Wi-Fi ServerError 2001.
 
 ## Published release history
