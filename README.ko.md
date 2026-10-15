@@ -27,6 +27,21 @@ iPhone에 AltStore가 이미 설치되어 있으면 다시 설치하지 마세�
 
 2026-10-14, macOS 27을 실행하는 Apple Silicon Mac 한 대에서 설치된 v1.2.0 테스트 빌드로 기존 앱 세 개에 Refresh All을 완료했고, 세 앱 모두 남은 기간이 7일로 표시됐습니다. 화면에 오류나 2FA 요청은 없었습니다. 무선 연결, 원격 anisette, 재부팅, 새 로그인/2FA, Intel 또는 전체 환경 호환성을 입증한 결과는 아닙니다.
 
+## 버전 이력
+
+아래는 이 프로젝트의 패키지 버전이며 공식 AltServer 앱 버전과 다릅니다.
+
+| 프로젝트 버전 | 요약 |
+| --- | --- |
+| v1.2.0 | 공식 AltServer 1.8.1/build 98 기반, `-80045` getter 호환성 수정 |
+| v1.0.9 | `machineID` V3 fallback 완성 앱 DMG |
+| v1.0.8 | `machineID` V3 fallback 소스 전용 공개 |
+| v1.0.2 | Gatekeeper 설치 안내 |
+| v1.0.1 | 설치 패키지 간소화 및 로컬 백업 복원 흐름 |
+| v1.0.0 | AltServer 1.7.2/build 90 기반 V3 fallback 최초 공개 |
+
+날짜와 버전별 변경·검증 범위·한계는 [CHANGELOG.ko.md](CHANGELOG.ko.md)를 참고하세요.
+
 앱은 ad-hoc 서명만 되었고 Apple 공증을 받지 않았습니다. 설치 전에 [SECURITY.md](SECURITY.md)를 읽으세요. [release 안내](releases/v1.2.0.md), [빌드 안내](BUILDING.md), [upstream 출처](UPSTREAM_SOURCE.md), [제3자 고지](THIRD_PARTY_NOTICES.md), [변경 기록](CHANGELOG.md)을 참고하세요. 이전 [설치 안내](INSTALLATION.ko.md)와 [기술 설명](TECHNICAL_DETAILS.md)은 v1.0.8/v1.0.9 V3 fallback 문서이며 이 release에 해당하지 않습니다.
 
 이 프로젝트는 AltStore, SideStore 또는 Apple과 제휴하거나 승인을 받지 않았습니다. 소스는 [GNU AGPL v3.0](LICENSE) 라이선스입니다.

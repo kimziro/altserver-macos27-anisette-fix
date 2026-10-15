@@ -1,21 +1,27 @@
 # Changelog
 
+[English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
+
 ## v1.2.0 — 2026-10-14
 
-- Updates the packaged base from official AltServer 1.7.6/build 94 to 1.8.1/build 98.
-- Fixes the Mac-side compatibility issue without changing the iPhone app or sign-in flow.
-- Does not include the old remote V3 fallback or an iOS app/authentication-flow patch.
-- The installed v1.2.0 test build completed one local Refresh All on an Apple Silicon/macOS 27 setup; see [release notes](releases/v1.2.0.md) for limits.
+- Targets the macOS 27 Apple sign-in/refresh error `-80045`, distinct from the earlier `machineID` issue.
+- Updates the packaged official AltServer base from 1.7.6/build 94 to 1.8.1/build 98. The project package version is not the official AltServer app version.
+- Changes only the Mac-side `deviceDescription` getter to return an Android client description; the iPhone app, stored anisette fields, provisioning, and sign-in flow are unchanged. No V3 fallback is included.
+- An installed test build completed Refresh All for three existing apps on one Apple Silicon Mac running macOS 27; all showed seven days remaining. The final distribution app passed strict signature verification and launch checks, but a second three-app refresh was not claimed. USB/Wi-Fi was not established; remote anisette, reboot, new login/2FA, Intel, other devices/accounts, and broad compatibility were not tested. See [release notes](releases/v1.2.0.md) and [build notes](BUILDING.md).
+- A separate Mac Studio check confirmed installation and local anisette only; it did not establish refresh behavior or resolve Wi-Fi ServerError 2001.
 
 ## Published release history
 
-| Version | Published (UTC) | Summary |
-| --- | --- | --- |
-| [v1.0.9](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.9) | 2026-09-16 | Completed-app DMG; AltServer 1.7.6/build 94 with the V3 fallback. |
-| [v1.0.8](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.8) | 2026-09-15 | Source-only V3 fallback release. |
-| [v1.0.2](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.2) | 2026-06-13 | Gatekeeper installation guidance; patched binary unchanged from v1.0.1. |
-| [v1.0.1](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.1) | 2026-06-13 | Smaller installer package and local-backup restore flow. |
-| [v1.0.0](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.0) | 2026-06-13 | Initial V3 fallback, based on AltServer 1.7.2/build 90. |
+The dates below are GitHub publication dates in UTC. These are project package releases; the AltServer version is listed separately where documented. The public API currently shows no releases or tags for v1.0.3–v1.0.7 or v1.1.0, so those numbers are not treated as published versions here.
+
+| Project version | Published (UTC) | Official AltServer base | Change and verification record |
+| --- | --- | --- | --- |
+| [v1.2.0](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.2.0) | 2026-10-14 | 1.8.1/build 98 | `-80045` getter compatibility patch; one Mac/iPhone setup refreshed three apps. Connection type and broader compatibility were not established. |
+| [v1.0.9](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.9) | 2026-09-16 | 1.7.6/build 94 | DMG release of the `machineID` V3 fallback; install, launch, provisioning, AltStore install, and refresh were reported on the tested Apple Silicon/macOS 27 setup. |
+| [v1.0.8](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.8) | 2026-09-15 | 1.7.6/build 94 | Source-only release of the `machineID` fallback; maintainer-reported install/sideload/refresh testing, with limited independent exact-match validation. |
+| [v1.0.2](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.2) | 2026-06-13 | 1.7.2/build 90 (inherited) | Adds Gatekeeper instructions; patched binary unchanged from v1.0.1. No new runtime test is recorded for this documentation release. |
+| [v1.0.1](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.1) | 2026-06-13 | 1.7.2/build 90 (inherited) | Streamlines installer distribution and restores the official app from a local backup; patched binary unchanged from v1.0.0. No new runtime test is recorded for this packaging release. |
+| [v1.0.0](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.0) | 2026-06-13 | 1.7.2/build 90 | Initial V3 fallback for the macOS 27 `machineID` error, documented for Apple Silicon/macOS 27.0 beta; the release notes do not provide a separate runtime-test result. |
 
 ## Historical release details
 
@@ -99,5 +105,22 @@ profile, certificate, or other binary asset is published.
 - Clarified that Gatekeeper and SIP must not be disabled globally.
 - Made no change to the patched AltServer implementation.
 
+- The release notes do not report a new runtime test; this release records an installation-documentation change only.
+
+## v1.0.1 — installer packaging — 2026-06-13
+
+- Makes the installer smaller, removes duplicate source and bundled original-app copies, and restores the official app from the local backup created before install.
+- The patched binary is unchanged from v1.0.0. No new runtime test is reported for this packaging release.
+
+## v1.0.0 — initial V3 fallback — 2026-06-13
+
+- Targets the macOS 27 `machineID` anisette error with a Foundation-based client using the public V3 provisioning protocol; based on official AltServer 1.7.2/build 90.
+- Release notes document Apple Silicon and macOS 27.0 beta as the compatibility scope, plus install and restoration scripts. They do not report a separate runtime-test result, so none is inferred here.
+
+## Public development milestones (not releases)
+
+- The 2026-09-14 [v1.0.8 preparation commit](https://github.com/kimziro/altserver-macos27-anisette-fix/commit/6f372b0) records release preparation; that commit itself is not a published release or tag.
+- The 2026-09-15 UTC [README simplification commit](https://github.com/kimziro/altserver-macos27-anisette-fix/commit/c2647c6) is a documentation change, not an app-binary release.
+
 Earlier release notes are historical context only. They are not instructions
-for the v1.0.8 source-only workflow.
+for installing the current v1.2.0 release.
