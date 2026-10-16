@@ -6,7 +6,7 @@
 
 [**Download AltServer v1.3.1 for macOS 27 (arm64) — DMG**](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.3.1/AltServer-v1.3.1-macOS27-arm64.dmg)
 
-**Current status (2026-10-16): USB installation verified; iPhone app-refresh HTTP 503 remains under investigation.**
+**Current status (2026-10-16): USB installation verified. With an unpublished iPhone test client, refresh succeeded over cellular and over Wi-Fi after a per-network DNS change; two consecutive Wi-Fi refreshes succeeded in this test setup.**
 
 Installation: drag AltServer into Applications. If macOS blocks it, open **System Settings → Privacy & Security → Open Anyway**. Do not disable macOS security.
 

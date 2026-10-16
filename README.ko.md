@@ -6,7 +6,7 @@
 
 [**macOS 27용 AltServer v1.3.1 다운로드 — DMG**](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.3.1/AltServer-v1.3.1-macOS27-arm64.dmg)
 
-**현재 상태(2026-10-16): USB 설치 성공 확인. iPhone 앱 갱신의 HTTP503은 조사 중입니다.**
+**현재 상태(2026-10-16): USB 설치 성공 확인. 미공개 iPhone 시험판에서 LTE 및 Wi-Fi DNS 변경 후 갱신 성공을 확인했고, 해당 Wi-Fi 설정에서 연속 두 번 성공했습니다.**
 
 AltServer를 Applications 폴더로 드래그하세요. macOS가 차단하면 **시스템 설정 → 개인정보 보호 및 보안 → 확인 없이 열기(Open Anyway)**를 선택하세요. macOS 보안을 비활성화하지 마세요.
 
