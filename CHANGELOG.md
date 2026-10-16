@@ -2,6 +2,13 @@
 
 [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
+## v1.3.1 — experimental DMG
+
+- Publishes a macOS 27 arm64 DMG for app version `1.8-pr1834-public-v1.3.1`, build `183401`. Ad-hoc signed; not notarized.
+- Based on AltStore Classic PR #1834 (`ddb4415`) and AltSign PR #61 (`832d9ce`). Removes bundled Apple static corecrypto and restricted headers; uses macOS system private SRP through an opaque interface with CryptoKit/CommonCrypto.
+- Protocol tests passed 5/5; independent handshake checks, app build/launch, and Windows-identity smoke checks passed. No new-build real-account login or iPhone refresh test is claimed.
+- Uses external Windows anisette service `ani.jkcoxson.com`. Apple Account password and 2FA code go only to Apple. See [v1.3.1 notes](releases/v1.3.1.md).
+
 ## v1.3.0 — source-only release (2026-10-15)
 
 - Source-only release for a Classic-source-based app lineage labelled `1.8-pr1834-test/1834`. This is not a patch of the official AltServer 1.8.1 binary.

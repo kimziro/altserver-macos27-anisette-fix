@@ -1,5 +1,16 @@
 # Upstream source and provenance
 
+## Current v1.3.1 experimental prerelease
+
+The published app version is `1.8-pr1834-public-v1.3.1`, build `183401`, for macOS 27 arm64. It is ad-hoc signed and not notarized. The source archive is `AltServer-v1.3.1-source.tar.gz`; its download checksum is in `SHA256SUMS.txt` (artifact review pending).
+
+- AltStore Classic [PR #1834](https://github.com/altstoreio/AltStore/pull/1834), pinned head `ddb4415cc6aeeb3145de33a29f7064292a45d895`.
+- AltSign [PR #61](https://github.com/rileytestut/AltSign/pull/61), pinned commit `832d9cec339ea6ef6891011833dbb7227b028a29`.
+- The app removes the bundled Apple static corecrypto library and restricted headers; it uses macOS system private SRP through an opaque interface, plus CryptoKit/CommonCrypto. This records the implementation contents and makes no broader legal determination.
+- Windows ADI anisette comes from external service `ani.jkcoxson.com`. Apple Account credentials and 2FA codes are sent only to Apple.
+
+See [v1.3.1 release notes](releases/v1.3.1.md) for verification and test limits.
+
 ## v1.3.0 source-only candidate
 
 The project package version is `v1.3.0` (source-only release, 2026-10-15). The candidate lineage is labelled `1.8-pr1834-test/1834`; it is based on AltStore Classic source, not a patch to the official AltServer 1.8.1 binary. The source-only release contains patch notes at `compatibility/v1.3.0/README.md` and the archive `AltServer-v1.3.0-diagnostic-source-only.tar.zst`. `SHA256SUMS.txt` records the source archive SHA-256 for download verification only.

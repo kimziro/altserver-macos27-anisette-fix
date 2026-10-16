@@ -2,27 +2,16 @@
 
 [English](README.md) | [한국어](README.ko.md)
 
-AltStore Classic 소스를 바탕으로 한 macOS 27 로그인 실험입니다. **v1.3.0은 2026-10-15 소스 전용 정식 릴리스이며 앱이나 DMG가 없습니다.** 공식 AltServer 업데이트가 아닙니다. 이전 v1.2.0 앱에서는 `-80045`가 재발해 사용을 권하지 않습니다.
+## v1.3.1 실험용 사전 릴리스 — macOS 27, Apple silicon 전용
 
-## 변경 내용
+[**macOS 27용 AltServer v1.3.1 다운로드 — DMG**](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.3.1/AltServer-v1.3.1-macOS27-arm64.dmg)
 
-v1.2.0은 anisette 기기 설명 getter만 바꿨고, 이후 `-80045`가 다시 발생했습니다. v1.3.0 후보는 대신 `ani.jkcoxson.com`에서 Windows ADI anisette 데이터를 가져오고, 이에 맞는 client identity와 User-Agent로 Mac 로그인 요청을 보냅니다. 문자열만 바꾸는 수정은 아닙니다. [release 안내](releases/v1.3.0.md), [보안 안내](SECURITY.md), [upstream 출처](UPSTREAM_SOURCE.md)를 참고하세요.
+AltServer를 Applications 폴더로 드래그하세요. macOS가 차단하면 **시스템 설정 → 개인정보 보호 및 보안 → 확인 없이 열기(Open Anyway)**를 선택하세요. macOS 보안을 비활성화하지 마세요.
 
-## 검증 범위
+실험용 사전 릴리스이며 임시 서명(ad-hoc)되어 있고 Apple 공증은 없습니다. macOS 27 및 arm64(Apple silicon)가 필요합니다. 외부 anisette 서비스 `ani.jkcoxson.com`을 사용하므로 서비스 가용성과 개인정보 보호에 영향을 받습니다. Apple 계정 암호와 2단계 인증 코드는 Apple에만 전송됩니다.
 
-테스트에서 공식 앱은 `-80045`를 반환했고, 이전 Pixel descriptor 실험은 HTTP 503을 반환했습니다. v1.3.0 후보 smoke test는 Windows identity에 필요한 anisette 필드를 모두 받았습니다. 관리자는 로그인 및 앱 갱신 성공을 보고했습니다. 앞선 화면에는 YouTube가 6일, 다른 앱 두 개가 7일 남은 것으로 표시됐고, 이후 iPhone을 USB로 연결한 상태에서 세 앱 모두 갱신됐다고 추가 보고했습니다. 이는 제한된 사용자 보고입니다. USB 결과로 앞선 테스트의 연결 방식이 USB였는지는 알 수 없으며, 무선 동작·재부팅 뒤 지속성·Apple 측 원인·폭넓은 호환성은 확인되지 않았습니다.
+AltStore Classic [PR #1834](https://github.com/altstoreio/AltStore/pull/1834) (`ddb4415`)와 [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61) (`832d9ce`) 기반입니다. 버전은 `1.8-pr1834-public-v1.3.1`, 빌드는 `183401`입니다. 이 빌드에서는 Apple 정적 corecrypto 라이브러리와 제한된 헤더를 제거하고, 불투명 인터페이스를 통한 macOS 시스템 private SRP와 CryptoKit/CommonCrypto를 사용합니다. 이는 빌드 구성에 관한 설명이며 더 넓은 법적 판단을 뜻하지 않습니다.
 
-후보는 [AltStore PR #1834](https://github.com/altstoreio/AltStore/pull/1834)와 [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61)에 기반합니다. `1.8-pr1834-test/1834`로 표시된 Classic 소스 기반 앱이며, 공식 AltServer 1.8.1 바이너리 패치가 아닙니다. upstream [corecrypto 라이선스](https://github.com/rileytestut/AltSign/blob/832d9cec339ea6ef6891011833dbb7227b028a29/Dependencies/corecrypto/License.txt)는 Apple Internal Use only 및 재배포 금지를 명시합니다. 이 소스 전용 릴리스에 앱/DMG/바이너리는 없으며, 바이너리 배포는 이 제한이 해결될 때까지 보류됩니다. 소스 archive에는 `compatibility/v1.3.0/README.md` 패치 안내를 포함합니다.
+프로토콜 테스트 5/5 통과: PBKDF2 벡터, 잘못된 CBC padding, GCM AAD 변조, 잘못된 SRP 형식 등을 확인했습니다. 별도 핸드셰이크 테스트는 올바른 M2를 수락하고 잘못된 M2를 거부했으며 세션 키가 정확히 일치했습니다. 앱 빌드·실행·Windows identity smoke test도 통과했습니다. 새 빌드로 실제 계정 로그인이나 iPhone 갱신은 테스트하지 않았습니다. 이전 USB 갱신 성공은 v1.3.0에만 해당합니다. [v1.3.1 안내](releases/v1.3.1.md)와 [보안 안내](SECURITY.md)를 참고하세요.
 
-## 버전 이력
-
-프로젝트 패키지 버전과 AltServer 앱 버전은 서로 다릅니다.
-
-| 프로젝트 버전 | 요약 |
-| --- | --- |
-| v1.3.0 (2026-10-15 소스 전용 정식 릴리스) | Windows ADI anisette identity와 User-Agent를 맞추는 Classic 소스 기반 로그인 흐름. 앱/DMG 없음, 바이너리 배포 제한 |
-| v1.2.0 | getter만 변경한 AltServer 1.8.1/build 98 기반 패키지. 이후 `-80045` 재발 |
-| v1.0.9 | 이전 `machineID` V3 fallback DMG |
-| v1.0.8 | 이전 `machineID` V3 fallback 소스 공개 |
-
-이전 v1.0.8/v1.0.9 V3 fallback 문서는 과거 구현을 설명하며 이 후보와 다릅니다. 이 독립 프로젝트는 AltStore, SideStore 또는 Apple과 제휴하거나 승인을 받지 않았습니다. 소스는 [GNU AGPL v3.0](LICENSE) 라이선스입니다.
+본 프로젝트는 독립 프로젝트이며 AltStore, SideStore 또는 Apple과 제휴하거나 승인을 받지 않았습니다. 소스는 [GNU AGPL v3.0](LICENSE) 라이선스입니다.

@@ -1,5 +1,11 @@
 # Third-party notices
 
+## Current v1.3.1 experimental prerelease
+
+The app is based on AltStore Classic [PR #1834](https://github.com/altstoreio/AltStore/pull/1834), head `ddb4415cc6aeeb3145de33a29f7064292a45d895`, and [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61), commit `832d9cec339ea6ef6891011833dbb7227b028a29`. The v1.3.1 build removes the bundled Apple static corecrypto library and restricted headers. This states what the build contains and makes no broader legal determination.
+
+The runtime uses external service `ani.jkcoxson.com` for Windows ADI anisette. The service is an availability and privacy dependency and can observe connection metadata. Apple Account passwords and 2FA codes are sent only to Apple. The app is ad-hoc signed, not notarized, and supports macOS 27 arm64 only. See [v1.3.1 notes](releases/v1.3.1.md) and [security notes](SECURITY.md).
+
 ## v1.3.0 source-only prerelease (2026-10-15)
 
 The candidate follows [AltStore PR #1834](https://github.com/altstoreio/AltStore/pull/1834) at `ddb4415cc6aeeb3145de33a29f7064292a45d895` and pins [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61) at `832d9cec339ea6ef6891011833dbb7227b028a29`.

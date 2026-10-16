@@ -2,6 +2,13 @@
 
 [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
+## v1.3.1 — 실험용 DMG
+
+- 앱 버전 `1.8-pr1834-public-v1.3.1`, 빌드 `183401`의 macOS 27 arm64 설치용 DMG를 제공합니다. 임시 서명(ad-hoc)되어 있고 공증되지 않았습니다.
+- AltStore Classic PR #1834 (`ddb4415`)와 AltSign PR #61 (`832d9ce`) 기반입니다. Apple 정적 corecrypto와 제한된 헤더를 제거하고, 불투명 인터페이스를 통한 macOS 시스템 private SRP와 CryptoKit/CommonCrypto를 사용합니다.
+- 프로토콜 테스트 5/5 통과. 별도 핸드셰이크 검사, 앱 빌드·실행, Windows identity smoke test도 통과했습니다. 새 빌드의 실제 계정 로그인이나 iPhone 갱신 테스트는 하지 않았습니다.
+- 외부 Windows anisette 서비스 `ani.jkcoxson.com`을 사용합니다. Apple 계정 암호와 2단계 인증 코드는 Apple에만 전송됩니다. [v1.3.1 안내](releases/v1.3.1.md)를 참고하세요.
+
 ## v1.3.0 — 소스 전용 정식 릴리스 (2026-10-15)
 
 - `1.8-pr1834-test/1834`로 표시된 Classic 소스 기반 후보입니다. 공식 AltServer 1.8.1 바이너리를 수정한 앱이 아니며, DMG나 다운로드 링크는 없습니다.

@@ -1,4 +1,8 @@
-# Building v1.3.0 (source-only release, 2026-10-15)
+# Current v1.3.1 release
+
+The current experimental release includes `AltServer-v1.3.1-macOS27-arm64.dmg` for macOS 27 arm64, app version `1.8-pr1834-public-v1.3.1`, build `183401`. It is ad-hoc signed and not notarized. The corresponding-source archive passed independent source and restricted-material review, and a clean extracted-source build succeeded. See [v1.3.1 notes](releases/v1.3.1.md) for verified artifact hashes and validation limits.
+
+# Historical v1.3.0 build (source-only release, 2026-10-15)
 
 The v1.3.0 package is not an installable build. Its candidate app is Classic-source-based (`1.8-pr1834-test/1834`), follows AltStore PR #1834 head `ddb4415cc6aeeb3145de33a29f7064292a45d895`, and pins AltSign PR #61 at `832d9cec339ea6ef6891011833dbb7227b028a29`. The source-only release contains pinned upstream references, local patch sources, and result documentation, including `compatibility/v1.3.0/README.md`. Its source archive is `AltServer-v1.3.0-diagnostic-source-only.tar.zst`; `SHA256SUMS.txt` records the source archive SHA-256 for download verification only.
 
