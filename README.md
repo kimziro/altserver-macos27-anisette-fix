@@ -16,4 +16,6 @@ The app is based on AltStore Classic [PR #1834](https://github.com/altstoreio/Al
 
 Protocol tests passed 5/5, including PBKDF2 vectors, invalid CBC padding, GCM AAD tampering, and malformed SRP. An independent handshake accepted valid M2, rejected bad M2, and matched the session key exactly. App build, launch, and Windows-identity smoke checks passed. Real-account sign-in and USB installation of AltStore succeeded on the tested macOS 27.0.1 / iOS 27.2 setup. iPhone Refresh All succeeded for two of three apps; YouTube failed with connection error 2002 and then HTTP 503 on a separate retry. Full refresh remains unresolved. See [v1.3.1 notes](releases/v1.3.1.md) and [security notes](SECURITY.md).
 
+[iPhone refresh HTTP 503: observed network comparison and first-refresh timing](docs/refresh-http-503.md).
+
 This project is independent and not affiliated with or endorsed by AltStore, SideStore, or Apple. Source is licensed under [GNU AGPL v3.0](LICENSE).

@@ -16,4 +16,6 @@ AltStore Classic [PR #1834](https://github.com/altstoreio/AltStore/pull/1834) (`
 
 프로토콜 테스트 5/5 통과: PBKDF2 벡터, 잘못된 CBC padding, GCM AAD 변조, 잘못된 SRP 형식 등을 확인했습니다. 별도 핸드셰이크 테스트는 올바른 M2를 수락하고 잘못된 M2를 거부했으며 세션 키가 정확히 일치했습니다. 앱 빌드·실행·Windows identity smoke test도 통과했습니다. 테스트한 macOS 27.0.1/iOS 27.2 환경에서 실제 계정 로그인과 AltStore USB 설치는 성공했습니다. iPhone Refresh All은 세 앱 중 두 앱만 성공했고, YouTube는 연결 오류2002 후 별도 재시도에서 HTTP503이 발생했습니다. 전체 앱 갱신 문제는 아직 해결되지 않았습니다. [v1.3.1 안내](releases/v1.3.1.md)와 [보안 안내](SECURITY.md)를 참고하세요.
 
+[iPhone 갱신 HTTP503: 연결 경로 비교 결과와 첫 갱신 지연](docs/refresh-http-503.md).
+
 본 프로젝트는 독립 프로젝트이며 AltStore, SideStore 또는 Apple과 제휴하거나 승인을 받지 않았습니다. 소스는 [GNU AGPL v3.0](LICENSE) 라이선스입니다.
