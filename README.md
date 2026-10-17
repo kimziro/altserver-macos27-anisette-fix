@@ -1,21 +1,21 @@
-# AltServer macOS 27 Anisette Fix
+# AltServer macOS27 Anisette Fix
 
 [English](README.md) | [한국어](README.ko.md)
 
-## v1.3.1 experimental prerelease — macOS 27, Apple silicon only
+## v1.3.2 experimental setup — Mac + patched iPhone companion
 
-[**Download AltServer v1.3.1 for macOS 27 (arm64) — DMG**](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.3.1/AltServer-v1.3.1-macOS27-arm64.dmg)
+[**Download the ready-to-install DMG — macOS27 / Apple silicon**](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.3.2/AltServer-Setup-v1.3.2-macOS27-arm64.dmg)
 
-**Current status (2026-10-16): USB installation verified. With an unpublished iPhone test client, refresh succeeded over cellular and over Wi-Fi after a per-network DNS change; two consecutive Wi-Fi refreshes succeeded in this test setup.**
+No compilation required. Drag AltServer into Applications, quit the older running copy, open the new app and connect/unlock your iPhone by USB. Choose **Install AltStore → your iPhone** from the menu-bar icon. It automatically selects the bundled patched **AltStore2.3.1 / build6402**. Enter your own Apple Account/2FA; use your existing account when replacing AltStore and do not uninstall first.
 
-Installation: drag AltServer into Applications. If macOS blocks it, open **System Settings → Privacy & Security → Open Anyway**. Do not disable macOS security.
+[Installation guide](docs/START-HERE.md) · [한국어 안내](docs/START-HERE.ko.md) · [Release + complete source](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.3.2)
 
-This experimental prerelease is ad-hoc signed and not notarized. Requires macOS 27 and arm64 (Apple silicon). It uses the external anisette service `ani.jkcoxson.com`; availability and privacy depend on that service. The Apple Account password and 2FA code are sent only to Apple.
+**Observed:** the Macv1.3.1 authentication lineage installed AltStore over USB on macOS27.0.1 / iOS27.2. The bundled iPhone client code refreshed with USB+cellular and twice consecutively with USB+Wi-Fi after per-network DNS changed to1.1.1.1/1.0.0.1. v1.3.2 changes the Mac menu to select that companion. Its build/package checks are separate from those prior real-account tests; a new real-account v1.3.2 installation test is not claimed. Other accounts/devices/networks and USB-free refresh remain unverified.
 
-The app is based on AltStore Classic [PR #1834](https://github.com/altstoreio/AltStore/pull/1834) (`ddb4415`) and [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61) (`832d9ce`). Version `1.8-pr1834-public-v1.3.1`, build `183401`. This build removes the bundled Apple static corecrypto library and restricted headers, using macOS system private SRP through an opaque interface with CryptoKit/CommonCrypto. This describes the build contents; it makes no broader legal determination.
+[HTTP503: network comparison and reversible DNS workaround](docs/refresh-http-503.md). [Invalid anisette / issue14 investigation](docs/invalid-anisette.md). [Reddit/GitHub solved and unresolved cases](docs/community-findings.md). **No universal503 fix or confirmed #14 fix is claimed. No iOS hsc434 resync is added.**
 
-Protocol tests passed 5/5, including PBKDF2 vectors, invalid CBC padding, GCM AAD tampering, and malformed SRP. An independent handshake accepted valid M2, rejected bad M2, and matched the session key exactly. App build, launch, and Windows-identity smoke checks passed. Real-account sign-in and USB installation of AltStore succeeded on the tested macOS 27.0.1 / iOS 27.2 setup. iPhone Refresh All succeeded for two of three apps; YouTube failed with connection error 2002 and then HTTP 503 on a separate retry. Full refresh remains unresolved. See [v1.3.1 notes](releases/v1.3.1.md) and [security notes](SECURITY.md).
+Ad-hoc signed, not notarized. If blocked use System Settings → Privacy & Security → Open Anyway for this app. Mac minimum macOS27 arm64; iPhone deployment minimum iOS17.4, tested iOS27.2 only. External ani.jkcoxson.com supplies Windows anisette and can observe connection metadata; Apple Account passwords/2FA go only to Apple. No automatic DNS/security changes. [Security/privacy](SECURITY.md).
 
-[iPhone refresh HTTP 503: observed network comparison and first-refresh timing](docs/refresh-http-503.md).
+Mac version1.8-pr1834-public-v1.3.2 / 183402. Based on [AltStore PR1834](https://github.com/altstoreio/AltStore/pull/1834) (ddb4415) and [AltSign PR61](https://github.com/rileytestut/AltSign/pull/61) (832d9ce). Bundled restricted Apple static crypto and headers are removed; an opaque system private SRP adapter plus CryptoKit/CommonCrypto is used. Complete corresponding source, dependencies, licenses and rebuild scripts accompany the release.
 
-This project is independent and not affiliated with or endorsed by AltStore, SideStore, or Apple. Source is licensed under [GNU AGPL v3.0](LICENSE).
+Independent/unofficial project, not affiliated with AltStore, SideStore or Apple. [GNU AGPLv3](LICENSE).

@@ -2,6 +2,10 @@
 
 [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
+## v1.3.2 — experimental integrated setup
+
+Integrated Mac/companion installer, complete source, bilingual guides and separate503/invalid-anisette/community evidence. Not a universal authentication fix. See [release notes](releases/v1.3.2.md).
+
 ## v1.3.1 — experimental DMG
 
 - Publishes a macOS 27 arm64 DMG for app version `1.8-pr1834-public-v1.3.1`, build `183401`. Ad-hoc signed; not notarized.

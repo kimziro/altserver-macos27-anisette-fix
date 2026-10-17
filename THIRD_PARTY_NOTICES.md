@@ -1,6 +1,13 @@
 # Third-party notices
 
-## Current v1.3.1 experimental prerelease
+## Current v1.3.2 setup
+
+The current experimental setup includes Mac1.8-pr1834-public-v1.3.2 / 183402 and iPhone2.3.1 / 6402, complete corresponding source and licenses. Use the [v1.3.2 release](releases/v1.3.2.md) and [installation guide](docs/START-HERE.md). Rebuild from the complete source asset using packaging/v1.3.2/build-setup.sh with Xcode27 on Apple silicon; packaging/v1.3.2/REBUILD-IOS.md records dependency pins and source recovery. No recipient credentials, private signing keys, pairing records or runtime anisette identity are included. The pre-existing nested AltBackup.ipa contains its public upstream provisioning profile. The external provider and private-system-API dependency remain; automatic DNS/security changes are not performed.
+
+The sections below describe earlier releases and their state at the time.
+
+
+## Historical v1.3.1 experimental prerelease
 
 The app is based on AltStore Classic [PR #1834](https://github.com/altstoreio/AltStore/pull/1834), head `ddb4415cc6aeeb3145de33a29f7064292a45d895`, and [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61), commit `832d9cec339ea6ef6891011833dbb7227b028a29`. The v1.3.1 build removes the bundled Apple static corecrypto library and restricted headers. This states what the build contains and makes no broader legal determination.
 

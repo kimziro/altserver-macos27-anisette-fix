@@ -2,6 +2,10 @@
 
 [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
+## v1.3.2 — experimental integrated setup
+
+Mac 기본 메뉴가 패치 iPhone 앱을 설치하는 통합 DMG, 전체 소스, 한·영 안내와 커뮤니티 조사 자료를 제공합니다. 모든 인증 오류 해결을 보장하지 않습니다. See [release notes](releases/v1.3.2.md).
+
 ## v1.3.1 — 실험용 DMG
 
 - 앱 버전 `1.8-pr1834-public-v1.3.1`, 빌드 `183401`의 macOS 27 arm64 설치용 DMG를 제공합니다. 임시 서명(ad-hoc)되어 있고 공증되지 않았습니다.

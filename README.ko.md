@@ -1,21 +1,21 @@
-# AltServer macOS 27 Anisette Fix
+# AltServer macOS27 Anisette Fix
 
 [English](README.md) | [한국어](README.ko.md)
 
-## v1.3.1 실험용 사전 릴리스 — macOS 27, Apple silicon 전용
+## v1.3.2 실험용 통합 설치본 — Mac + 패치 iPhone 앱
 
-[**macOS 27용 AltServer v1.3.1 다운로드 — DMG**](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.3.1/AltServer-v1.3.1-macOS27-arm64.dmg)
+[**바로 설치하는 DMG 다운로드 — macOS27 / Apple silicon**](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.3.2/AltServer-Setup-v1.3.2-macOS27-arm64.dmg)
 
-**현재 상태(2026-10-16): USB 설치 성공 확인. 미공개 iPhone 시험판에서 LTE 및 Wi-Fi DNS 변경 후 갱신 성공을 확인했고, 해당 Wi-Fi 설정에서 연속 두 번 성공했습니다.**
+직접 빌드할 필요가 없습니다. AltServer를 Applications로 옮기고 이전 실행 앱을 종료한 뒤 새 앱을 여세요. iPhone을 USB로 연결·잠금 해제하고 메뉴 막대 **Install AltStore → 내 iPhone**을 선택하면 **패치된 AltStore2.3.1 / build6402**가 자동 선택됩니다. 본인 계정과 인증코드로 설치하세요. 기존 앱 교체 시 같은 계정을 쓰고 먼저 삭제하지 마세요.
 
-AltServer를 Applications 폴더로 드래그하세요. macOS가 차단하면 **시스템 설정 → 개인정보 보호 및 보안 → 확인 없이 열기(Open Anyway)**를 선택하세요. macOS 보안을 비활성화하지 마세요.
+[차례대로 설치하기](docs/START-HERE.ko.md) · [English](docs/START-HERE.md) · [릴리스·전체 소스](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.3.2)
 
-실험용 사전 릴리스이며 임시 서명(ad-hoc)되어 있고 Apple 공증은 없습니다. macOS 27 및 arm64(Apple silicon)가 필요합니다. 외부 anisette 서비스 `ani.jkcoxson.com`을 사용하므로 서비스 가용성과 개인정보 보호에 영향을 받습니다. Apple 계정 암호와 2단계 인증 코드는 Apple에만 전송됩니다.
+**확인 결과:** Macv1.3.1 인증 코드 계열은 macOS27.0.1 / iOS27.2에서 USB 설치에 성공했습니다. 동봉 iPhone 앱 코드는 USB 유지+LTE 및 Wi-Fi DNS를1.1.1.1/1.0.0.1로 바꾼 뒤 연속 두 번 갱신에 성공했습니다. v1.3.2는 기본 설치 메뉴가 이 앱을 선택하도록 바꿉니다. 새 패키지 검증과 기존 실제 계정 시험 결과는 구분하며, 최종 v1.3.2의 새 실제 계정 설치 시험은 주장하지 않습니다. 다른 계정·기기·망 및 USB 없는 갱신은 미검증입니다.
 
-AltStore Classic [PR #1834](https://github.com/altstoreio/AltStore/pull/1834) (`ddb4415`)와 [AltSign PR #61](https://github.com/rileytestut/AltSign/pull/61) (`832d9ce`) 기반입니다. 버전은 `1.8-pr1834-public-v1.3.1`, 빌드는 `183401`입니다. 이 빌드에서는 Apple 정적 corecrypto 라이브러리와 제한된 헤더를 제거하고, 불투명 인터페이스를 통한 macOS 시스템 private SRP와 CryptoKit/CommonCrypto를 사용합니다. 이는 빌드 구성에 관한 설명이며 더 넓은 법적 판단을 뜻하지 않습니다.
+[503 연결 경로 비교·DNS 방법](docs/refresh-http-503.md) · [invalid anisette / 이슈14 조사](docs/invalid-anisette.md) · [Reddit·GitHub 해결 및 미해결 사례](docs/community-findings.md). **모든503이나 #14 해결을 보장하지 않으며 iOS hsc434 재동기화는 추가하지 않았습니다.**
 
-프로토콜 테스트 5/5 통과: PBKDF2 벡터, 잘못된 CBC padding, GCM AAD 변조, 잘못된 SRP 형식 등을 확인했습니다. 별도 핸드셰이크 테스트는 올바른 M2를 수락하고 잘못된 M2를 거부했으며 세션 키가 정확히 일치했습니다. 앱 빌드·실행·Windows identity smoke test도 통과했습니다. 테스트한 macOS 27.0.1/iOS 27.2 환경에서 실제 계정 로그인과 AltStore USB 설치는 성공했습니다. iPhone Refresh All은 세 앱 중 두 앱만 성공했고, YouTube는 연결 오류2002 후 별도 재시도에서 HTTP503이 발생했습니다. 전체 앱 갱신 문제는 아직 해결되지 않았습니다. [v1.3.1 안내](releases/v1.3.1.md)와 [보안 안내](SECURITY.md)를 참고하세요.
+임시 서명(ad-hoc)이며 Apple 공증은 없습니다. 차단되면 해당 앱에 대해 시스템 설정 → 개인정보 보호 및 보안 → 확인 없이 열기(Open Anyway)를 이용하세요. Mac은 macOS27 arm64 전용, iPhone 앱 최소 iOS17.4이며 실제 기기 검증은 iOS27.2입니다. 외부 ani.jkcoxson.com은 anisette와 연결 메타데이터를 처리하며 암호·2FA는 Apple에만 전송됩니다. DNS·보안 설정은 자동 변경하지 않습니다. [보안 안내](SECURITY.md).
 
-[iPhone 갱신 HTTP503: 연결 경로 비교 결과와 첫 갱신 지연](docs/refresh-http-503.md).
+Mac 버전1.8-pr1834-public-v1.3.2 / 183402. [AltStore PR1834](https://github.com/altstoreio/AltStore/pull/1834)(ddb4415), [AltSign PR61](https://github.com/rileytestut/AltSign/pull/61)(832d9ce) 기반입니다. 제한된 Apple 정적 crypto·헤더를 제거하고 시스템 private SRP 어댑터와 CryptoKit/CommonCrypto를 사용합니다. 전체 대응 소스·의존성·라이선스·재빌드 스크립트를 함께 제공합니다.
 
-본 프로젝트는 독립 프로젝트이며 AltStore, SideStore 또는 Apple과 제휴하거나 승인을 받지 않았습니다. 소스는 [GNU AGPL v3.0](LICENSE) 라이선스입니다.
+AltStore·SideStore·Apple과 제휴하지 않은 독립 프로젝트입니다. [GNU AGPLv3](LICENSE).

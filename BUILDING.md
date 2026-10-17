@@ -1,4 +1,11 @@
-# Current v1.3.1 release
+# Historical v1.3.1 release
+
+## Current v1.3.2 setup
+
+The current experimental setup includes Mac1.8-pr1834-public-v1.3.2 / 183402 and iPhone2.3.1 / 6402, complete corresponding source and licenses. Use the [v1.3.2 release](releases/v1.3.2.md) and [installation guide](docs/START-HERE.md). Rebuild from the complete source asset using packaging/v1.3.2/build-setup.sh with Xcode27 on Apple silicon; packaging/v1.3.2/REBUILD-IOS.md records dependency pins and source recovery. No recipient credentials, private signing keys, pairing records or runtime anisette identity are included. The pre-existing nested AltBackup.ipa contains its public upstream provisioning profile. The external provider and private-system-API dependency remain; automatic DNS/security changes are not performed.
+
+The sections below describe earlier releases and their state at the time.
+
 
 The current experimental release includes `AltServer-v1.3.1-macOS27-arm64.dmg` for macOS 27 arm64, app version `1.8-pr1834-public-v1.3.1`, build `183401`. It is ad-hoc signed and not notarized. The corresponding-source archive passed independent source and restricted-material review, and a clean extracted-source build succeeded. See [v1.3.1 notes](releases/v1.3.1.md) for verified artifact hashes and validation limits.
 
