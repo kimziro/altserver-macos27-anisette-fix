@@ -1,5 +1,10 @@
 # Upstream source and provenance
 
+## Current v1.3.3
+
+The provider-transition repair is documented in [v1.3.3 notes](releases/v1.3.3.md). Complete corresponding source is AltServer-Setup-v1.3.3-source.tar.gz; rebuild with packaging/v1.3.3/build-setup.sh and read packaging/v1.3.3/REBUILD.md. No runtime identity/ADI backup, private keys or pairing records are distributed. The companion's fallback Mac User-Agent is limited to the exact verified descriptor; explicit provider UA takes precedence. Actual evidence: new-iPhone iOS27.2 USB installation; on-device refresh untested. Older version sections below retain historical details.
+
+
 ## Current v1.3.2 setup
 
 The current experimental setup includes Mac1.8-pr1834-public-v1.3.2 / 183402 and iPhone2.3.1 / 6402, complete corresponding source and licenses. Use the [v1.3.2 release](releases/v1.3.2.md) and [installation guide](docs/START-HERE.md). Rebuild from the complete source asset using packaging/v1.3.2/build-setup.sh with Xcode27 on Apple silicon; packaging/v1.3.2/REBUILD-IOS.md records dependency pins and source recovery. No recipient credentials, private signing keys, pairing records or runtime anisette identity are included. The pre-existing nested AltBackup.ipa contains its public upstream provisioning profile. The external provider and private-system-API dependency remain; automatic DNS/security changes are not performed.

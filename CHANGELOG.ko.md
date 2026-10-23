@@ -2,6 +2,10 @@
 
 [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
+## v1.3.3 — provider identity transition
+
+제공자의 Windows→Mac 전환 후 정상 응답 거부 수정, 기존 -45061 재발급 1회 경로 유지, iPhone의 정확한 Mac User-Agent 대응. 새 iPhone USB 설치 확인, 설치 후 갱신 미시험. [Details / 상세](releases/v1.3.3.md).
+
 ## v1.3.2 — experimental integrated setup
 
 Mac 기본 메뉴가 패치 iPhone 앱을 설치하는 통합 DMG, 전체 소스, 한·영 안내와 커뮤니티 조사 자료를 제공합니다. 모든 인증 오류 해결을 보장하지 않습니다. See [release notes](releases/v1.3.2.md).

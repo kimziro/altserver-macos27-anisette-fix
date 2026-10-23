@@ -2,6 +2,10 @@
 
 [English](CHANGELOG.md) | [한국어](CHANGELOG.ko.md)
 
+## v1.3.3 — provider identity transition
+
+Provider Windows→Mac transition compatibility; fixes valid metadata rejection, retains -45061 one-time recovery, and adds the exact matching Mac companion User-Agent. New-iPhone USB installation verified; post-install refresh untested. [Details / 상세](releases/v1.3.3.md).
+
 ## v1.3.2 — experimental integrated setup
 
 Integrated Mac/companion installer, complete source, bilingual guides and separate503/invalid-anisette/community evidence. Not a universal authentication fix. See [release notes](releases/v1.3.2.md).

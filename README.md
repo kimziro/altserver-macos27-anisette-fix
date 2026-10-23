@@ -1,21 +1,32 @@
-# AltServer macOS27 Anisette Fix
+# AltServer macOS 27 Anisette Fix
 
 [English](README.md) | [한국어](README.ko.md)
 
-## v1.3.2 experimental setup — Mac + patched iPhone companion
+## 1. Downloads and changes
 
-[**Download the ready-to-install DMG — macOS27 / Apple silicon**](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.3.2/AltServer-Setup-v1.3.2-macOS27-arm64.dmg)
+[**Download v1.3.3 setup DMG — macOS27 / Apple silicon**](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/download/v1.3.3/AltServer-Setup-v1.3.3-macOS27-arm64.dmg)
 
-No compilation required. Drag AltServer into Applications, quit the older running copy, open the new app and connect/unlock your iPhone by USB. Choose **Install AltStore → your iPhone** from the menu-bar icon. It automatically selects the bundled patched **AltStore2.3.1 / build6402**. Enter your own Apple Account/2FA; use your existing account when replacing AltStore and do not uninstall first.
+**Addresses “The anisette server ani.jkcoxson.com sent an invalid response” during installation.** The provider changed its Windows identity to Mac while v1.3.2 required Windows, rejecting valid HTTP200 metadata. This release accepts supported Mac identities and supplies the exact verified Mac User-Agent to the companion when local transport omits it. Existing -45061 recovery reprovisions rejected ADI once. Earlier -80045/HTTP503 compatibility is retained; this is not a universal authentication fix.
 
-[Installation guide](docs/START-HERE.md) · [한국어 안내](docs/START-HERE.ko.md) · [Release + complete source](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.3.2)
+Install into Applications, quit the old app, then choose **Install AltStore → your iPhone** and sign with your own account. Companion **AltStore2.3.1 / build6403**; Mac **1.8-pr1834-public-v1.3.3 / 183403**. [Detailed bilingual error explanations and installation instructions](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.3.3).
 
-**Observed:** the Macv1.3.1 authentication lineage installed AltStore over USB on macOS27.0.1 / iOS27.2. The bundled iPhone client code refreshed with USB+cellular and twice consecutively with USB+Wi-Fi after per-network DNS changed to1.1.1.1/1.0.0.1. v1.3.2 changes the Mac menu to select that companion. Its build/package checks are separate from those prior real-account tests; a new real-account v1.3.2 installation test is not claimed. Other accounts/devices/networks and USB-free refresh remain unverified.
+## 2. Important notes
 
-[HTTP503: network comparison and reversible DNS workaround](docs/refresh-http-503.md). [Invalid anisette / issue14 investigation](docs/invalid-anisette.md). [Reddit/GitHub solved and unresolved cases](docs/community-findings.md). **No universal503 fix or confirmed #14 fix is claimed. No iOS hsc434 resync is added.**
+Unofficial experimental prerelease, ad-hoc signed and not notarized. Mac requires macOS27 arm64; iPhone minimum iOS17.4. Use the normal Privacy & Security → Open Anyway action if blocked. Verified: real-account USB installation on a new iPhone iOS27.2, independently confirmed6403/ProfileValidatedtrue. **Post-install refresh, Remote AltServer and USB-free use remain untested.** No universal fix for -80046, persistent503 or invalidanisette; no new iOS434resync. External anisette service/private system APIs remain dependencies. Passwords/2FA go only to Apple; no automatic DNS/security changes. [Security](SECURITY.md), [full release notes](releases/v1.3.3.md).
 
-Ad-hoc signed, not notarized. If blocked use System Settings → Privacy & Security → Open Anyway for this app. Mac minimum macOS27 arm64; iPhone deployment minimum iOS17.4, tested iOS27.2 only. External ani.jkcoxson.com supplies Windows anisette and can observe connection metadata; Apple Account passwords/2FA go only to Apple. No automatic DNS/security changes. [Security/privacy](SECURITY.md).
+## 3. Release history
 
-Mac version1.8-pr1834-public-v1.3.2 / 183402. Based on [AltStore PR1834](https://github.com/altstoreio/AltStore/pull/1834) (ddb4415) and [AltSign PR61](https://github.com/rileytestut/AltSign/pull/61) (832d9ce). Bundled restricted Apple static crypto and headers are removed; an opaque system private SRP adapter plus CryptoKit/CommonCrypto is used. Complete corresponding source, dependencies, licenses and rebuild scripts accompany the release.
+Published versions, newest first; dates in Korea Standard Time.
 
-Independent/unofficial project, not affiliated with AltStore, SideStore or Apple. [GNU AGPLv3](LICENSE).
+| 버전 / Version | 공개일 / KST date | 변경 사항 / Changes |
+| --- | --- | --- |
+| [v1.3.3](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.3.3) | 2026-10-23 | 서버의 Windows→Mac identity 변경으로 인한 invalid-response 거부 수정, 해당 Mac User-Agent 대응, 새 iPhone USB 설치 성공. / Provider-transition response compatibility and matching companion UA; new-iPhone USB installation verified. |
+| [v1.3.2](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.3.2) | 2026-10-17 | Mac·패치 iPhone 통합 설치본, 기본 설치 메뉴 자동 선택. / Integrated Mac/companion installation and bilingual troubleshooting. |
+| [v1.3.1](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.3.1) | 2026-10-16 | macOS27 arm64 실험 DMG, 제한된 정적 crypto 제외. / Installable experimental Mac build without bundled restricted static crypto. |
+| [v1.3.0](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.3.0) | 2026-10-15 | Windows ADI 인증 흐름 소스 전용. / Source-only Windows ADI authentication release. |
+| [v1.2.0](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.2.0) | 2026-10-14 | AltServer1.8.1 기반 -80045 client-info 패치, 이후 재발 보고. / Client-description workaround; recurrence later reported. |
+| [v1.0.9](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.9) | 2026-09-16 | AltServer1.7.6 machineID 수정의 완성 앱 DMG. / Completed-app DMG for machineID compatibility. |
+| [v1.0.8](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.8) | 2026-09-15 | macOS27 anisette 수정 소스 전용. / Source-only compatibility fix. |
+| [v1.0.2](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.2) | 2026-06-13 | Gatekeeper 안내 보완, 앱 바이너리 동일. / Gatekeeper documentation; unchanged binary. |
+| [v1.0.1](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.1) | 2026-06-13 | 배포 크기·백업 복원 개선, 앱 바이너리 동일. / Smaller distribution and backup restoration; unchanged binary. |
+| [v1.0.0](https://github.com/kimziro/altserver-macos27-anisette-fix/releases/tag/v1.0.0) | 2026-06-13 | AltServer1.7.2 machineID V3 대체 최초 공개. / Initial machineID V3 fallback. |
