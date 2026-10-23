@@ -146,12 +146,18 @@ private final class WebSocketLifecycle: @unchecked Sendable {
 }
 
 private enum AnisetteClientInfo {
-    private static let xcodeVersion = "25183.54.10"
+    // Apple's GSA edge (gsa.apple.com/grandslam/GsService2) returns an
+    // immediate HTML 503 for any sign-in whose X-Mme-Client-Info names
+    // com.apple.dt.Xcode, regardless of the version suffix. com.apple.akd
+    // is the daemon that actually performs this request on a real Mac, and
+    // is accepted. See altstoreio/AltStore#1790, fixed upstream in
+    // AltServer 1.7.6.
+    private static let akdVersion = "1.0"
 
     static var current: String {
         let version = macOSVersion
         return "<\(hardwareModel)> <macOS;\(version.product);\(version.build)> "
-            + "<com.apple.AuthKit/1 (com.apple.dt.Xcode/\(xcodeVersion))>"
+            + "<com.apple.AuthKit/1 (com.apple.akd/\(akdVersion))>"
     }
 
     private static let hardwareModel = sysctlString("hw.model") ?? "Mac"
